@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anwar portfolio </title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">AM</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1>Anwar Mousa</h1>
+                <h2>Data Engineer & Analyst</h2>
+                <p>Transforming raw data into actionable insights</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/anwar-mousa/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Anwaribra" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+                <div class="hero-cta">
+                    <a href="#contact" class="primary-btn">Contact Me</a>
+                    <a href="#projects" class="secondary-btn">View Projects</a>
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <section id="about">
+                <h2>About</h2>
+                <div class="about-content">
+                    <p>I'm a Data Engineer with expertise in building data pipelines, ETL processes, and data
+                        warehousing solutions. I specialize in transforming raw data into actionable insights.</p>
+
+                    <p>With a strong foundation in data engineering and analytics, I bridge the gap between raw data
+                        collection and meaningful insights that drive business decisions.</p>
+
+                    <p>My technical toolkit includes Python, SQL, AWS, Spark, and various data processing frameworks.
+                        View my <a href="https://drive.google.com/uc?export=download&id=ACTUAL_FILE_ID"
+                            onclick="handleCVDownload(event)">CV</a> for
+                        more details.</p>
+                </div>
+            </section>
+
+            <section id="experience">
+                <h2>Experience</h2>
+                <ul class="experience-list">
+                    <li>
+                        <h3>Data Analytics at <a href="#">DEPI</a> <span class="date">(Oct 2024 - Present)</span></h3>
+                    </li>
+
+                    <li>
+                        <h3>Data Analyst Intern at <a href="#">NeuronetiX</a> <span class="date">(Oct 2023 - Sep
+                                2023)</span></h3>
+                    </li>
+                    <li>
+                        <h3>Business Intelligence Intern at <a href="#">PwC</a> <span class="date">(Aug 2023 - Nov
+                                2023)</span></h3>
+                    </li>
+
+                    <li>
+                        <h3>Data Engineer Intern at <a href="#">Manara</a> <span class="date">(May 2023 - Aug
+                                2023)</span>
+                        </h3>
+                    </li>
+
+                </ul>
+            </section>
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <div class="projects-list">
+                    <div class="project">
+                        <h3><a href="#">Real-Time ETL Data Pipeline</a></h3>
+                        <p>Developed a real-time data pipeline to ingest, process, and predict car prices using Python,
+                            PostgreSQL, and scikit-learn.</p>
+                        <div class="tech-stack">
+                            <div class="tech-group">
+                                <h4>Technologies:</h4>
+                                <p>Python, PostgreSQL, scikit-learn, Pandas</p>
+                            </div>
+                            <div class="tech-group">
+                                <h4>Features:</h4>
+                                <p>Data cleaning, Random Forest model integration, ML pipeline, monitoring system,
+                                    detailed logs and audit trails</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project">
+                        <h3><a href="#">Real-Time API Data Pipeline</a></h3>
+                        <p>Built an end-to-end real-time data pipeline using Python, PostgreSQL, and Apache Airflow to
+                            ingest and process live API data.</p>
+                        <div class="tech-stack">
+                            <div class="tech-group">
+                                <h4>Technologies:</h4>
+                                <p>Python, PostgreSQL, Apache Airflow, Docker, Pandas</p>
+                            </div>
+                            <div class="tech-group">
+                                <h4>Features:</h4>
+                                <p>Automated data cleaning, containerization, logging and monitoring mechanisms</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project">
+                        <h3><a href="#">E-commerce Sales Data Analysis</a></h3>
+                        <p>Performed Exploratory Data Analysis (EDA) on e-commerce sales data using Python to uncover
+                            trends, patterns, and performance insights.</p>
+                        <div class="tech-stack">
+                            <div class="tech-group">
+                                <h4>Technologies:</h4>
+                                <p>Python, Pandas, NumPy, Matplotlib, Seaborn, Plotly</p>
+                            </div>
+                            <div class="tech-group">
+                                <h4>Features:</h4>
+                                <p>Data validation, automated cleaning pipelines, enhanced reporting accuracy</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project">
+                        <h3><a href="#">Data Mart Development Using SSIS</a></h3>
+                        <p>Designed and optimized data integration workflows using SSIS, improving data flow efficiency
+                            and achieving a 30% performance improvement.</p>
+                        <div class="tech-stack">
+                            <div class="tech-group">
+                                <h4>Technologies:</h4>
+                                <p>SSIS, SQL, Docker, ERD</p>
+                            </div>
+                            <div class="tech-group">
+                                <h4>Features:</h4>
+                                <p>Entity Relationship Diagram, containerization, SQL scripts for dimension and fact
+                                    tables, data validation</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project">
+                        <h3><a href="#">Sales and Customer Data ETL</a></h3>
+                        <p>Developed and implemented end-to-end ETL pipelines using Python and SQL to automate data
+                            extraction, transformation, and loading across multiple databases.</p>
+                        <div class="tech-stack">
+                            <div class="tech-group">
+                                <h4>Technologies:</h4>
+                                <p>Python, SQL, Pandas, SQLAlchemy</p>
+                            </div>
+                            <div class="tech-group">
+                                <h4>Features:</h4>
+                                <p>Complex transformations, data cleansing, improved reporting accuracy, automated data
+                                    integrity validation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="fab fa-python"></i>
+                                <span>Python</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-database"></i>
+                                <span>SQL</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fab fa-java"></i>
+                                <span>Java</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Data Engineering</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="fas fa-server"></i>
+                                <span>ETL Pipelines</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fab fa-aws"></i>
+                                <span>AWS</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-database"></i>
+                                <span>PostgreSQL</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-fire"></i>
+                                <span>Apache Spark</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Data Analysis</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Pandas</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>NumPy</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Matplotlib</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact">
+                <h2>Contact Me</h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <p>I'm always open to discussing new projects, opportunities in data engineering, or potential
+                            collaborations.</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:anwarmousa100@gmail.com">anwarmousa100@gmail.com</a>
+                            </div>
+                            <div class="contact-method">
+                                <i class="fab fa-linkedin"></i>
+                                <a href="https://www.linkedin.com/in/anwar-mousa/" target="_blank">LinkedIn Profile</a>
+                            </div>
+                            <div class="contact-method">
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/Anwaribra" target="_blank">GitHub Profile</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 Anwar Mousa</p>
+        </footer>
+    </div>
+</body>
+
+</html>
