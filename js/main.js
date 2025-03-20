@@ -3,10 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
-    hamburger.addEventListener('click', function () {
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-    });
+    if (hamburger) {
+        hamburger.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    }
 
     // Close mobile menu when clicking on a link
     const navItems = document.querySelectorAll('.nav-links a');
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                const headerOffset = 80;
+                const headerOffset = 70;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -39,6 +41,24 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+    
+    // Scroll indicator click handler
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (scrollIndicator) {
+        scrollIndicator.addEventListener('click', function() {
+            const aboutSection = document.querySelector('#about');
+            if (aboutSection) {
+                const headerOffset = 70;
+                const elementPosition = aboutSection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
 
     // Form submission handling
     const contactForm = document.getElementById('contactForm');
@@ -46,20 +66,35 @@ document.addEventListener('DOMContentLoaded', function () {
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Get form data
+            // Simple form validation
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
-            // Here you would typically send the data to a server
-            // For now, we'll just log it and show a success message
-            console.log('Form submitted:', { name, email, message });
+            if (!name || !email || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
 
-            // Show success message
-            alert('Thank you for your message! I will get back to you soon.');
-
-            // Reset form
-            contactForm.reset();
+            // Simulate form submission
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            setTimeout(() => {
+                submitBtn.textContent = 'Message Sent!';
+                
+                setTimeout(() => {
+                    contactForm.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                    
+                    // Show success message
+                    alert('Thank you for your message! I will get back to you soon.');
+                }, 1500);
+            }, 1500);
         });
     }
 
@@ -69,16 +104,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', function () {
         let current = '';
+        const navbar = document.querySelector('.navbar');
 
+        // Add scrolled class to navbar
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+
+        // Determine which section is in view
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-
             if (pageYOffset >= sectionTop - 200) {
                 current = section.getAttribute('id');
             }
         });
 
+        // Highlight the active nav link
         navLinkElements.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href') === `#${current}`) {
@@ -87,120 +130,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Add animation to timeline items when they come into view
-    const timelineItems = document.querySelectorAll('.timeline-item');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+    // Handle CV download
+    window.handleCVDownload = function(event) {
+        // Keep the default behavior for Google Drive links
+        if (event.currentTarget.href.includes('drive.google.com')) {
+            return true;
+        }
+        
+        event.preventDefault();
+        const cvPath = './assets/files/Anwar-Mousa-CV.pdf';
+        
+        // Try to open in a new tab first
+        const newTab = window.open(cvPath, '_blank');
+        
+        // If blocked by popup blocker or failed, try direct download
+        if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+            const link = document.createElement('a');
+            link.href = cvPath;
+            link.download = 'Anwar-Mousa-CV.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     };
-
-    const observer = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    timelineItems.forEach(item => {
-        observer.observe(item);
-    });
-
-    // Theme toggle functionality
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    // Check for saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        body.classList.add(savedTheme);
-        if (savedTheme === 'light-mode') {
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    }
-
-    // Toggle theme
-    themeToggle.addEventListener('click', function () {
-        if (body.classList.contains('light-mode')) {
-            body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            body.classList.add('light-mode');
-            localStorage.setItem('theme', 'light-mode');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    });
-
-    // Stats counter animation
-    function animateStats() {
-        const statNumbers = document.querySelectorAll('.stat-number');
-
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-count'));
-            const duration = 2000; // animation duration in milliseconds
-            const step = target / (duration / 16); // approximately 16ms per frame
-            let current = 0;
-
-            const updateCount = () => {
-                current += step;
-                if (current < target) {
-                    stat.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCount);
-                } else {
-                    stat.textContent = target;
-                }
-            };
-
-            updateCount();
-        });
-    }
-
-    // إضافة مراقب التقاطع للإحصائيات
-    const statsSection = document.getElementById('stats');
-    if (statsSection) {
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        statsObserver.observe(statsSection);
-    }
 });
-
-function handleCVDownload(event) {
-    // Keep the default behavior for Google Drive links
-    if (event.currentTarget.href.includes('drive.google.com')) {
-        return true;
-    }
-    
-    event.preventDefault();
-    
-    const cvPath = './assets/files/Anwar-Mousa-CV.pdf';
-    
-    // Try to open in a new tab first
-    const newTab = window.open(cvPath, '_blank');
-    
-    // If blocked by popup blocker or failed, try direct download
-    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
-        const link = document.createElement('a');
-        link.href = cvPath;
-        link.download = 'Anwar-Mousa-CV.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-    
-    // Log for debugging
-    console.log('CV download attempted');
-}
 
 // Check if the CV file exists when the page loads
 document.addEventListener('DOMContentLoaded', function() {

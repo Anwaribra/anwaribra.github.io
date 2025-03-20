@@ -1,0 +1,104 @@
+Anwar Mousa Anwar
++ Cairo, Egypt
+
+# anwarmousa100@gmail.com
+ð LinkedIn
+
+ +201144162459
+
+§ GitHub
+
+Summary
+As a Data Enthusiast with a passion for data engineering and analytics, I have strong skills in data modeling,
+ETL processes, and cloud technologies. With hands-on experience using AWS services, I am eager to apply
+my technical skills to data engineering roles. My goal is to optimize data pipelines, improve data management
+processes, and deliver actionable insights that drive business success.
+
+Education
+Bachelor of Computer Science and Informatics
+Delta University for Science and Technology
+Data Analytics Scholarship - Digital Egypt Pioneers Initiative (DEPI)
+Ministry of Communications and Information Technology (MCIT), Egypt
+
+August 2022 – Present
+October 2024 – Present
+
+Experience
+Data Analyst Intern
+Oct 2024 – Sep 2024
+NeuronetiX, Hybrid
+◦ Performed statistical analysis on large datasets using Python and SQL to identify trends and patterns for
+strategic decision-making.
+◦ Conducted Exploratory Data Analysis (EDA) using Pandas, NumPy, and Matplotlib to extract meaningful
+insights from raw data.
+◦ Created visualizations and reports using Power BI and Tableau to present data analysis results.
+Business Intelligence Intern
+June 2024 – Aug 2024
+PwC, Remote
+◦ Built interactive dashboards using Power BI to improve data visualization for better decision-making
+◦ Analyzed data to identify business trends and patterns, delivering actionable insights for strategic decisions
+◦ Collaborated with cross-functional teams to align data strategies with business objectives, ensuring seamless
+project execution.
+
+Projects
+Real-Time ETL Data Pipeline (Github Link 2)
+◦ Developed a real-time data pipeline to ingest, process, and predict car prices using Python, PostgreSQL, and scikit-learn.
+◦ Designed and implemented data cleaning and transformation steps using Pandas to ensure data quality.
+◦ Integrated a Random Forest model to predict car prices and embedded the model seamlessly into the
+pipeline.
+◦ Developed an ML pipeline with scikit-learn for seamless deployment across environments, alongside a robust
+monitoring system to track model performance and data quality
+◦ Built detailed logs and audit trails to trace every step in the pipeline for transparency and troubleshooting
+Real-Time API Data Pipeline (Github Link 2)
+◦ Built an end-to-end real-time data pipeline using Python, PostgreSQL, and Apache Airflow to ingest
+and process live API data.
+◦ Automated data cleaning and transformation using Pandas and Airflow DAGs to ensure data consistency.
+◦ Containerized the pipeline using Docker, enabling seamless deployment and scalability across environments.
+◦ Implemented logging and monitoring mechanisms to track data freshness and pipeline performance proactively.
+
+E-commerce Sales Data Analysis (Github Link 2)
+◦ Performed Exploratory Data Analysis (EDA) on e-commerce sales data using Python to uncover
+trends, patterns, and performance insights.
+◦ Used multiple Python libraries, including Pandas, NumPy, Matplotlib, Seaborn, and Plotly for data
+cleaning, analysis, and visualization.
+◦ Ensured high data quality through robust data validation and automated cleaning pipelines, enhancing
+reporting accuracy.
+Data Mart Development Using SSIS (Github Link 2)
+◦ Designed and optimized data integration workflows using SSIS, improving data flow efficiency and achieving a 30
+◦ Created an Entity Relationship Diagram (ERD) to define the data mart structure, aligning with
+business requirements.
+◦ Containerized the pipeline using Docker, enabling seamless deployment and scalability across environments.
+◦ Developed and executed SQL scripts for building dimension and fact tables, ensuring accurate schema design.
+◦ Oversaw data loading and validation processes to maintain data quality and integrity across the data mart.
+Sales and Customer Data ETL (Github Link 2)
+◦ Developed and implemented end-to-end ETL pipelines using Python and SQL to automate data extraction, transformation, and loading across multiple databases.
+◦ Combined Python libraries (Pandas, SQLAlchemy) with SQL queries to handle complex transformations
+and data cleansing.
+◦ Improved reporting accuracy and ensured data consistency, enabling more reliable business insights
+and data-driven decision-making.
+◦ Created automated scripts to validate data integrity, reducing manual errors and ensuring smooth data
+flow.
+
+Technical Skills
+Programming Languages: Python (Pandas, NumPy, scikit-learn), SQL, Scala
+Database Systems:
+PostgreSQL, Microsoft SQL Server, MySQL
+Data Processing:
+ETL Pipeline Design, Apache Airflow, SSIS
+Cloud & Big Data:
+AWS (EC2, S3, RDS), Hadoop, Spark, Kafka
+Data Architecture:
+Data Warehouse, Dimensional Modeling, Data Lake
+Visualization:
+Power BI, Tableau
+Development Tools:
+Docker, Git, GitHub, Linux, Bash
+
+Certifications
+◦ AWS Certified Cloud Practitioner 2
+◦ Mathematics for Machine Learning and Data Science Specialization 2
+◦ IBM Data Analyst Specialization 2
+◦ Data Analyst Professional 2
+◦ Google Data Analytics Certificate 2
+
+
