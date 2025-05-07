@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects - Anwar Mousa</title>
-    <meta name="description" content="Explore Anwar Mousa's portfolio of data engineering and analytics projects">
+
     
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="Projects - Anwar Mousa">
-    <meta property="og:description" content="Explore Anwar Mousa's portfolio of data engineering and analytics projects">
+    <meta property="og:description" content="Explore Anwar Mousa's data engineering and analytics projects">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anwarmousa100.com/projects">
     
@@ -18,6 +18,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/twitter-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -25,8 +26,8 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="../index.html" class="logo">
-                <img src="../assets/icons/logo.png" alt="Anwar Mousa Logo">
+            <a href="/" onclick="navigateTo('/', event)" class="logo">
+                <img src="../assets/favicons/_akatsuki.png" alt="Anwar Mousa" width="40" height="40">
             </a>
             <div class="hamburger">
                 <div class="bar"></div>
@@ -34,235 +35,107 @@
                 <div class="bar"></div>
             </div>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="projects.html" class="active">Projects</a></li>
                 <li><a href="tech-stack.html">Tech Stack</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li>
-                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </li>
             </ul>
         </div>
     </nav>
 
     <!-- Projects Hero Section -->
-    <section class="page-hero">
+    <section class="page-hero card" style="padding-top:64px;">
         <div class="container">
             <h1>My Projects</h1>
-            <p class="subtitle">Data Engineering & Analytics Solutions</p>
+            <p class="subtitle">Data Engineering & Analytics </p>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="projects-page">
-        <div class="container">
-            <!-- Project Categories -->
-            <div class="project-categories">
-                <button class="category-btn active" data-category="all">All Projects</button>
-                <button class="category-btn" data-category="etl">ETL Pipelines</button>
-                <button class="category-btn" data-category="analytics">Analytics</button>
-                <button class="category-btn" data-category="infrastructure">Infrastructure</button>
-            </div>
-
-            <!-- Projects Grid -->
-            <div class="projects-grid">
-                <!-- ETL Pipeline Project -->
-                <article class="project-card" id="etl-pipeline" data-category="etl">
-                    <div class="project-image">
-                        <img src="../assets/images/projects/etl-pipeline.jpg" alt="ETL Pipeline Project">
-                        <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Real-Time ETL Pipeline</h3>
-                        <p>Built a scalable ETL pipeline for processing real-time IoT data using Apache Airflow and AWS services. The system processes over 1 million events daily with 99.9% uptime.</p>
-                        <div class="tech-stack">
-                            <span class="tech-badge">Airflow</span>
-                            <span class="tech-badge">AWS</span>
-                            <span class="tech-badge">Python</span>
-                            <span class="tech-badge">PostgreSQL</span>
-                        </div>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <i class="fas fa-clock"></i>
-                                <span>Processing Time: 2s</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-database"></i>
-                                <span>Data Volume: 1M+ events/day</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Analytics Dashboard Project -->
-                <article class="project-card" id="analytics-dashboard" data-category="analytics">
-                    <div class="project-image">
-                        <img src="../assets/images/projects/analytics-dashboard.jpg" alt="Analytics Dashboard">
-                        <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Business Intelligence Dashboard</h3>
-                        <p>Developed an interactive dashboard for business analytics using Power BI and SQL. The dashboard provides real-time insights into key business metrics and KPIs.</p>
-                        <div class="tech-stack">
-                            <span class="tech-badge">Power BI</span>
-                            <span class="tech-badge">SQL</span>
-                            <span class="tech-badge">DAX</span>
-                            <span class="tech-badge">Python</span>
-                        </div>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <i class="fas fa-chart-line"></i>
-                                <span>20+ KPIs</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-users"></i>
-                                <span>500+ Users</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Data Warehouse Project -->
-                <article class="project-card" id="data-warehouse" data-category="infrastructure">
-                    <div class="project-image">
-                        <img src="../assets/images/projects/data-warehouse.jpg" alt="Data Warehouse">
-                        <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Modern Data Warehouse</h3>
-                        <p>Designed and implemented a modern data warehouse solution using dbt and Snowflake. The architecture supports both batch and real-time data processing.</p>
-                        <div class="tech-stack">
-                            <span class="tech-badge">dbt</span>
-                            <span class="tech-badge">Snowflake</span>
-                            <span class="tech-badge">Airflow</span>
-                            <span class="tech-badge">Great Expectations</span>
-                        </div>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <i class="fas fa-database"></i>
-                                <span>10TB+ Data</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>Query Time: < 1s</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Log Analytics Project -->
-                <article class="project-card" id="log-analytics" data-category="analytics">
-                    <div class="project-image">
-                        <img src="../assets/images/projects/log-analytics.jpg" alt="Log Analytics">
-                        <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="fab fa-github"></i></a>
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3>Log Analytics Platform</h3>
-                        <p>Created a centralized log analytics platform using ELK stack and custom Python scripts. The system provides real-time log analysis and alerting capabilities.</p>
-                        <div class="tech-stack">
-                            <span class="tech-badge">ELK Stack</span>
-                            <span class="tech-badge">Python</span>
-                            <span class="tech-badge">Docker</span>
-                            <span class="tech-badge">Kubernetes</span>
-                        </div>
-                        <div class="project-stats">
-                            <div class="stat">
-                                <i class="fas fa-server"></i>
-                                <span>100+ Servers</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-bell"></i>
-                                <span>50+ Alerts</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Project Stats -->
-            <section class="project-stats-section">
-                <h2>Project Impact</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="fas fa-project-diagram"></i>
-                        <h3>Projects Completed</h3>
-                        <p>50+</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-users"></i>
-                        <h3>Happy Clients</h3>
-                        <p>30+</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-code-branch"></i>
-                        <h3>Code Contributions</h3>
-                        <p>1000+</p>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-trophy"></i>
-                        <h3>Awards Won</h3>
-                        <p>5+</p>
-                    </div>
+ <!-- Main Content -->
+<main class="projects-page">
+    <!-- Projects Grid -->
+    <section class="projects-grid">
+        <!-- Data Engineering Project -->
+        <article class="project-card card" data-category="data-engineering">
+            <div class="project-image">
+                <img src="../assets/images/projects/Pasted image.png" alt="Real time Forex Data Pipeline">
+                <div class="project-overlay">
+                    <!-- Corrected link -->
+                    <a href="https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline" class="project-link">View Details</a>
                 </div>
-            </section>
+            </div>
+            <div class="project-content">
+                <h3>Real time Forex Data Pipeline</h3>
+                <p>A comprehensive data analytics engineering solution that fetches, processes, and analyzes real-time currency exchange rates. The pipeline ingests data from the Alpha Vantage API, processes it through a multi-stage ETL workflow, and stores it in a Snowflake data warehouse. The entire process is orchestrated using Apache Airflow with full monitoring and error handling.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Apache Airflow</span>
+                    <span class="tech-badge">Snowflake</span>
+                    <span class="tech-badge">Python</span>
+                    <span class="tech-badge">Docker</span>
+                    <span class="tech-badge">Streamlit</span>
+                    <span class="tech-badge">Power BI</span>
+                </div>
+            </div>
+        </article>
 
-            <!-- Call to Action -->
-            <section class="cta-section">
+        <!-- Analytics Project -->
+        <article class="project-card card" data-category="analytics">
+            <div class="project-image">
+                <img src="../assets/images/projects/DistributionMap.png" alt="Log Analytics Pipeline">
+                <div class="project-overlay">
+                    <!-- Corrected link -->
+                    <a href="#" class="https://github.com/Anwaribra/Log-Analytics-Pipeline">View Details</a>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3>Log Analytics Pipeline</h3>
+                <p>DThis project implements an end-to-end log analytics pipeline that processes NASA HTTP server logs from July 1995 using Apache Airflow, Apache Spark, and PostgreSQL. The processed data is then visualized using Grafana.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">PApache Airflow</span>
+                    <span class="tech-badge">Apache Spark</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">Grafana</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Cloud Project -->
+        <article class="project-card card" data-category="cloud">
+            <div class="project-image">
+                <img src="../assets/images/projects/__results___16_0.png" alt="Cloud Architecture">
+                <div class="project-overlay">
+                    <!-- Corrected link -->
+                    <a href="#" class="https://github.com/Anwaribra/car-price-prediction-etl">View Details</a>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3>Car Price Pprediction ETL</h3>
+                <p>A robust ETL (Extract, Transform, Load) pipeline for car price prediction with machine learning integration. This project processes car sales data, trains a high-accuracy prediction model (98%+ R² score), and provides detailed performance tracking.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Python</span>
+                    <span class="tech-badge">Matplotlib</span>
+                    <span class="tech-badge">PostgreSQL</span>
+                    <span class="tech-badge">Scikit-learn</span>
+                </div>
+            </div>
+        </article>
+    </section>
+</main>
+
+
+            <!-- CTA Section -->
+            <section class="cta-section card">
                 <h2>Interested in Working Together?</h2>
                 <p>Let's discuss how we can collaborate on your next data project.</p>
-                <a href="/pages/contact.html" class="primary-btn">Get in Touch</a>
+                <a href="contact.html" class="btn btn-primary">Get in Touch</a>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="../assets/icons/logo.png" alt="Logo">
-                    <p>Anwar Mousa</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/pages/about.html">About</a></li>
-                        <li><a href="/pages/projects.html">Projects</a></li>
-                        <li><a href="/pages/contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h4>Connect</h4>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/anwar-mousa" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                        <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2024 Anwar Mousa • Data Engineer & Analytics Specialist</p>
-                <p>Made with <i class="fas fa-heart"></i> and <i class="fas fa-coffee"></i></p>
-            </div>
-        </div>
-    </footer>
-
     <script src="../js/main.js"></script>
+    <script src="../js/projects.js"></script>
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 </body>
 </html> 
