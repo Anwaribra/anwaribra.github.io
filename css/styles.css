@@ -62,9 +62,9 @@
 [data-theme="dark"] {
     --primary-color: var(--light-primary-color);
     --secondary-color: var(--light-secondary-color);
-    --background-color: var(--light-background-color);
-    --text-color: var(--light-text-color);
-    --card-bg: var(--light-card-bg);
+    --background-color: #000000;
+    --text-color: #FFFFFF;
+    --card-bg: #1E1E2F;
     --border-color: var(--light-border-color);
     --accent-color: var(--light-accent-color);
 }
@@ -1896,4 +1896,76 @@ body.dark-mode {
 .card {
     background-color: var(--card-bg-alt);
     border: 1px solid var(--border-alt);
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+    min-width: 140px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    opacity: 0.9;
+}
+
+.btn-primary, .btn-secondary, .btn-outline {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: var(--spacing-4);
+    justify-content: center;
+    margin-top: var(--spacing-6);
+}
+
+.cta-buttons .btn {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cta-buttons .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Hero Section Text Colors */
+.page-hero h1 {
+    color: var(--text-color);
+    background: linear-gradient(to right, #1D9BF0, #8ECDDD);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(29, 155, 240, 0.2);
+}
+
+.page-hero h2 {
+    color: var(--text-color);
+}
+
+.hero-text p {
+    color: var(--text-color);
 }
