@@ -1,268 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anwar Mousa - Data Engineer</title>
-    <meta name="description" content="Portfolio of Anwar Mousa, Data Engineer & Business Intelligence Analyst">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" type="image/png" href="assets/favicons/im1.png">
-    <link rel="apple-touch-icon" href="assets/favicons/im1.png">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SF Pro Display Font -->
-    <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anwar Mousa - Data Engineer & Analytics Specialist</title>
+  <meta name="description" content="Data Engineer & Analytics Specialist specializing in ETL pipelines, data warehousing, and business intelligence solutions">
+
+  <!-- Open Graph Meta -->
+  <meta property="og:title" content="Anwar Mousa - Data Engineer & Analytics Specialist">
+  <meta property="og:description" content="Expert in ETL pipelines, data warehousing, and business intelligence solutions">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anwarmousa100.com">
+  <meta property="og:image" content="assets/images/profile.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Anwar Mousa",
+    "jobTitle": "Data Engineer & Analytics Specialist",
+    "url": "https://anwarmousa100.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/anwar-mousa/",
+      "https://github.com/Anwaribra"
+    ],
+    "knowsAbout": [
+      "ETL Pipelines",
+      "Data Warehousing",
+      "Business Intelligence",
+      "Cloud Computing",
+      "Data Analytics"
+    ]
+  }
+  </script>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">
-                <img src="assets/favicons/im1.png" alt="Logo"> 
-            </a>
-            <div class="hamburger">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/icons/logo.png" alt="Anwar Mousa Logo">
+      </a>
+      <div class="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/about.html">About</a></li>
+        <li><a href="pages/projects.html">Projects</a></li>
+        <li><a href="pages/tech-stack.html">Tech Stack</a></li>
+        <li><a href="pages/contact.html">Contact</a></li>
+        <li>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero, Projects, etc. will be separated into component files and included as needed -->
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="assets/icons/logo.png" alt="Logo">
+          <p>Anwar Mousa</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Anwar Mousa</h1>
-                <h2>Data Engineer & BI Analyst</h2>
-                <p>Building efficient pipelines and transforming complex data into actionable insights</p>
-                <div class="hero-cta">
-                    <a href="assets/files/Anwar-Mousa-CV.pdf" class="primary-btn" onclick="handleCVDownload(event)">Download CV</a>
-                    <a href="#contact" class="secondary-btn">Contact Me</a>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <span>Scroll to explore</span>
-                <i class="fas fa-chevron-down"></i>
-            </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pages/about.html">About</a></li>
+            <li><a href="pages/projects.html">Projects</a></li>
+            <li><a href="pages/contact.html">Contact</a></li>
+          </ul>
         </div>
-    </section>
-
-    <main>
-        <div class="container">
-            <!-- About Section -->
-            <section id="about">
-                <h2>About Me</h2>
-                <div class="about-content">
-                    <p>I'm a data professional with expertise in building ETL pipelines, designing data warehouse solutions, and developing business intelligence dashboards. My focus is on transforming raw data into meaningful insights that help organizations make data-driven decisions.</p>
-                </div>
-            </section>
-
-            <!-- Experience Section -->
-            <section id="experience">
-                <h2>Experience</h2>
-                <ul class="experience-list">
-                    <li class="timeline-item">
-                        <span class="date">Oct 2024 - Present</span>
-                        <h3>Data Analytics at DEPI</h3>
-                    </li>
-                    <li class="timeline-item">
-                        <span class="date">Oct 2023 - Sep 2023</span>
-                        <h3>Data Analyst at NeuronetiX</h3>
-                    </li>
-                    <li class="timeline-item">
-                        <span class="date">Aug 2023 - Nov 2023</span>
-                        <h3>BI Intern at PwC</h3>
-                    </li>
-                    <li class="timeline-item">
-                        <span class="date">May 2023 - Aug 2023</span>
-                        <h3>Data Engineer at Manara</h3>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills">
-                <h2>Skills</h2>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h3>Programming & Data</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <i class="fab fa-python"></i>
-                                <span>Python</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-database"></i>
-                                <span>SQL</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Pandas</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-code-branch"></i>
-                                <span>ETL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3>Cloud & Database</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <i class="fab fa-aws"></i>
-                                <span>AWS</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-server"></i>
-                                <span>PostgreSQL</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-cubes"></i>
-                                <span>Docker</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-stream"></i>
-                                <span>Airflow</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects">
-                <h2>Projects</h2>
-                <div class="projects-list">
-                    <div class="project">
-                        <h3>Real-Time ETL Data Pipeline</h3>
-                        <p>Built robust data pipeline for car price prediction with ML integration</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>Python, PostgreSQL, scikit-learn, Pandas, Random Forest</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project">
-                        <h3>Real-Time API Data Pipeline</h3>
-                        <p>End-to-end pipeline for processing live API data with containerization</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>Python, PostgreSQL, Airflow, Docker, Pandas</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project">
-                        <h3>E-commerce Sales Analysis</h3>
-                        <p>EDA for e-commerce sales data to uncover trends and business insights</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>Python, Pandas, NumPy, Matplotlib, Seaborn, Plotly</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project">
-                        <h3>Data Mart Development</h3>
-                        <p>Designed optimized data integration workflows using SSIS with 30% efficiency improvement</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>SSIS, SQL, Docker, ERD design</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project">
-                        <h3>Sales & Customer Data ETL</h3>
-                        <p>Automated ETL pipelines across multiple databases for improved reporting accuracy</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>Python, SQL, Pandas, SQLAlchemy</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="project">
-                        <h3>BI Dashboard Suite</h3>
-                        <p>Interactive dashboards for real-time business performance monitoring</p>
-                        <div class="tech-stack">
-                            <div class="tech-group">
-                                <h4>Technologies</h4>
-                                <p>Power BI, SQL, DAX, Python</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact">
-                <h2>Contact Me</h2>
-                <div class="contact-container">
-                    <div class="contact-info">
-                        <p>Interested in data engineering opportunities. Feel free to reach out for collaborations or just to connect.</p>
-                        <div class="contact-methods">
-                            <div class="contact-method">
-                                <i class="fas fa-envelope"></i>
-                                <a href="mailto:contact@anwarmousa100.com">contact@anwarmousa100.com</a>
-                            </div>
-                            <div class="contact-method">
-                                <i class="fab fa-linkedin"></i>
-                                <a href="https://www.linkedin.com/in/anwar-mousa/" target="_blank">LinkedIn</a>
-                            </div>
-                            <div class="contact-method">
-                                <i class="fab fa-github"></i>
-                                <a href="https://github.com/Anwaribra" target="_blank">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact-form">
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message" rows="3" required></textarea>
-                            </div>
-                            <button type="submit" class="submit-btn">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
+        <div class="footer-social">
+          <h4>Connect</h4>
+          <div class="social-links">
+            <a href="https://linkedin.com/in/anwar-mousa" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          </div>
         </div>
-    </main>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 Anwar Mousa • Data Engineer & Analytics Specialist</p>
+        <p>Made with <i class="fas fa-heart"></i> and <i class="fas fa-coffee"></i></p>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>© 2025 Anwar Mousa • Data Engineer</p>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
