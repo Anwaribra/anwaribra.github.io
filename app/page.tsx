@@ -5,10 +5,10 @@ import { FaGithub, FaTwitter, FaLinkedin, FaFileAlt } from 'react-icons/fa'
 
 export default function Home() {
   return (
-    <main className="min-h-screen p-2 md:p-15 max-w-3xl mx-auto pt-20">
+    <main className="min-h-screen p-3 md:p-6 max-w-3xl mx-auto">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-start gap-3 mb-10">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden bg-dark-secondary">
+      <section className="flex flex-col md:flex-row items-start gap-3 mb-6">
+        <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-dark-secondary">
           <Image
             src="/assets/icons/profile/avatar.jpg"
             alt="Anwar Mousa"
@@ -17,22 +17,22 @@ export default function Home() {
             priority
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-1xl font-bold mb-0.2">Anwar Mousa</h1>
-              <p className="text-sm text-gray-400">Data Enthusiast</p>
+              <h1 className="text-xl md:text-2xl font-bold mb-0.5">Anwar Mousa</h1>
+              <p className="text-xs md:text-sm text-gray-400">Data Enthusiast</p>
             </div>
             <Link 
               href="https://github.com/Anwaribra" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-xl text-white hover:text-accent-green transition-colors duration-200"
+              className="text-lg md:text-xl text-white hover:text-accent-green transition-colors duration-200"
             >
               <FaGithub />
             </Link>
           </div>
-          <p className="mt-2 text-gray-300 text-xs leading-relaxed">
+          <p className="mt-2 text-xs md:text-sm text-gray-300 leading-relaxed">
             I am a Data Engineer passionate about building scalable data pipelines and delivering actionable insights. 
             I focus on data modeling, ETL processes, and cloud technologies to create efficient systems that support data-driven decision-making.
           </p>
@@ -41,11 +41,11 @@ export default function Home() {
 
       {/* Skills Section */}
       <section className="mb-6">
-        <h2 className="text-xl font-bold mb-3">Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <h2 className="text-lg md:text-xl font-bold mb-3">Skills</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           <div className="bg-[#111111] rounded-lg p-3">
-            <h3 className="text-base font-bold mb-2 text-accent-white">Data Engineering</h3>
-            <ul className="space-y-1 text-gray-300 text-xs">
+            <h3 className="text-sm md:text-base font-bold mb-2 text-accent-white">Data Engineering</h3>
+            <ul className="space-y-1 text-[10px] md:text-xs text-gray-300">
               <li>• ETL Pipeline Development</li>
               <li>• Data Warehousing</li>
               <li>• Stream Processing</li>
@@ -54,8 +54,8 @@ export default function Home() {
             </ul>
           </div>
           <div className="bg-[#111111] rounded-lg p-3">
-            <h3 className="text-base font-bold mb-2 text-accent-white">Technologies</h3>
-            <ul className="space-y-1 text-white-300 text-xs">
+            <h3 className="text-sm md:text-base font-bold mb-2 text-accent-white">Technologies</h3>
+            <ul className="space-y-1 text-[10px] md:text-xs text-white-300">
               <li>• Apache Airflow</li>
               <li>• Apache Kafka</li>
               <li>• Apache Spark</li>
@@ -64,8 +64,8 @@ export default function Home() {
             </ul>
           </div>
           <div className="bg-[#111111] rounded-lg p-3">
-            <h3 className="text-base font-bold mb-2 text-accent-white">Programming</h3>
-            <ul className="space-y-1 text-gray-300 text-xs">
+            <h3 className="text-sm md:text-base font-bold mb-2 text-accent-white">Programming</h3>
+            <ul className="space-y-1 text-[10px] md:text-xs text-gray-300">
               <li>• Python</li>
               <li>• SQL</li>
               <li>• PySpark</li>
@@ -78,21 +78,21 @@ export default function Home() {
 
       {/* Selected Projects */}
       <section className="mb-6">
-        <h2 className="text-xl font-bold mb-3">Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <h2 className="text-lg md:text-xl font-bold mb-3">Projects</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {projects.map((project, index) => (
             <div key={index} className="bg-[#111111] rounded-lg p-3 hover:bg-[#1a1a1a] transition-colors duration-200">
-              <h3 className="text-base font-bold mb-1.5">{project.title}</h3>
-              <p className="text-gray-400 mb-3 text-xs leading-relaxed min-h-[50px]">
+              <h3 className="text-sm md:text-base font-bold mb-1.5">{project.title}</h3>
+              <p className="text-[10px] md:text-xs text-gray-400 mb-3 leading-relaxed min-h-[40px] md:min-h-[50px]">
                 {project.description}
               </p>
               <div className="mt-auto">
                 <div className="flex flex-wrap items-center gap-x-1.5 mb-2">
                   {project.technologies.map((tech, i) => (
                     <React.Fragment key={i}>
-                      <span className="text-[10px] text-gray-300">{tech}</span>
+                      <span className="text-[8px] md:text-[10px] text-gray-300">{tech}</span>
                       {i < project.technologies.length - 1 && (
-                        <span className="text-gray-600 text-[10px]">•</span>
+                        <span className="text-gray-600 text-[8px] md:text-[10px]">•</span>
                       )}
                     </React.Fragment>
                   ))}
@@ -114,15 +114,15 @@ export default function Home() {
 
       {/* Work Experience */}
       <section className="mb-6">
-        <h2 className="text-xl font-bold mb-3">Work Experience</h2>
+        <h2 className="text-lg md:text-xl font-bold mb-3">Work Experience</h2>
         <div className="space-y-3">
           {experiences.map((exp, index) => (
-            <div key={index} className="flex justify-between items-start">
+            <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-0">
               <div>
-                <h3 className="text-base font-bold">{exp.role}</h3>
-                <p className="text-gray-400 text-xs">{exp.company}</p>
+                <h3 className="text-sm md:text-base font-bold">{exp.role}</h3>
+                <p className="text-[10px] md:text-xs text-gray-400">{exp.company}</p>
               </div>
-              <p className="text-gray-400 text-xs">{exp.period}</p>
+              <p className="text-[10px] md:text-xs text-gray-400">{exp.period}</p>
             </div>
           ))}
         </div>
@@ -130,8 +130,8 @@ export default function Home() {
 
       {/* Connect Section */}
       <section className="mb-10 pb-10">
-        <h2 className="text-xl font-bold mb-3">Connect</h2>
-        <p className="mb-3 text-xs">
+        <h2 className="text-lg md:text-xl font-bold mb-3">Connect</h2>
+        <p className="mb-3 text-[10px] md:text-xs">
           Feel free to contact me at{' '}
           <a href="mailto:anwarmousa100@gmail.com" className="text-accent-green">
             anwarmousa100@gmail.com
@@ -140,38 +140,38 @@ export default function Home() {
         <div className="flex flex-wrap gap-2">
           <Link 
             href="https://github.com/Anwaribra" 
-            className="inline-flex items-center px-3 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
+            className="inline-flex items-center px-2 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaGithub className="mr-1.5" />
+            <FaGithub className="mr-1.5 text-xs md:text-sm" />
             Github
           </Link>
           <Link 
             href="https://x.com/_anwarrrrr" 
-            className="inline-flex items-center px-3 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
+            className="inline-flex items-center px-2 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaTwitter className="mr-1.5" />
+            <FaTwitter className="mr-1.5 text-xs md:text-sm" />
             Twitter
           </Link>
           <Link 
             href="https://www.linkedin.com/in/anwar-mousa/" 
-            className="inline-flex items-center px-3 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
+            className="inline-flex items-center px-2 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaLinkedin className="mr-1.5" />
+            <FaLinkedin className="mr-1.5 text-xs md:text-sm" />
             LinkedIn
           </Link>
           <Link 
             href="/assets/docs/CV.pdf" 
-            className="inline-flex items-center px-3 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
+            className="inline-flex items-center px-2 py-1 rounded-full bg-[#1a1a1a] text-white text-[10px] hover:bg-[#252525] transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FaFileAlt className="mr-1.5" />
+            <FaFileAlt className="mr-1.5 text-xs md:text-sm" />
             CV
           </Link>
         </div>
