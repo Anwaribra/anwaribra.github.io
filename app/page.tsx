@@ -21,7 +21,7 @@ export default function Home() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">Anwar Mousa</h1>
-              <p className="text-sm sm:text-base text-gray-400">Data Enthusiast</p>
+              <p className="text-sm sm:text-base text-gray-400">Data Engineert</p>
             </div>
             <Link 
               href="https://github.com/Anwaribra" 
