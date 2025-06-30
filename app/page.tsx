@@ -200,10 +200,10 @@ const projects = [
     source: "https://github.com/Anwaribra/car-price-prediction-etl"
   },
   {
-    title: "DataPulse API Pipeline",
-    description: "DataPulse is a real-time data pipeline system designed to collect, process, store, and serve cryptocurrency price data. The system fetches price information from the CoinGecko API at regular intervals, transforms raw data into meaningful aggregates, and makes both raw and processed data available through a RESTful API.",
-    technologies: ["Apache Airflow", "Python,", "Pandas", "Docker"],
-    source: "https://github.com/Anwaribra/DataPulse-Real-Time-API-Data-Pipeline"
+    title: "AdInsight360",
+    description: "Reddit Marketing Analytics Platform & Real-time Insights & AI-Powered Recommendations.",
+    technologies: ["Apache Airflow", "Python,", "scikit-learn", "DBT", "Docker", "Streamlit"],
+    source: "https://github.com/Anwaribra/AdInsight360"
   }
 ]
 
@@ -211,7 +211,7 @@ const experiences = [
   {
     role: "Data Engineer",
     company: "DPEI",
-    period: "Oct 2024 - Present"
+    period: "Oct 2024 - May 2025"
   },
   {
     role: "Data Analyst Intern",
