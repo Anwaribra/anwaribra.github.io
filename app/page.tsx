@@ -10,7 +10,7 @@ export default function Home() {
       <section className="flex flex-col md:flex-row items-start gap-4 sm:gap-6 mb-8 sm:mb-12">
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-dark-secondary">
           <Image
-            src="/assets/icons/profile/avatar.jpg"
+            src="public\assets\icons\profile\avatar.jpg"
             alt="Anwar Mousa"
             fill
             className="object-cover profile-image"
