@@ -148,7 +148,7 @@ export default function Home() {
             Github
           </Link>
           <Link 
-            href="https://x.com/_anwarrrrr" 
+            href="https://x.com/_vincenzzo" 
             className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-[#1a1a1a] text-white text-sm hover:bg-[#252525] transition-colors duration-200"
             target="_blank"
             rel="noopener noreferrer"
