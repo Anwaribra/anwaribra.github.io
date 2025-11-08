@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 export default function Connect() {
   const socialLinks = [
     {
-      href: "https://github.com/Anwaribra",
+      href: "https://github.com/Anwaribr1",
       icon: FaGithub,
       label: "Github",
       ariaLabel: "Visit Anwar Mousa's GitHub profile"
