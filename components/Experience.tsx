@@ -27,7 +27,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.15 }}
+            transition={{ duration: 0.5, delay: index * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {/* Timeline line */}
             {index < experiences.length - 1 && (
@@ -52,10 +52,17 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
               {exp.achievements && exp.achievements.length > 0 && (
                 <ul className="space-y-2" role="list">
                   {exp.achievements.map((achievement, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-gray-400">
+                    <motion.li
+                      key={i}
+                      className="flex items-start gap-2.5 text-sm text-gray-400"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: index * 0.12 + i * 0.05 }}
+                    >
                       <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
                       <span className="leading-relaxed">{achievement}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               )}
