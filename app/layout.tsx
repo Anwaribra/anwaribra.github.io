@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: 'Anwar Mousa Portfolio',
     images: [
       {
-        url: 'https://github.com/Anwaribra.png',
+        url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
         alt: 'Anwar Mousa - Data Engineer',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Anwar Mousa - Data Engineer Portfolio',
     description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights.',
     creator: '@_vincenzzo',
-    images: ['https://github.com/Anwaribra.png'],
+    images: [`${siteUrl}/og-image.png`],
   },
   robots: {
     index: true,

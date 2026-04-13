@@ -3,53 +3,108 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaGithub } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaFileAlt } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 export default function Hero() {
   return (
-    <motion.section 
-      className="flex flex-col md:flex-row items-start gap-4 sm:gap-6 mb-8 sm:mb-12"
+    <motion.section
+      id="about"
+      className="pb-8 sm:pb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6 }}
     >
-      <motion.div 
-        className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-dark-secondary"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <Image
-          src="https://github.com/Anwaribra.png"
-          alt="Anwar Mousa"
-          fill
-          className="object-cover profile-image"
-          priority
-          unoptimized
-        />
-      </motion.div>
-      <div className="flex-1">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2">Anwar Mousa</h1>
-            <p className="text-sm sm:text-base text-gray-400">Data Engineer</p>
+      <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8">
+        {/* Profile Image */}
+        <motion.div
+          className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden ring-2 ring-white/10 ring-offset-2 ring-offset-black"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+        >
+          <Image
+            src="https://github.com/Anwaribra.png"
+            alt="Anwar Mousa"
+            fill
+            className="object-cover profile-image"
+            priority
+            unoptimized
+          />
+        </motion.div>
+
+        {/* Info */}
+        <div className="flex-1">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <div>
+              <motion.h1
+                className="text-3xl sm:text-4xl font-bold tracking-tight mb-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                Anwar Mousa
+              </motion.h1>
+
+              <motion.p
+                className="text-base sm:text-lg text-gray-400 font-medium"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Data Engineer
+              </motion.p>
+            </div>
+
+            {/* Social icons + CV */}
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Link
+                href="https://github.com/Anwaribra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 hover:border-green-500/30 transition-all duration-200"
+                aria-label="GitHub"
+              >
+                <FaGithub className="text-lg" />
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/anwar-mousa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 hover:border-green-500/30 transition-all duration-200"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedin className="text-lg" />
+              </Link>
+              <Link
+                href="/assets/docs/CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-green-400 hover:bg-white/10 hover:border-green-500/30 transition-all duration-200 text-sm font-medium"
+                aria-label="Download CV"
+              >
+                <FaFileAlt className="text-sm" />
+                <span className="hidden sm:inline">CV</span>
+              </Link>
+            </motion.div>
           </div>
-          <Link 
-            href="https://github.com/Anwaribra" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-xl sm:text-2xl text-white hover:text-accent-green transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-green focus:ring-offset-2 focus:ring-offset-black rounded"
-            aria-label="Visit Anwar Mousa's GitHub profile"
+
+          <motion.p
+            className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed max-w-2xl"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <FaGithub />
-          </Link>
+            Passionate about building scalable data pipelines and delivering actionable insights.
+            I focus on data modeling, ETL processes, and cloud technologies to create efficient systems
+            that support data-driven decision-making. Experienced with Apache Airflow, Kafka, Spark, and Snowflake.
+          </motion.p>
         </div>
-        <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300 leading-relaxed">
-          I am a Data Engineer passionate about building scalable data pipelines and delivering actionable insights. 
-          I focus on data modeling, ETL processes, and cloud technologies to create efficient systems that support data-driven decision-making.
-        </p>
       </div>
     </motion.section>
   )
 }
-

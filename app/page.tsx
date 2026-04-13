@@ -3,17 +3,27 @@ import Hero from '@/components/Hero'
 import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
 import ExperienceSection from '@/components/Experience'
+import Education from '@/components/Education'
+import GitHubStats from '@/components/GitHubStats'
 import Connect from '@/components/Connect'
 import BackToTop from '@/components/BackToTop'
 import { projects, experiences } from '@/data/portfolio'
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto">
+    <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto">
       <Hero />
+      <div className="section-divider" />
       <Skills />
+      <div className="section-divider" />
       <Projects projects={projects} />
+      <div className="section-divider" />
       <ExperienceSection experiences={experiences} />
+      <div className="section-divider" />
+      <Education />
+      <div className="section-divider" />
+      <GitHubStats />
+      <div className="section-divider" />
       <Connect />
       <BackToTop />
     </main>

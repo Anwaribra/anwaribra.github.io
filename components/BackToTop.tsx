@@ -37,13 +37,12 @@ export default function BackToTop() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-accent-green text-black hover:bg-green-400 transition-colors duration-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-green focus:ring-offset-2 focus:ring-offset-black"
+          className="fixed bottom-8 right-8 z-50 p-3 rounded-xl bg-green-500 text-black hover:bg-green-400 transition-colors duration-200 shadow-lg shadow-green-500/20"
           aria-label="Scroll to top"
         >
-          <FaArrowUp className="text-xl" />
+          <FaArrowUp className="text-lg" />
         </motion.button>
       )}
     </AnimatePresence>
   )
 }
-

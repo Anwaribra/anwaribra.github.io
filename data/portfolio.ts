@@ -4,6 +4,8 @@ export interface Project {
   technologies: string[]
   source: string
   demo?: string
+  isGraduation?: boolean
+  image?: string
 }
 
 
@@ -17,10 +19,25 @@ export interface Experience {
 
 export const projects: Project[] = [
   {
+    title: "Ayn",
+    description: "An AI-native quality assurance and accreditation platform for educational institutions. Brings standards, evidence, gap analysis, analytics, workflows, and institutional AI assistance into one product, with Horus as the platform intelligence layer.",
+    technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python"],
+    source: "https://github.com/Anwaribra/Ayn",
+    isGraduation: true,
+    image: "/assets/projects/ayn.png"
+  },
+  {
     title: "Real-time Forex Data Pipeline & Analytics Dashboard",
     description: "Built an automated ETL pipeline using Apache Airflow for processing and analyzing large-scale data from Alpha Vantage API. Implemented data quality using medallion checks and monitoring.",
     technologies: ["Apache Airflow", "Python", "Snowflake Cloud", "Docker", "Apache Kafka", "Apache Spark", "Streamlit"],
-    source: "https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline"
+    source: "https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline",
+    image: "/assets/projects/forex-pipeline.png"
+  },
+  {
+    title: "Lakehouse Analytics Platform",
+    description: "A modern lakehouse analytics platform implementing the medallion architecture (Bronze/Silver/Gold) for scalable data processing and analytics workloads.",
+    technologies: ["Python", "Apache Spark", "Delta Lake", "Docker"],
+    source: "https://github.com/Anwaribra/Lakehouse-Analytics-Platform"
   },
   {
     title: "RideTrack - Real-time Ride-Sharing Analytics",
@@ -53,6 +70,24 @@ export const projects: Project[] = [
     source: "https://github.com/Anwaribra/AdInsight360"
   },
   {
+    title: "Sales ETL Pipeline (Informatica)",
+    description: "An enterprise-grade ETL pipeline built with Informatica for sales data processing, transformation, and loading into a data warehouse for business analytics.",
+    technologies: ["Python", "Informatica", "SQL", "ETL"],
+    source: "https://github.com/Anwaribra/Sales-ETL-Informatica"
+  },
+  {
+    title: "ShopStream Data Warehouse",
+    description: "A modern data warehouse solution for e-commerce analytics. Processes and organizes shopping data for efficient querying and business intelligence reporting.",
+    technologies: ["Python", "SQL", "Data Warehouse", "Docker"],
+    source: "https://github.com/Anwaribra/ShopStream-Data-Warehouse"
+  },
+  {
+    title: "Financial Fraud Detection System",
+    description: "Machine learning-based financial fraud detection system. Uses advanced algorithms to identify suspicious transactions and predict fraudulent activity in real-time.",
+    technologies: ["Python", "Jupyter", "scikit-learn", "Pandas", "Machine Learning"],
+    source: "https://github.com/Anwaribra/Financial-Fraud-Detection-System"
+  },
+  {
     title: "Car Price Prediction ETL Pipeline",
     description: "A robust ETL pipeline for car price prediction with machine learning integration. This project processes car sales data, trains a high-accuracy prediction model (98%+ R² score), and provides detailed performance tracking",
     technologies: ["Python", "Scikit-learn", "Matplotlib", "PostgreSQL"],
@@ -61,6 +96,18 @@ export const projects: Project[] = [
 ]
 
 export const experiences: Experience[] = [
+  {
+    role: "BI Engineer",
+    company: "Link Development",
+    period: "Jul 2025 – Jan 2026 · Hybrid",
+    description: "Designed and delivered business intelligence solutions to support data-driven decision-making across the organization.",
+    achievements: [
+      "Built and maintained interactive dashboards and reports for stakeholders using BI tools",
+      "Developed and optimized data models and ETL pipelines for reporting workflows",
+      "Collaborated with cross-functional teams to translate business requirements into analytical solutions",
+      "Ensured data quality and consistency across reporting platforms"
+    ]
+  },
   {
     role: "Data Engineer",
     company: "DPEI",
@@ -121,4 +168,3 @@ export const certifications: Certification[] = [
     image: "/assets/icons/GCC.png"
   }
 ]
-

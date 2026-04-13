@@ -20,29 +20,41 @@ const skillsData = [
 
 export default function Skills() {
   return (
-    <motion.section 
-      className="mb-8 sm:mb-12"
+    <motion.section
+      id="skills"
+      className="py-8 sm:py-12"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Skills</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+      <h2 className="section-heading mb-8 sm:mb-10">Skills</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mt-4">
         {skillsData.map((skill, index) => (
-          <motion.div 
+          <motion.div
             key={index}
-            className="bg-[#111111] rounded-lg p-4 sm:p-6 hover:bg-[#1a1a1a] transition-colors duration-200"
+            className="glow-card p-5 sm:p-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            whileHover={{ y: -4 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
           >
-            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-accent-white">{skill.title}</h3>
-            <ul className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-gray-300" role="list">
+            <div className="flex items-center gap-2.5 mb-4">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight">{skill.title}</h3>
+            </div>
+            <ul className="space-y-2.5" role="list">
               {skill.items.map((item, i) => (
-                <li key={i}>• {item}</li>
+                <motion.li
+                  key={i}
+                  className="flex items-center gap-2.5 text-sm text-gray-400"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.1 + i * 0.05 }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500/60 flex-shrink-0" />
+                  {item}
+                </motion.li>
               ))}
             </ul>
           </motion.div>
@@ -51,4 +63,3 @@ export default function Skills() {
     </motion.section>
   )
 }
-
