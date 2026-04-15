@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
 
-const siteUrl = 'https://anwaribra.github.io'
+const siteUrl = 'https://anwarmousa.me'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
