@@ -4,11 +4,12 @@ import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
 import ExperienceSection from '@/components/Experience'
 import Education from '@/components/Education'
+import Certifications from '@/components/Certifications'
 import GitHubStats from '@/components/GitHubStats'
 import Connect from '@/components/Connect'
 import BackToTop from '@/components/BackToTop'
 import DotNav from '@/components/DotNav'
-import { projects, experiences } from '@/data/portfolio'
+import { projects, experiences, certifications } from '@/data/portfolio'
 
 export default function Home() {
   return (
@@ -24,6 +25,8 @@ export default function Home() {
         <ExperienceSection experiences={experiences} />
         <div className="section-divider" />
         <Education />
+        <div className="section-divider" />
+        <Certifications certifications={certifications} />
         <div className="section-divider" />
         <GitHubStats />
         <div className="section-divider" />

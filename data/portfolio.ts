@@ -23,6 +23,7 @@ export const projects: Project[] = [
     description: "An AI-native quality assurance and accreditation platform for educational institutions. Brings standards, evidence, gap analysis, analytics, workflows, and institutional AI assistance into one product, with Horus as the platform intelligence layer.",
     technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python"],
     source: "https://github.com/Anwaribra/Ayn",
+    demo: "https://aynplatform.app",
     isGraduation: true,
     image: "/assets/projects/ayn.png"
   },
@@ -155,16 +156,19 @@ export const certifications: Certification[] = [
   {
     name: "AWS Certified Cloud Practitioner",
     issuer: "Amazon Web Services",
-    image: "/assets/icons/AWS-Certified-Cloud.png"
+    image: "/assets/icons/AWS-Certified-Cloud.png",
+    url: "https://cp.certmetrics.com/amazon/en/public/verify/credential/24b89d107d764cee870cbaff5dc1144f"
   },
   {
     name: "Google Data Analytics Professional Certificate",
     issuer: "Google",
-    image: "/assets/icons/Professional_Certificate_-_Data_Analyst.png"
+    image: "/assets/icons/Professional_Certificate_-_Data_Analyst.png",
+    url: "https://www.coursera.org/professional-certificates/google-data-analytics"
   },
   {
-    name: "Google Cloud Computing",
-    issuer: "Google",
-    image: "/assets/icons/GCC.png"
+    name: "Data Analytics - Google Data Analyst Specialist",
+    issuer: "Digital Egypt Pioneers Initiative (DEPI)",
+    image: "/assets/icons/GCC.png",
+    url: "https://www.linkedin.com/in/anwar-mousa/overlay/Certifications/1886682763/treasury/?profileId=ACoAAD4quLMB2qUytspA-11zDBxaK7gJG-4HLB8"
   }
 ]

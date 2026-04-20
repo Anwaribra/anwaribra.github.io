@@ -99,9 +99,10 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Passionate about building scalable data pipelines and delivering actionable insights.
-            I focus on data modeling, ETL processes, and cloud technologies to create efficient systems
-            that support data-driven decision-making. Experienced with Apache Airflow, Kafka, Spark, and Snowflake.
+            Passionate about building scalable data pipelines and turning complex datasets into
+            actionable insights. I focus on data modeling, ETL workflows, and cloud technologies
+            to design reliable systems that enable faster, data-driven decision-making. Experienced
+            with Apache Airflow, Kafka, Spark, and Snowflake.
           </motion.p>
         </div>
       </div>

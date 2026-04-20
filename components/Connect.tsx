@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 export default function Connect() {
@@ -12,12 +12,6 @@ export default function Connect() {
       icon: FaGithub,
       label: "GitHub",
       ariaLabel: "Visit Anwar Mousa's GitHub profile"
-    },
-    {
-      href: "https://x.com/_vincenzzo",
-      icon: FaTwitter,
-      label: "Twitter",
-      ariaLabel: "Visit Anwar Mousa's Twitter profile"
     },
     {
       href: "https://www.linkedin.com/in/anwar-mousa/",
