@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { FaGithub, FaExternalLinkAlt, FaGraduationCap, FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Project } from '@/data/portfolio'
@@ -32,6 +31,10 @@ export default function Projects({ projects }: ProjectsProps) {
   const visibleProjects = showAll ? projects : projects.slice(0, INITIAL_SHOW)
   const hasMore = projects.length > INITIAL_SHOW
 
+  const handleCardClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <motion.section
       id="projects"
@@ -45,11 +48,9 @@ export default function Projects({ projects }: ProjectsProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mt-4">
         <AnimatePresence mode="popLayout">
           {visibleProjects.map((project, index) => (
-            <motion.a
+            <motion.div
               key={project.title}
-              href={project.source}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => handleCardClick(project.source)}
               className="glow-card flex flex-col group overflow-hidden cursor-pointer"
               variants={cardVariants}
               initial="hidden"
@@ -95,22 +96,22 @@ export default function Projects({ projects }: ProjectsProps) {
                       Source
                     </span>
                     {project.demo && (
-                      <Link
-                        href={project.demo}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          window.open(project.demo, '_blank', 'noopener,noreferrer')
+                        }}
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-green-500 text-black hover:bg-green-400 transition-all duration-200"
-                        target="_blank"
-                        rel="noopener noreferrer"
                         aria-label={`View live demo for ${project.title}`}
-                        onClick={(e) => e.stopPropagation()}
                       >
                         <FaExternalLinkAlt className="text-xs" />
                         Demo
-                      </Link>
+                      </button>
                     )}
                   </div>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </AnimatePresence>
       </div>

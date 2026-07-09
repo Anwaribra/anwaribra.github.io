@@ -14,18 +14,18 @@ interface SkillCategory {
 
 const skillsData: SkillCategory[] = [
   {
-    title: "Data Engineering",
+    title: "Data Engineering Core",
     skills: [
-      { name: "ETL Pipeline Development" },
+      { name: "ETL / ELT Pipelines" },
       { name: "Data Warehousing" },
-      { name: "Stream Processing" },
       { name: "Data Modeling" },
+      { name: "Stream Processing" },
       { name: "Real-time Analytics" },
       { name: "Data Quality & Testing" },
     ]
   },
   {
-    title: "Technologies",
+    title: "Technologies & Frameworks",
     skills: [
       { name: "Apache Airflow" },
       { name: "Apache Kafka" },
@@ -37,14 +37,25 @@ const skillsData: SkillCategory[] = [
     ]
   },
   {
-    title: "Programming & Tools",
+    title: "Programming Languages & Tools",
     skills: [
       { name: "Python" },
       { name: "SQL" },
+      { name: "TypeScript" },
       { name: "PySpark" },
       { name: "Docker" },
       { name: "Git" },
+    ]
+  },
+  {
+    title: "AI & Machine Learning",
+    skills: [
       { name: "Scikit-learn" },
+      { name: "Classification Models" },
+      { name: "NLP & Text Analysis" },
+      { name: "API Integration" },
+      { name: "FastAPI" },
+      { name: "LLM Orchestration" },
     ]
   }
 ]
@@ -61,36 +72,36 @@ export default function Skills() {
     >
       <h2 className="section-heading mb-8 sm:mb-10">Skills</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
-        {skillsData.map((category, index) => (
-          <motion.div
-            key={index}
-            className="glow-card p-5 sm:p-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
-          >
-            <h3 className="text-base sm:text-lg font-bold tracking-tight mb-5">
-              {category.title}
-            </h3>
-            <ul className="space-y-3" role="list">
-              {category.skills.map((skill, i) => (
-                <motion.li
-                  key={i}
-                  className="flex items-center gap-2.5 text-sm text-gray-300"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.1 + i * 0.05 }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500/60 flex-shrink-0" />
-                  {skill.name}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+      {/* Glassmorphism Container wrapping the entire section */}
+      <div className="glow-card p-6 sm:p-8 md:p-10 backdrop-blur-md bg-white/[0.02] border border-white/10 rounded-2xl mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          {skillsData.map((category, index) => (
+            <motion.div
+              key={index}
+              className="flex flex-col"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
+              <h3 className="text-xs font-bold uppercase tracking-wider text-green-400/90 mb-4 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
+                {category.title}
+              </h3>
+              
+              <div className="flex flex-wrap gap-2.5">
+                {category.skills.map((skill, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 rounded-full text-xs bg-white/5 border border-white/5 text-gray-300 hover:text-green-400 hover:bg-green-400/5 hover:border-green-400/30 transition-all duration-200 cursor-default"
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.section>
   )

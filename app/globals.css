@@ -309,3 +309,31 @@ a, button {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Pipeline Animation */
+.pipeline-container {
+  position: relative;
+  padding: 16px 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(74, 222, 128, 0.06);
+  background: rgba(10, 10, 10, 0.4);
+  overflow: hidden;
+}
+
+.pipeline-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(74, 222, 128, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pipeline-node {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .pipeline-container {
+    padding: 12px 4px;
+  }
+}

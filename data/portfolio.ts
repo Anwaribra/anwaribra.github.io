@@ -8,7 +8,6 @@ export interface Project {
   image?: string
 }
 
-
 export interface Experience {
   role: string
   company: string
@@ -20,8 +19,8 @@ export interface Experience {
 export const projects: Project[] = [
   {
     title: "Ayn",
-    description: "An AI-native quality assurance and accreditation platform for educational institutions. Brings standards, evidence, gap analysis, analytics, workflows, and institutional AI assistance into one product, with Horus as the platform intelligence layer.",
-    technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python"],
+    description: "AI-native quality assurance & accreditation platform built as a graduation project. Features Horus AI assistant for institutional intelligence, document classification, automated gap analysis, and evidence management. Full-stack delivery from data layer to production UI.",
+    technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python", "AI/ML", "PostgreSQL"],
     source: "https://github.com/Anwaribra/Ayn",
     demo: "https://aynplatform.app",
     isGraduation: true,
