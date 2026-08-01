@@ -18,15 +18,15 @@ export default function Home() {
       <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto">
         <Hero />
         <div className="section-divider" />
-        <Skills />
+        <ExperienceSection experiences={experiences} />
         <div className="section-divider" />
         <Projects projects={projects} />
         <div className="section-divider" />
-        <ExperienceSection experiences={experiences} />
-        <div className="section-divider" />
-        <Education />
+        <Skills />
         <div className="section-divider" />
         <Certifications certifications={certifications} />
+        <div className="section-divider" />
+        <Education />
         <div className="section-divider" />
         <GitHubStats />
         <div className="section-divider" />

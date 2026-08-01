@@ -19,7 +19,7 @@ export interface Experience {
 export const projects: Project[] = [
   {
     title: "Ayn",
-    description: "AI-native quality assurance & accreditation platform built as a graduation project. Features Horus AI assistant for institutional intelligence, document classification, automated gap analysis, and evidence management. Full-stack delivery from data layer to production UI.",
+    description: "Quality assurance and accreditation platform built with Next.js, FastAPI, Python, and PostgreSQL. Features Horus AI assistant for document classification, gap analysis, and evidence management.",
     technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python", "AI/ML", "PostgreSQL"],
     source: "https://github.com/Anwaribra/Ayn",
     demo: "https://aynplatform.app",
@@ -28,68 +28,68 @@ export const projects: Project[] = [
   },
   {
     title: "Real-time Forex Data Pipeline & Analytics Dashboard",
-    description: "Built an automated ETL pipeline using Apache Airflow for processing and analyzing large-scale data from Alpha Vantage API. Implemented data quality using medallion checks and monitoring.",
+    description: "ETL pipeline built with Apache Airflow for processing currency rates from Alpha Vantage API into Snowflake using Medallion architecture.",
     technologies: ["Apache Airflow", "Python", "Snowflake Cloud", "Docker", "Apache Kafka", "Apache Spark", "Streamlit"],
     source: "https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline",
     image: "/assets/projects/forex-pipeline.png"
   },
   {
     title: "Lakehouse Analytics Platform",
-    description: "A modern lakehouse analytics platform implementing the medallion architecture (Bronze/Silver/Gold) for scalable data processing and analytics workloads.",
+    description: "Lakehouse platform using Apache Spark and Delta Lake implementing Medallion architecture (Bronze, Silver, Gold) for schema enforcement.",
     technologies: ["Python", "Apache Spark", "Delta Lake", "Docker"],
     source: "https://github.com/Anwaribra/Lakehouse-Analytics-Platform"
   },
   {
     title: "RideTrack - Real-time Ride-Sharing Analytics",
-    description: "A real-time ride-sharing analytics platform that processes, stores, and visualizes large-scale trip data. Built with modern data engineering practices for high-throughput streaming analytics.",
+    description: "Real-time ride-sharing analytics system ingesting trip data via Apache Kafka, processing with Apache Spark, and storing in PostgreSQL for Streamlit dashboards.",
     technologies: ["Python", "Apache Kafka", "Apache Spark", "PostgreSQL", "Streamlit", "Docker"],
     source: "https://github.com/Anwaribra/RideTrack"
   },
   {
     title: "Real-Time EIS Pipeline",
-    description: "A comprehensive data pipeline that collects, transforms, validates, and analyzes Egypt's economic indicators in real-time using modern ETL architecture. Enables data-driven economic insights.",
+    description: "Data pipeline collecting, transforming, and validating Egypt's economic indicators using Apache Airflow, Kafka, and PostgreSQL.",
     technologies: ["Apache Airflow", "Python", "PostgreSQL", "Docker", "Apache Kafka"],
     source: "https://github.com/Anwaribra/Real-Time-EIS-Pipeline"
   },
   {
     title: "NASA Log Analytics",
-    description: "Developed a real-time analytics platform using Apache Kafka and Apache Spark for processing streaming data. Implemented data warehousing solutions using Snowflake.",
+    description: "Log analytics pipeline processing streaming server logs with Apache Kafka and Spark, storing analytics in Snowflake, and displaying metrics on Grafana.",
     technologies: ["Apache Kafka", "Apache Spark", "Apache Airflow", "PostgreSQL", "Grafana"],
     source: "https://github.com/Anwaribra/Log-Analytics-Pipeline"
   },
   {
     title: "IoT Fleet Monitoring System",
-    description: "An IoT-based fleet monitoring system that tracks vehicle performance, location, and analytics in real-time. Processes sensor data streams for fleet optimization and predictive maintenance.",
+    description: "Fleet monitoring system tracking vehicle performance and sensor telemetry using Apache Kafka, Spark, InfluxDB, and Grafana.",
     technologies: ["Python", "Apache Kafka", "Apache Spark", "InfluxDB", "Grafana", "Docker"],
     source: "https://github.com/Anwaribra/IoT-Fleet-Monitoring-System"
   },
   {
     title: "AdInsight360",
-    description: "Reddit Marketing Analytics Platform & Real-time Insights & AI-Powered Recommendations. Analyzes Reddit data to provide actionable marketing insights and AI-driven recommendations.",
+    description: "Reddit marketing analytics platform using Apache Airflow, dbt, and scikit-learn to ingest posts and generate campaign insights.",
     technologies: ["Apache Airflow", "Python", "scikit-learn", "DBT", "Docker", "Streamlit"],
     source: "https://github.com/Anwaribra/AdInsight360"
   },
   {
     title: "Sales ETL Pipeline (Informatica)",
-    description: "An enterprise-grade ETL pipeline built with Informatica for sales data processing, transformation, and loading into a data warehouse for business analytics.",
+    description: "ETL pipeline built with Informatica for sales transaction data processing, transformation, and loading into a SQL data warehouse.",
     technologies: ["Python", "Informatica", "SQL", "ETL"],
     source: "https://github.com/Anwaribra/Sales-ETL-Informatica"
   },
   {
     title: "ShopStream Data Warehouse",
-    description: "A modern data warehouse solution for e-commerce analytics. Processes and organizes shopping data for efficient querying and business intelligence reporting.",
+    description: "E-commerce data warehouse solution using Python, SQL, and Docker to process shopping data for analytical querying.",
     technologies: ["Python", "SQL", "Data Warehouse", "Docker"],
     source: "https://github.com/Anwaribra/ShopStream-Data-Warehouse"
   },
   {
     title: "Financial Fraud Detection System",
-    description: "Machine learning-based financial fraud detection system. Uses advanced algorithms to identify suspicious transactions and predict fraudulent activity in real-time.",
+    description: "Fraud detection system using scikit-learn, Pandas, and Python to train classification models on financial transaction datasets.",
     technologies: ["Python", "Jupyter", "scikit-learn", "Pandas", "Machine Learning"],
     source: "https://github.com/Anwaribra/Financial-Fraud-Detection-System"
   },
   {
     title: "Car Price Prediction ETL Pipeline",
-    description: "A robust ETL pipeline for car price prediction with machine learning integration. This project processes car sales data, trains a high-accuracy prediction model (98%+ R² score), and provides detailed performance tracking",
+    description: "ETL pipeline and regression model for car price prediction built with Python, scikit-learn, and PostgreSQL, achieving a 98%+ R² score.",
     technologies: ["Python", "Scikit-learn", "Matplotlib", "PostgreSQL"],
     source: "https://github.com/Anwaribra/car-price-prediction-etl"
   }
@@ -97,49 +97,61 @@ export const projects: Project[] = [
 
 export const experiences: Experience[] = [
   {
+    role: "Founder & Freelance Software Engineer",
+    company: "Personal Projects",
+    period: "Present",
+    description: "Building SaaS products, data platforms, AI-powered applications, and full-stack software from idea to deployment.",
+    achievements: [
+      "Building SaaS products using Next.js, FastAPI, PostgreSQL, and Python.",
+      "Designing ETL pipelines and backend systems.",
+      "Developing AI-powered features and workflow automation.",
+      "Maintaining production-ready personal products and technical projects."
+    ]
+  },
+  {
     role: "BI Engineer",
     company: "Link Development",
     period: "Jul 2025 – Jan 2026 · Hybrid",
-    description: "Designed and delivered business intelligence solutions to support data-driven decision-making across the organization.",
+    description: "Built BI dashboards and data models at Link Development to support internal decision-making.",
     achievements: [
-      "Built and maintained interactive dashboards and reports for stakeholders using BI tools",
-      "Developed and optimized data models and ETL pipelines for reporting workflows",
-      "Collaborated with cross-functional teams to translate business requirements into analytical solutions",
-      "Ensured data quality and consistency across reporting platforms"
+      "Built and maintained interactive dashboards and reports using Power BI",
+      "Designed star-schema data models and automated ETL pipelines for reporting",
+      "Translated business requirements from operational teams into SQL and BI reporting datasets",
+      "Validated data quality and schema consistency across reporting platforms"
     ]
   },
   {
     role: "Data Engineer",
     company: "DPEI",
     period: "Oct 2024 - May 2025",
-    description: "Developed and maintained scalable data pipelines for processing large-scale datasets.",
+    description: "Built ETL and streaming data pipelines using Apache Airflow, Kafka, Spark, and Snowflake.",
     achievements: [
       "Designed and implemented ETL pipelines using Apache Airflow, reducing data processing time by 40%",
-      "Built real-time streaming data solutions using Apache Kafka and Apache Spark",
-      "Optimized data warehouse queries in Snowflake, improving query performance by 35%",
-      "Collaborated with cross-functional teams to deliver data-driven insights"
+      "Built streaming data pipelines using Apache Kafka and Apache Spark",
+      "Optimized analytical queries in Snowflake, improving query performance by 35%",
+      "Delivered data models and ETL workflows alongside engineering teams"
     ]
   },
   {
     role: "Data Analyst Intern",
     company: "NeuronetiX",
     period: "Sep 2024 – Oct 2024",
-    description: "Analyzed complex datasets to extract actionable business insights.",
+    description: "Analyzed operational datasets at NeuronetiX to extract business trends using Python and SQL.",
     achievements: [
       "Created automated reporting dashboards using Python and SQL",
-      "Performed statistical analysis on large datasets to identify trends and patterns",
-      "Presented findings to stakeholders with clear visualizations and recommendations"
+      "Performed statistical analysis on datasets to identify operational trends",
+      "Presented data findings to stakeholders using visualizations and dashboards"
     ]
   },
   {
     role: "Business Intelligence Intern",
     company: "PwC",
     period: "Jun 2024 – Aug 2024",
-    description: "Supported business intelligence initiatives and data visualization projects.",
+    description: "Built client reporting dashboards and performed data quality checks at PwC.",
     achievements: [
-      "Developed interactive dashboards for client reporting using BI tools",
-      "Assisted in data quality assessments and validation processes",
-      "Contributed to data modeling and ETL pipeline development"
+      "Built interactive Power BI dashboards for client reporting engagements",
+      "Ran data quality validation checks across client datasets",
+      "Developed dimensional data models and ETL pipelines for reporting workflows"
     ]
   }
 ]

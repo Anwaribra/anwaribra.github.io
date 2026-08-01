@@ -75,7 +75,7 @@ export default function DotNav() {
             <span
               className={`block rounded-full transition-all duration-300 ${
                 activeSection === id
-                  ? 'w-2.5 h-2.5 bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]'
+                  ? 'w-2.5 h-2.5 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]'
                   : 'w-1.5 h-1.5 bg-gray-600 group-active:bg-gray-400'
               }`}
             />

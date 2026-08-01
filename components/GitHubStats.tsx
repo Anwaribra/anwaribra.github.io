@@ -273,7 +273,7 @@ export default function GitHubStats() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-gray-400">Top Languages</h3>
                 <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono bg-white/5 px-2.5 py-1 rounded-md border border-white/5">
-                  <FaCode className="text-green-400 text-[10px]" />
+                  <FaCode className="text-red-400 text-[10px]" />
                   {data.publicRepos} repos
                 </span>
               </div>

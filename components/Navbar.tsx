@@ -55,7 +55,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link
               href="#about"
-              className="text-lg font-bold tracking-tight hover:text-green-400 transition-colors"
+              className="text-lg font-bold tracking-tight hover:text-red-400 transition-colors"
             >
               <span className="gradient-text">AM</span>
             </Link>
@@ -79,9 +79,9 @@ export default function Navbar() {
                 href="/assets/docs/CV.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-green-500/30 transition-all duration-200"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-red-500/30 transition-all duration-200"
               >
-                <FaFileAlt className="text-green-400 text-xs" />
+                <FaFileAlt className="text-red-400 text-xs" />
                 Resume
               </Link>
             </div>
@@ -89,7 +89,7 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+              className="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <FaTimes /> : <FaBars />}
@@ -126,7 +126,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium text-green-400 hover:bg-white/5 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-white/5 transition-colors"
               >
                 <FaFileAlt className="text-xs" />
                 Download Resume

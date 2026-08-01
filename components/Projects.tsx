@@ -61,7 +61,7 @@ export default function Projects({ projects }: ProjectsProps) {
             >
               <div className="p-5 sm:p-6 flex flex-col flex-1">
                 <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight group-hover:text-green-400 transition-colors duration-200">
+                  <h3 className="text-base sm:text-lg font-bold tracking-tight group-hover:text-red-400 transition-colors duration-200">
                     {project.title}
                   </h3>
                   <div className="flex items-center gap-2 flex-shrink-0">
@@ -89,10 +89,10 @@ export default function Projects({ projects }: ProjectsProps) {
                   </div>
                   <div className="flex gap-2">
                     <span
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-white group-hover:bg-white/10 group-hover:border-green-500/30 transition-all duration-200"
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#1A1A1A] border border-[#2A2A2A] text-[#D4D4D4] group-hover:text-white group-hover:border-[#333333] transition-all duration-200"
                       aria-label={`View source code for ${project.title}`}
                     >
-                      <FaGithub className="text-sm" />
+                      <FaGithub className="text-xs" />
                       Source
                     </span>
                     {project.demo && (
@@ -101,10 +101,10 @@ export default function Projects({ projects }: ProjectsProps) {
                           e.stopPropagation()
                           window.open(project.demo, '_blank', 'noopener,noreferrer')
                         }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-green-500 text-black hover:bg-green-400 transition-all duration-200"
+                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200"
                         aria-label={`View live demo for ${project.title}`}
                       >
-                        <FaExternalLinkAlt className="text-xs" />
+                        <FaExternalLinkAlt className="text-[10px]" />
                         Demo
                       </button>
                     )}
@@ -126,7 +126,7 @@ export default function Projects({ projects }: ProjectsProps) {
         >
           <button
             onClick={() => setShowAll(!showAll)}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 hover:border-green-500/30 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 hover:border-red-500/30 transition-all duration-200"
           >
             {showAll ? (
               <>

@@ -44,43 +44,43 @@ export default function Connect() {
         {/* Email link */}
         <a
           href="mailto:anwarmousa100@gmail.com"
-          className="inline-flex items-center gap-3 px-5 py-3 rounded-lg text-sm font-medium bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 hover:border-green-500/30 transition-all duration-200 mb-6"
-          aria-label="Send email to anwarmousa100@gmail.com"
+          className="inline-flex items-center gap-3 px-5 py-3 rounded-lg text-sm font-medium bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 hover:border-red-500/30 transition-all duration-200 mb-6"
         >
-          <FaEnvelope />
-          anwarmousa100@gmail.com
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+          </span>
+          <span>Open to new opportunities</span>
         </a>
 
-        {/* Divider */}
-        <div className="section-divider my-6" />
-
-        {/* Social links */}
         <div className="flex flex-wrap gap-3">
-          {socialLinks.map((link, index) => {
-            const Icon = link.icon
-            return (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  href={link.href}
-                  className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 hover:border-green-500/30 transition-all duration-200"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.ariaLabel}
-                >
-                  <Icon className="text-base" />
-                  {link.label}
-                </Link>
-              </motion.div>
-            )
-          })}
+          <motion.a
+            href="mailto:anwarmousa100@gmail.com"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] active:scale-95 transition-all duration-200"
+          >
+            <FaEnvelope className="text-white" />
+            Email Me
+          </motion.a>
+          <motion.a
+            href="https://github.com/Anwaribra"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[#1A1A1A] border border-[#262626] text-[#D4D4D4] hover:text-white hover:bg-[#222222] active:scale-95 transition-all duration-200"
+          >
+            <FaGithub className="text-gray-400 group-hover:text-white" />
+            GitHub
+          </motion.a>
+          <motion.a
+            href="https://www.linkedin.com/in/anwar-mousa/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-[#1A1A1A] border border-[#262626] text-[#D4D4D4] hover:text-white hover:bg-[#222222] active:scale-95 transition-all duration-200"
+          >
+            <FaLinkedin className="text-gray-400 group-hover:text-white" />
+            LinkedIn
+          </motion.a>
         </div>
       </div>
-
-
     </motion.section>
   )
 }

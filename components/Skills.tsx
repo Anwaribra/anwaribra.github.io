@@ -14,7 +14,7 @@ interface SkillCategory {
 
 const skillsData: SkillCategory[] = [
   {
-    title: "Data Engineering Core",
+    title: "Data Engineering",
     skills: [
       { name: "ETL / ELT Pipelines" },
       { name: "Data Warehousing" },
@@ -25,7 +25,7 @@ const skillsData: SkillCategory[] = [
     ]
   },
   {
-    title: "Technologies & Frameworks",
+    title: "Infrastructure",
     skills: [
       { name: "Apache Airflow" },
       { name: "Apache Kafka" },
@@ -37,7 +37,7 @@ const skillsData: SkillCategory[] = [
     ]
   },
   {
-    title: "Programming Languages & Tools",
+    title: "Backend & Languages",
     skills: [
       { name: "Python" },
       { name: "SQL" },
@@ -72,36 +72,32 @@ export default function Skills() {
     >
       <h2 className="section-heading mb-8 sm:mb-10">Skills</h2>
 
-      {/* Glassmorphism Container wrapping the entire section */}
-      <div className="glow-card p-6 sm:p-8 md:p-10 backdrop-blur-md bg-white/[0.02] border border-white/10 rounded-2xl mt-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-          {skillsData.map((category, index) => (
-            <motion.div
-              key={index}
-              className="flex flex-col"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
-              <h3 className="text-xs font-bold uppercase tracking-wider text-green-400/90 mb-4 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
-                {category.title}
-              </h3>
-              
-              <div className="flex flex-wrap gap-2.5">
-                {category.skills.map((skill, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1.5 rounded-full text-xs bg-white/5 border border-white/5 text-gray-300 hover:text-green-400 hover:bg-green-400/5 hover:border-green-400/30 transition-all duration-200 cursor-default"
-                  >
-                    {skill.name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mt-4">
+        {skillsData.map((category, index) => (
+          <motion.div
+            key={category.title}
+            className="glow-card group p-6 sm:p-8 bg-[#111111]/90 backdrop-blur-xl border border-white/[0.08] rounded-3xl transition-all duration-200 ease-out hover:-translate-y-1 hover:bg-[#161616] hover:border-white/20"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.08 }}
+          >
+            <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-5">
+              {category.title}
+            </h3>
+
+            <div className="flex flex-wrap gap-2.5">
+              {category.skills.map((skill) => (
+                <span
+                  key={skill.name}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-[#D4D4D4] bg-[#161616]/80 border border-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-200"
+                >
+                  {skill.name}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </motion.section>
   )

@@ -1,7 +1,20 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const mono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+})
 
 const siteUrl = 'https://anwarmousa.me'
 
@@ -84,7 +97,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-black text-white font-sans">
+      <body className={`${inter.variable} ${mono.variable} bg-black text-white font-sans`}>
         <Script
           id="structured-data"
           type="application/ld+json"
