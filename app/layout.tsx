@@ -98,6 +98,20 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${mono.variable} bg-black text-white font-sans`}>
+        {/* Google Analytics GA4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-MTJ3REXMR7"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MTJ3REXMR7');
+          `}
+        </Script>
+
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -107,4 +121,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-} 
+}
