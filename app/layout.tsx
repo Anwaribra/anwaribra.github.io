@@ -20,30 +20,30 @@ const siteUrl = 'https://anwarmousa.me'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Anwar Mousa - Data Engineer Portfolio',
+  title: 'Anwar Ibrahim - Data Engineer Portfolio',
   description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights. Specialized in ETL processes, data modeling, and cloud technologies.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
-  authors: [{ name: 'Anwar Mousa' }],
-  creator: 'Anwar Mousa',
+  authors: [{ name: 'Anwar Ibrahim' }],
+  creator: 'Anwar Ibrahim',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Anwar Mousa - Data Engineer Portfolio',
+    title: 'Anwar Ibrahim - Data Engineer Portfolio',
     description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights.',
-    siteName: 'Anwar Mousa Portfolio',
+    siteName: 'Anwar Ibrahim Portfolio',
     images: [
       {
         url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Anwar Mousa - Data Engineer',
+        alt: 'Anwar Ibrahim - Data Engineer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anwar Mousa - Data Engineer Portfolio',
+    title: 'Anwar Ibrahim - Data Engineer Portfolio',
     description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights.',
     creator: '@_vincenzzo',
     images: [`${siteUrl}/og-image.png`],
@@ -72,7 +72,7 @@ export default function RootLayout({
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Anwar Mousa',
+    name: 'Anwar Ibrahim',
     jobTitle: 'Data Engineer',
     url: siteUrl,
     sameAs: [

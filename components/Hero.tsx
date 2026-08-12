@@ -25,7 +25,7 @@ export default function Hero() {
           <div className="relative w-full h-full rounded-[14px] overflow-hidden">
             <Image
               src="https://github.com/Anwaribra.png"
-              alt="Anwar Mousa"
+              alt="Anwar Ibrahim"
               fill
               className="object-cover profile-image"
               priority
@@ -44,7 +44,7 @@ export default function Hero() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                Anwar Mousa
+                Anwar Ibrahim
               </motion.h1>
 
               <motion.p

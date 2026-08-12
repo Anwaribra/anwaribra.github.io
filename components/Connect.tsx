@@ -11,13 +11,13 @@ export default function Connect() {
       href: "https://github.com/Anwaribra",
       icon: FaGithub,
       label: "GitHub",
-      ariaLabel: "Visit Anwar Mousa's GitHub profile"
+      ariaLabel: "Visit Anwar Ibrahim's GitHub profile"
     },
     {
       href: "https://www.linkedin.com/in/anwar-mousa/",
       icon: FaLinkedin,
       label: "LinkedIn",
-      ariaLabel: "Visit Anwar Mousa's LinkedIn profile"
+      ariaLabel: "Visit Anwar Ibrahim's LinkedIn profile"
     },
   ]
 
