@@ -99,7 +99,11 @@ export default function Projects({ projects }: ProjectsProps) {
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          window.open(project.demo, '_blank', 'noopener,noreferrer')
+                          if (project.demo?.startsWith('/')) {
+                            window.location.href = project.demo
+                          } else {
+                            window.open(project.demo, '_blank', 'noopener,noreferrer')
+                          }
                         }}
                         className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200"
                         aria-label={`View live demo for ${project.title}`}

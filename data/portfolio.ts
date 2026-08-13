@@ -18,6 +18,13 @@ export interface Experience {
 
 export const projects: Project[] = [
   {
+    title: "DataOps Agent",
+    description: "Agentic data observability, automated diagnosis, and closed-loop remediation platform. Integrates dlt ingestion, dbt (27 test assertions), Dagster asset orchestration, 22 FastMCP stdio tools, and a 30-min TTL human-in-the-loop governance gate.",
+    technologies: ["Python", "dlt", "PostgreSQL", "dbt-core", "Dagster", "FastMCP", "OpenRouter", "FastAPI", "Docker"],
+    source: "https://github.com/Anwaribra/DataOps-Agent",
+    demo: "/demo/dataops"
+  },
+  {
     title: "Ayn",
     description: "Quality assurance and accreditation platform built with Next.js, FastAPI, Python, and PostgreSQL. Features Horus AI assistant for document classification, gap analysis, and evidence management.",
     technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python", "AI/ML", "PostgreSQL"],
