@@ -87,13 +87,17 @@ export default function Skills() {
             </h3>
 
             <div className="flex flex-wrap gap-2.5">
-              {category.skills.map((skill) => (
-                <span
+              {category.skills.map((skill, skillIndex) => (
+                <motion.span
                   key={skill.name}
                   className="px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-[#D4D4D4] bg-[#161616]/80 border border-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-200"
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.25, delay: index * 0.05 + skillIndex * 0.025 }}
                 >
                   {skill.name}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>

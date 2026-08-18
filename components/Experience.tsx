@@ -29,10 +29,10 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
             <motion.div
               key={index}
               className="relative group"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -18, scale: 0.99 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
             >
               {/* Refined Timeline Node Dot */}
               <div 
@@ -46,7 +46,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
               </div>
 
               {/* Surface Elevated Glass Card */}
-              <div className="glow-card p-5 sm:p-6 bg-[#111111]/90 backdrop-blur-xl border border-white/[0.08] transition-all duration-[220ms] ease-out rounded-2xl group-hover:-translate-y-[2px] group-hover:bg-[#161616] group-hover:border-white/20">
+              <div className="experience-card glow-card p-5 sm:p-6 bg-[#111111]/90 backdrop-blur-xl border border-white/[0.08] transition-all duration-[220ms] ease-out rounded-2xl group-hover:-translate-y-[2px] group-hover:bg-[#161616] group-hover:border-white/20">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-4 mb-3">
                   <div>
                     <h3 className="text-base sm:text-lg font-bold tracking-tight text-white transition-colors duration-200">

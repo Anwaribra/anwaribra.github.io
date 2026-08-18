@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FaGithub, FaExternalLinkAlt, FaGraduationCap, FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGithub, FaGraduationCap, FaLayerGroup } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Project } from '@/data/portfolio'
 
@@ -12,14 +12,15 @@ interface ProjectsProps {
 const INITIAL_SHOW = 6
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
-      duration: 0.4,
-      delay: i * 0.08,
-      ease: [0.25, 0.46, 0.45, 0.94]
+      duration: 0.45,
+      delay: i * 0.06,
+      ease: [0.16, 1, 0.3, 1]
     }
   }),
   exit: { opacity: 0, y: -20, transition: { duration: 0.2 } }
@@ -30,10 +31,6 @@ export default function Projects({ projects }: ProjectsProps) {
 
   const visibleProjects = showAll ? projects : projects.slice(0, INITIAL_SHOW)
   const hasMore = projects.length > INITIAL_SHOW
-
-  const handleCardClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer')
-  }
 
   return (
     <motion.section
@@ -50,8 +47,7 @@ export default function Projects({ projects }: ProjectsProps) {
           {visibleProjects.map((project, index) => (
             <motion.div
               key={project.title}
-              onClick={() => handleCardClick(project.source)}
-              className="glow-card flex flex-col group overflow-hidden cursor-pointer"
+              className="project-card glow-card flex flex-col group overflow-hidden"
               variants={cardVariants}
               initial="hidden"
               animate="visible"
@@ -59,23 +55,37 @@ export default function Projects({ projects }: ProjectsProps) {
               custom={index}
               layout
             >
-              <div className="p-5 sm:p-6 flex flex-col flex-1">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="text-base sm:text-lg font-bold tracking-tight group-hover:text-red-400 transition-colors duration-200">
-                    {project.title}
-                  </h3>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    {project.isGraduation && (
-                      <span className="graduation-badge">
-                        <FaGraduationCap />
-                        Graduation
+              <div className="p-5 sm:p-6 flex flex-col flex-1 relative">
+                <div className="project-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div>
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <span className="project-type">
+                        <FaLayerGroup className="text-[10px]" />
+                        {project.demo ? 'Product-ready' : 'Engineering'}
                       </span>
+                      {project.isGraduation && (
+                        <span className="graduation-badge">
+                          <FaGraduationCap />
+                          Graduation
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight group-hover:text-red-300 transition-colors duration-200">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0 pt-1">
+                    {project.isGraduation && (
+                      <span className="h-2 w-2 rounded-full bg-red-400 shadow-[0_0_12px_rgba(248,113,113,0.9)]" aria-hidden="true" />
                     )}
-                    <FaGithub className="text-gray-600 group-hover:text-white transition-colors duration-200" />
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500 mb-4 leading-relaxed flex-1">
+                <p className="text-sm text-zinc-400 mb-5 leading-relaxed flex-1">
                   {project.description}
                 </p>
 
@@ -88,29 +98,27 @@ export default function Projects({ projects }: ProjectsProps) {
                     ))}
                   </div>
                   <div className="flex gap-2">
-                    <span
-                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#1A1A1A] border border-[#2A2A2A] text-[#D4D4D4] group-hover:text-white group-hover:border-[#333333] transition-all duration-200"
+                    <a
+                      href={project.source}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#1A1A1A] border border-[#2A2A2A] text-[#D4D4D4] hover:text-white hover:border-[#444444] hover:bg-[#222222] transition-all duration-200"
                       aria-label={`View source code for ${project.title}`}
                     >
                       <FaGithub className="text-xs" />
                       Source
-                    </span>
+                    </a>
                     {project.demo && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          if (project.demo?.startsWith('/')) {
-                            window.location.href = project.demo
-                          } else {
-                            window.open(project.demo, '_blank', 'noopener,noreferrer')
-                          }
-                        }}
-                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200"
+                      <a
+                        href={project.demo}
+                        target={project.demo.startsWith('/') ? undefined : '_blank'}
+                        rel={project.demo.startsWith('/') ? undefined : 'noopener noreferrer'}
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200"
                         aria-label={`View live demo for ${project.title}`}
                       >
                         <FaExternalLinkAlt className="text-[10px]" />
                         Demo
-                      </button>
+                      </a>
                     )}
                   </div>
                 </div>

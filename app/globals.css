@@ -85,7 +85,7 @@ body::before {
 .glow-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 20px;
+  border-radius: 18px;
   transition: all 0.2s ease-out;
   position: relative;
   overflow: hidden;
@@ -138,6 +138,53 @@ body::before {
   background: #222222;
   color: #ffffff;
   border-color: #333333;
+}
+
+.project-card {
+  min-height: 328px;
+  isolation: isolate;
+}
+
+.project-card::after,
+.experience-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 90% 0%, rgba(255, 59, 48, 0.12), transparent 32%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.project-card:hover::after,
+.experience-card:hover::after {
+  opacity: 1;
+}
+
+.project-index {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: rgba(255, 255, 255, 0.035);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.project-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #a1a1aa;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
 }
 
 /* Typing cursor */
@@ -339,7 +386,30 @@ a, button {
 }
 
 @media (max-width: 640px) {
+  .project-card {
+    min-height: auto;
+  }
+
+  .project-index {
+    font-size: 44px;
+  }
+
+  .section-divider {
+    margin: 1.5rem 0;
+  }
+
   .pipeline-container {
     padding: 12px 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
