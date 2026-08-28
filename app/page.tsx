@@ -9,13 +9,15 @@ import GitHubStats from '@/components/GitHubStats'
 import Connect from '@/components/Connect'
 import BackToTop from '@/components/BackToTop'
 import DotNav from '@/components/DotNav'
+import FloatingDock from '@/components/FloatingDock'
 import { projects, experiences, certifications } from '@/data/portfolio'
 
 export default function Home() {
   return (
     <>
       <DotNav />
-      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto">
+      <FloatingDock />
+      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto pb-24 md:pb-12">
         <Hero />
         <div className="section-divider" />
         <ExperienceSection experiences={experiences} />
