@@ -25,6 +25,12 @@ export const projects: Project[] = [
     demo: "/demo/dataops"
   },
   {
+    title: "ResolveAI",
+    description: "AI-powered support ticket triage and auto-resolution agent with risk-aware decision engine, RAG grounded generation via pgvector, dbt star-schema warehouse, Apache Airflow orchestration, and Ragas/DeepEval evaluation pipeline.",
+    technologies: ["Python", "PostgreSQL", "pgvector", "dbt-core", "FastAPI", "Google GenAI", "Apache Airflow", "Streamlit", "Docker"],
+    source: "https://github.com/Anwaribra/ResolveAI"
+  },
+  {
     title: "Ayn",
     description: "Quality assurance and accreditation platform built with Next.js, FastAPI, Python, and PostgreSQL. Features Horus AI assistant for document classification, gap analysis, and evidence management.",
     technologies: ["TypeScript", "Next.js", "React", "FastAPI", "Python", "AI/ML", "PostgreSQL"],
