@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="NeuronetiX">
+  <rect width="128" height="128" rx="30" fill="#101114"/>
+  <path d="M29 86V42h12l29 25V42h13v44H71L42 61v25H29Z" fill="#f5f5f5"/>
+  <path d="M88 42h13L86 64l16 22H88L79 73l-9 13H57l16-22-15-22h13l8 12 9-12Z" fill="#a5b4fc"/>
+  <circle cx="41" cy="40" r="4" fill="#a5b4fc"/>
+  <circle cx="88" cy="88" r="4" fill="#a5b4fc"/>
+</svg>

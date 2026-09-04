@@ -72,25 +72,25 @@ export default function Skills() {
     >
       <h2 className="section-heading mb-8 sm:mb-10">Skills</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mt-4">
+      <div className="skills-list mt-4">
         {skillsData.map((category, index) => (
           <motion.div
             key={category.title}
-            className="glow-card group p-6 sm:p-8 bg-[#111111]/90 backdrop-blur-xl border border-white/[0.08] rounded-3xl transition-all duration-200 ease-out hover:-translate-y-1 hover:bg-[#161616] hover:border-white/20"
+            className="skills-row"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.08 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-5">
+            <h3 className="skills-category">
               {category.title}
             </h3>
 
-            <div className="flex flex-wrap gap-2.5">
+            <div className="skills-cloud">
               {category.skills.map((skill, skillIndex) => (
                 <motion.span
                   key={skill.name}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-[#D4D4D4] bg-[#161616]/80 border border-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-200"
+                  className="skills-token"
                   initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

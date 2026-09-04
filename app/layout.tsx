@@ -1,20 +1,11 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { Inter, JetBrains_Mono } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
 
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-})
 
 const siteUrl = 'https://anwarmousa.me'
 
@@ -97,7 +88,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${mono.variable} bg-black text-white font-sans`}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-black text-white font-sans antialiased`}>
+
+
         {/* Google Analytics GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MTJ3REXMR7"

@@ -12,6 +12,8 @@ export interface Experience {
   role: string
   company: string
   period: string
+  url?: string
+  logo?: string
   description?: string
   achievements?: string[]
 }
@@ -110,21 +112,24 @@ export const projects: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    role: "Founder & Freelance Software Engineer",
-    company: "Personal Projects",
+    role: "Founder & Software Engineer",
+    company: "ThinkerLab",
     period: "Present",
-    description: "Building SaaS products, data platforms, AI-powered applications, and full-stack software from idea to deployment.",
+    url: "https://www.thinkerlab.tech/",
+    logo: "/assets/logos/thinkerlab.png",
+    description: "Building ThinkerLab as a small product studio focused on data platforms, AI-powered workflows, and practical software systems.",
     achievements: [
-      "Building SaaS products using Next.js, FastAPI, PostgreSQL, and Python.",
-      "Designing ETL pipelines and backend systems.",
-      "Developing AI-powered features and workflow automation.",
-      "Maintaining production-ready personal products and technical projects."
+      "Founded ThinkerLab to design and ship focused software products across data, AI, and web systems.",
+      "Built SaaS-style products using Next.js, FastAPI, PostgreSQL, and Python.",
+      "Designed ETL pipelines, backend systems, and AI-powered workflow automation.",
+      "Maintained production-ready products and technical projects from concept to deployment."
     ]
   },
   {
     role: "BI Engineer",
     company: "Link Development",
     period: "Jul 2025 – Jan 2026 · Hybrid",
+    logo: "/assets/logos/link-development.png",
     description: "Built BI dashboards and data models at Link Development to support internal decision-making.",
     achievements: [
       "Built and maintained interactive dashboards and reports using Power BI",
@@ -137,6 +142,7 @@ export const experiences: Experience[] = [
     role: "Data Engineer",
     company: "DPEI",
     period: "Oct 2024 - May 2025",
+    logo: "/assets/logos/depi.svg",
     description: "Built ETL and streaming data pipelines using Apache Airflow, Kafka, Spark, and Snowflake.",
     achievements: [
       "Designed and implemented ETL pipelines using Apache Airflow, reducing data processing time by 40%",
@@ -149,6 +155,7 @@ export const experiences: Experience[] = [
     role: "Data Analyst Intern",
     company: "NeuronetiX",
     period: "Sep 2024 – Oct 2024",
+    logo: "/assets/logos/neuronetix.svg",
     description: "Analyzed operational datasets at NeuronetiX to extract business trends using Python and SQL.",
     achievements: [
       "Created automated reporting dashboards using Python and SQL",
@@ -160,6 +167,7 @@ export const experiences: Experience[] = [
     role: "Business Intelligence Intern",
     company: "PwC",
     period: "Jun 2024 – Aug 2024",
+    logo: "/assets/logos/pwc.png",
     description: "Built client reporting dashboards and performed data quality checks at PwC.",
     achievements: [
       "Built interactive Power BI dashboards for client reporting engagements",

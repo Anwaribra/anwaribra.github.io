@@ -3,62 +3,31 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaHome, FaFolderOpen, FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa'
+import { Home, FolderGit2, Mail } from 'lucide-react'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
 
 const dockItems = [
-  {
-    id: 'about',
-    label: 'Home',
-    icon: FaHome,
-    href: '#about',
-    external: false,
-  },
-  {
-    id: 'projects',
-    label: 'Projects',
-    icon: FaFolderOpen,
-    href: '#projects',
-    external: false,
-  },
-  {
-    id: 'divider-1',
-    isDivider: true,
-  },
-  {
-    id: 'github',
-    label: 'GitHub',
-    icon: FaGithub,
-    href: 'https://github.com/Anwaribra',
-    external: true,
-  },
-  {
-    id: 'linkedin',
-    label: 'LinkedIn',
-    icon: FaLinkedin,
-    href: 'https://www.linkedin.com/in/anwar-mousa/',
-    external: true,
-  },
-  {
-    id: 'connect',
-    label: 'Contact',
-    icon: FaEnvelope,
-    href: '#connect',
-    external: false,
-  },
+  { id: 'about', label: 'Home', icon: Home, href: '#about' },
+  { id: 'projects', label: 'Projects', icon: FolderGit2, href: '#projects' },
+  { id: 'divider-1', isDivider: true },
+  { id: 'github', label: 'GitHub', icon: FaGithub, href: 'https://github.com/Anwaribra', external: true },
+  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/in/anwar-mousa/', external: true },
+  { id: 'divider-2', isDivider: true },
+  { id: 'connect', label: 'Contact', icon: Mail, href: '#connect' },
 ]
 
 export default function FloatingDock() {
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
   const [activeSection, setActiveSection] = useState<string>('about')
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
       const connectEl = document.getElementById('connect')
       const projectsEl = document.getElementById('projects')
 
-      if (connectEl && connectEl.getBoundingClientRect().top <= window.innerHeight * 0.5) {
+      if (connectEl && connectEl.getBoundingClientRect().top <= window.innerHeight * 0.55) {
         setActiveSection('connect')
-      } else if (projectsEl && projectsEl.getBoundingClientRect().top <= window.innerHeight * 0.4 && projectsEl.getBoundingClientRect().bottom > 150) {
+      } else if (projectsEl && projectsEl.getBoundingClientRect().top <= window.innerHeight * 0.45 && projectsEl.getBoundingClientRect().bottom > 150) {
         setActiveSection('projects')
       } else {
         setActiveSection('about')
@@ -78,19 +47,22 @@ export default function FloatingDock() {
   }
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden pointer-events-none">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden pointer-events-none px-4 select-none">
       <motion.nav
-        className="pointer-events-auto relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0a0a0d]/85 backdrop-blur-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.85)] ring-1 ring-white/5"
-        initial={{ y: 80, opacity: 0 }}
+        className="pointer-events-auto relative flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#0d0d12]/85 border border-white/20 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] overflow-hidden"
+        initial={{ y: 60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 350, damping: 26, delay: 0.1 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 28 }}
       >
+        {/* Subtle top liquid glare */}
+        <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
         {dockItems.map((item) => {
           if (item.isDivider) {
             return (
               <div
                 key={item.id}
-                className="w-[1px] h-4 bg-white/10 mx-0.5"
+                className="h-3.5 w-[1px] bg-white/15 mx-1 shrink-0"
                 aria-hidden="true"
               />
             )
@@ -103,35 +75,35 @@ export default function FloatingDock() {
             <motion.div
               className={`relative flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
                 isActive
-                  ? 'bg-white/[0.09] text-white shadow-[0_0_12px_rgba(255,255,255,0.1)]'
-                  : 'bg-transparent text-zinc-400 hover:text-white hover:bg-white/[0.05]'
+                  ? 'bg-white/20 text-white shadow-[0_0_12px_rgba(255,255,255,0.2)]'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/10'
               }`}
               whileHover={{ scale: 1.15, y: -2 }}
-              whileTap={{ scale: 0.92 }}
+              whileTap={{ scale: 0.88 }}
               onMouseEnter={() => setActiveTooltip(item.id)}
               onMouseLeave={() => setActiveTooltip(null)}
               onTouchStart={() => setActiveTooltip(item.id)}
-              onTouchEnd={() => setTimeout(() => setActiveTooltip(null), 1000)}
+              onTouchEnd={() => setTimeout(() => setActiveTooltip(null), 800)}
             >
-              <IconComponent className={`text-sm ${isActive ? 'text-red-400' : ''}`} />
+              <IconComponent className="w-4 h-4 stroke-[1.8]" />
 
-              {/* Minimal Red Glowing Active Dot */}
+              {/* Minimal active glow dot */}
               {isActive && (
                 <motion.span
-                  layoutId="activeDockDot"
-                  className="absolute -bottom-0.5 w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_#ef4444]"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  layoutId="active-dock-dot"
+                  className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 />
               )}
 
-              {/* Glassmorphism Floating Tooltip */}
+              {/* Floating Tooltip */}
               <AnimatePresence>
                 {activeTooltip === item.id && (
                   <motion.div
-                    className="absolute -top-9 left-1/2 -translate-x-1/2 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-zinc-200 bg-[#121216]/95 border border-white/10 rounded-md backdrop-blur-xl whitespace-nowrap shadow-md pointer-events-none"
-                    initial={{ opacity: 0, y: 4, scale: 0.9 }}
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 text-[10px] font-mono font-bold tracking-wider text-zinc-100 bg-[#16161c] border border-white/25 rounded-full backdrop-blur-2xl whitespace-nowrap shadow-2xl pointer-events-none"
+                    initial={{ opacity: 0, y: 4, scale: 0.88 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 3, scale: 0.9 }}
+                    exit={{ opacity: 0, y: 3, scale: 0.88 }}
                     transition={{ duration: 0.12 }}
                   >
                     {item.label}
@@ -161,6 +133,7 @@ export default function FloatingDock() {
               key={item.id}
               onClick={() => handleScrollTo(item.href!)}
               aria-label={item.label}
+              type="button"
               className="relative flex items-center justify-center"
             >
               {buttonContent}
@@ -171,3 +144,7 @@ export default function FloatingDock() {
     </div>
   )
 }
+
+
+
+

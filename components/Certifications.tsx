@@ -3,33 +3,27 @@
 import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { FaAws, FaExternalLinkAlt } from 'react-icons/fa'
-import { SiGoogle, SiGooglecloud } from 'react-icons/si'
+import { ExternalLink, Award, ShieldCheck } from 'lucide-react'
+import { FaAws } from 'react-icons/fa'
+import { SiGoogle } from 'react-icons/si'
 import { Certification } from '@/data/portfolio'
 
 interface CertificationsProps {
   certifications: Certification[]
 }
 
-const ISSUER_META: Record<string, { icon: React.ReactNode; glowBg: string; border: string }> = {
+const ISSUER_META: Record<string, { icon: React.ReactNode; tag: string }> = {
   "Amazon Web Services": {
-    icon: <FaAws className="text-4xl text-[#FF9900]" />,
-    glowBg: "bg-[#FF9900]/20",
-    border: "border-[#FF9900]/20",
+    icon: <FaAws className="text-3xl text-zinc-100 group-hover:text-[#FF9900] transition-colors" />,
+    tag: "AWS Certified",
   },
   Google: {
-    icon: <SiGoogle className="text-3xl text-[#4285F4]" />,
-    glowBg: "bg-[#4285F4]/20",
-    border: "border-[#4285F4]/20",
+    icon: <SiGoogle className="text-2xl text-zinc-100 group-hover:text-[#4285F4] transition-colors" />,
+    tag: "Google Professional",
   },
   "Digital Egypt Pioneers Initiative (DEPI)": {
-    icon: (
-      <div className="flex items-center leading-none">
-        <span className="text-xs font-mono font-bold tracking-widest text-[#00D2FF]">DEPI</span>
-      </div>
-    ),
-    glowBg: "bg-[#00D2FF]/20",
-    border: "border-[#00D2FF]/25",
+    icon: <ShieldCheck className="w-6 h-6 text-zinc-100 group-hover:text-cyan-400 transition-colors" />,
+    tag: "DEPI Specialist",
   },
 }
 
@@ -43,84 +37,71 @@ export default function Certifications({ certifications }: CertificationsProps) 
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="section-heading mb-8 sm:mb-10">Certifications</h2>
+      <h2 className="section-heading mb-6 sm:mb-8">Certifications</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-4">
         {certifications.map((cert, index) => {
           const meta = ISSUER_META[cert.issuer] ?? {
-            icon: <SiGooglecloud className="text-3xl text-zinc-300" />,
-            glowBg: "bg-white/10",
-            border: "border-white/10",
+            icon: <Award className="w-6 h-6 text-zinc-100" />,
+            tag: "Verified Certificate",
           }
 
-          const CardContent = (
-            <div
-              className={`glow-card group p-6 sm:p-7 flex flex-col justify-between h-full bg-[#111111]/90 backdrop-blur-xl border border-white/[0.08] rounded-2xl transition-all duration-[220ms] ease-out hover:-translate-y-[6px] hover:bg-[#161616] hover:border-white/20 hover:shadow-[0_20px_40px_rgba(0,0,0,0.85)] ${
-                cert.url ? 'cursor-pointer' : ''
-              }`}
-            >
+          const CardInner = (
+            <div className="flex flex-col justify-between h-full p-5 rounded-2xl bg-[#121214]/60 border border-white/[0.08] hover:border-white/20 transition-all duration-200 group hover:-translate-y-1 shadow-sm">
               <div>
-                {/* Large Logo Container with Subtle Radial Icon Glow */}
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#181818] border border-white/10 flex items-center justify-center mb-6 overflow-hidden transition-colors duration-200 group-hover:border-white/20">
-                  <div 
-                    className={`absolute inset-0 rounded-full blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${meta.glowBg}`}
-                    aria-hidden="true" 
-                  />
-                  <div className="relative z-10">
+                {/* Brand Badge Icon + Tag */}
+                <div className="flex items-center justify-between gap-2 mb-4">
+                  <div className="w-11 h-11 rounded-xl bg-[#18181b] border border-white/10 flex items-center justify-center p-2 group-hover:border-white/20 transition-colors shadow-sm">
                     {meta.icon}
                   </div>
+                  <span className="text-[10px] font-mono font-medium text-zinc-400 bg-white/[0.04] border border-white/10 px-2.5 py-1 rounded-full">
+                    {meta.tag}
+                  </span>
                 </div>
 
-                {/* Typography Hierarchy */}
-                <h3 className="text-base sm:text-lg font-bold text-white leading-snug tracking-tight mb-1.5 group-hover:text-white transition-colors duration-200">
+                {/* Title & Issuer */}
+                <h3 className="text-base font-bold text-white tracking-tight leading-snug mb-1.5 group-hover:text-zinc-100 transition-colors">
                   {cert.name}
                 </h3>
-                <p className="text-xs sm:text-sm font-medium text-[#A3A3A3] mb-6">
+                <p className="text-xs font-mono text-zinc-400 mb-4">
                   {cert.issuer}
                 </p>
               </div>
 
-              {/* Minimal Credential Action Link */}
+              {/* Verify Credential Action */}
               {cert.url && (
-                <div className="flex items-center justify-between pt-4 border-t border-[#1F1F1F] mt-auto">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#A3A3A3] group-hover:text-white transition-colors duration-200">
-                    View Credential
-                    <FaExternalLinkAlt className="text-[10px] text-[#A3A3A3] group-hover:text-white transition-colors duration-200" />
+                <div className="pt-3 border-t border-white/[0.06] mt-auto flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-zinc-400 group-hover:text-white transition-colors">
+                    <span>Verify Credential</span>
+                    <ExternalLink className="w-3 h-3 stroke-[1.8]" />
                   </span>
                 </div>
               )}
             </div>
           )
 
-          return cert.url ? (
+          return (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              transition={{ duration: 0.35, delay: index * 0.08 }}
               className="h-full"
             >
-              <Link
-                href={cert.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`View ${cert.name} credential`}
-                className="block h-full"
-              >
-                {CardContent}
-              </Link>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="h-full"
-            >
-              {CardContent}
+              {cert.url ? (
+                <Link
+                  href={cert.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Verify ${cert.name}`}
+                  className="block h-full cursor-pointer"
+                >
+                  {CardInner}
+                </Link>
+              ) : (
+                CardInner
+              )}
             </motion.div>
           )
         })}
@@ -128,3 +109,4 @@ export default function Certifications({ certifications }: CertificationsProps) 
     </motion.section>
   )
 }
+

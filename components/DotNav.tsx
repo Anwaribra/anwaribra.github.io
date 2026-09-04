@@ -46,7 +46,7 @@ export default function DotNav() {
   }
 
   return (
-    <nav className="fixed right-3 top-1/2 -translate-y-1/2 z-50 hidden flex-col items-center gap-3 sm:flex md:hidden">
+    <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden flex-col items-center gap-3 lg:flex">
       {sections.map(({ id, label }) => (
         <div key={id} className="relative flex items-center">
           {/* Label tooltip */}

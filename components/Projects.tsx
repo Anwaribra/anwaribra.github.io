@@ -1,36 +1,40 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGithub, FaGraduationCap, FaLayerGroup } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  ExternalLink, 
+  ChevronsUpDown, 
+  X 
+} from 'lucide-react'
+import { FaGithub } from 'react-icons/fa'
 import { Project } from '@/data/portfolio'
 
 interface ProjectsProps {
   projects: Project[]
 }
 
-const INITIAL_SHOW = 6
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.98 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.45,
-      delay: i * 0.06,
-      ease: [0.16, 1, 0.3, 1]
-    }
-  }),
-  exit: { opacity: 0, y: -20, transition: { duration: 0.2 } }
-}
+// Precise Gamma (γ) vector icon matching user screenshot
+const ProjectLogoIcon = ({ className = "w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M7 4.5c1.2 3.8 3.5 8 5.2 12.5 0 0-2.2 2.2-2 0s2.2-4.2 3.8-6L17.5 4.5" />
+  </svg>
+)
 
 export default function Projects({ projects }: ProjectsProps) {
-  const [showAll, setShowAll] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
-  const visibleProjects = showAll ? projects : projects.slice(0, INITIAL_SHOW)
-  const hasMore = projects.length > INITIAL_SHOW
+  // Display top 4 projects when collapsed, or all projects when expanded
+  const INITIAL_SHOW = 4
+  const visibleProjects = isExpanded ? projects : projects.slice(0, INITIAL_SHOW)
 
   return (
     <motion.section
@@ -38,119 +42,131 @@ export default function Projects({ projects }: ProjectsProps) {
       className="py-8 sm:py-12"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="section-heading mb-8 sm:mb-10">Projects</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mt-4">
+      {/* Header Row: Title + Toggle Button */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="section-heading mb-0">Projects</h2>
+
+        {projects.length > INITIAL_SHOW && (
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-medium text-zinc-300 bg-white/[0.05] border border-white/10 hover:border-white/25 hover:text-white rounded-lg transition-all duration-200 cursor-pointer active:scale-95 shadow-sm"
+          >
+            {isExpanded ? (
+              <>
+                <span>See less</span>
+                <X className="w-3.5 h-3.5 stroke-[2]" />
+              </>
+            ) : (
+              <>
+                <span>See all projects ({projects.length})</span>
+                <ChevronsUpDown className="w-3.5 h-3.5 stroke-[2]" />
+              </>
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* Clean Borderless List View (Experience Style - Max Katz) */}
+      <div className="divide-y divide-white/[0.06] pt-2">
         <AnimatePresence mode="popLayout">
-          {visibleProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              className="project-card glow-card flex flex-col group overflow-hidden"
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              custom={index}
-              layout
-            >
-              <div className="p-5 sm:p-6 flex flex-col flex-1 relative">
-                <div className="project-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, '0')}
+          {visibleProjects.map((project, index) => {
+            return (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.25, delay: index * 0.04 }}
+                className="py-6 first:pt-2 last:pb-2 flex items-start gap-3 sm:gap-4 group"
+              >
+                {/* Project Icon Badge with Custom V Logo matching user drawing */}
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center p-1.5 shrink-0 group-hover:border-white/20 transition-colors shadow-sm mt-0.5">
+                  <ProjectLogoIcon className="w-5 h-5 text-zinc-400 group-hover:text-white stroke-[1.8] transition-colors" />
                 </div>
 
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div>
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <span className="project-type">
-                        <FaLayerGroup className="text-[10px]" />
-                        {project.demo ? 'Product-ready' : 'Engineering'}
-                      </span>
-                      {project.isGraduation && (
-                        <span className="graduation-badge">
-                          <FaGraduationCap />
-                          Graduation
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold tracking-tight group-hover:text-red-300 transition-colors duration-200">
+                {/* Right Content */}
+                <div className="flex-1 min-w-0">
+                  {/* Top Line: Title & Action Links */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-zinc-100 transition-colors">
                       {project.title}
                     </h3>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0 pt-1">
-                    {project.isGraduation && (
-                      <span className="h-2 w-2 rounded-full bg-red-400 shadow-[0_0_12px_rgba(248,113,113,0.9)]" aria-hidden="true" />
-                    )}
-                  </div>
-                </div>
 
-                <p className="text-sm text-zinc-400 mb-5 leading-relaxed flex-1">
-                  {project.description}
-                </p>
+                    {/* Action Links */}
+                    <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                      <a
+                        href={project.source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-mono font-medium transition-all duration-200"
+                        aria-label={`Source code for ${project.title}`}
+                      >
+                        <FaGithub className="text-xs" />
+                        <span>Source</span>
+                      </a>
+                      {project.demo && (
+                        <a
+                          href={project.demo}
+                          target={project.demo.startsWith('/') ? undefined : '_blank'}
+                          rel={project.demo.startsWith('/') ? undefined : 'noopener noreferrer'}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white text-black hover:bg-zinc-200 text-xs font-mono font-medium transition-all duration-200 shadow-sm"
+                          aria-label={`Live Demo for ${project.title}`}
+                        >
+                          <span>Demo</span>
+                          <ExternalLink className="w-3 h-3 stroke-[2]" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
 
-                <div className="mt-auto">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.technologies.map((tech, i) => (
-                      <span key={i} className="tech-badge">
+                  {/* Description */}
+                  <p className="text-xs sm:text-sm text-zinc-400/90 leading-relaxed mt-2">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {project.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-0.5 rounded-md text-[11px] font-mono text-zinc-400 bg-white/[0.04] border border-white/10"
+                      >
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-2">
-                    <a
-                      href={project.source}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#1A1A1A] border border-[#2A2A2A] text-[#D4D4D4] hover:text-white hover:border-[#444444] hover:bg-[#222222] transition-all duration-200"
-                      aria-label={`View source code for ${project.title}`}
-                    >
-                      <FaGithub className="text-xs" />
-                      Source
-                    </a>
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target={project.demo.startsWith('/') ? undefined : '_blank'}
-                        rel={project.demo.startsWith('/') ? undefined : 'noopener noreferrer'}
-                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200"
-                        aria-label={`View live demo for ${project.title}`}
-                      >
-                        <FaExternalLinkAlt className="text-[10px]" />
-                        Demo
-                      </a>
-                    )}
-                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            )
+          })}
         </AnimatePresence>
       </div>
 
-      {/* Show More / Show Less Button */}
-      {hasMore && (
-        <motion.div
-          className="flex justify-center mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
+      {/* Bottom Toggle Button if expanded */}
+      {projects.length > INITIAL_SHOW && (
+        <div className="flex justify-center mt-6">
           <button
-            onClick={() => setShowAll(!showAll)}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 hover:border-red-500/30 transition-all duration-200"
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-medium text-zinc-300 bg-white/[0.05] border border-white/10 hover:border-white/25 hover:text-white rounded-xl transition-all duration-200 cursor-pointer active:scale-95 shadow-sm"
           >
-            {showAll ? (
+            {isExpanded ? (
               <>
-                Show Less <FaChevronUp className="text-xs" />
+                <span>See less</span>
+                <X className="w-3.5 h-3.5 stroke-[2]" />
               </>
             ) : (
               <>
-                Show All Projects ({projects.length}) <FaChevronDown className="text-xs" />
+                <span>See all projects ({projects.length})</span>
+                <ChevronsUpDown className="w-3.5 h-3.5 stroke-[2]" />
               </>
             )}
           </button>
-        </motion.div>
+        </div>
       )}
     </motion.section>
   )

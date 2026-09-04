@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { FaCode } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
+import { ExternalLink } from 'lucide-react'
 
 const GITHUB_USERNAME = 'Anwaribra'
 
@@ -102,7 +103,7 @@ function ContributionGraph({ username }: { username: string }) {
     const labels: { label: string; col: number }[] = []
     let lastMonth = -1
     weeksArr.forEach((week, weekIdx) => {
-      const validDay = week.find(d => d.date)
+      const validDay = week.find((d) => d.date)
       if (validDay && validDay.date) {
         const month = new Date(validDay.date).getMonth()
         if (month !== lastMonth) {
@@ -117,7 +118,7 @@ function ContributionGraph({ username }: { username: string }) {
 
   if (loading) {
     return (
-      <div className="glow-card p-5 sm:p-6 animate-pulse">
+      <div className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] animate-pulse">
         <div className="h-4 bg-white/5 rounded w-1/3 mb-4" />
         <div className="h-24 bg-white/5 rounded" />
       </div>
@@ -136,29 +137,39 @@ function ContributionGraph({ username }: { username: string }) {
 
   return (
     <motion.div
-      className="glow-card p-5 sm:p-6"
-      initial={{ opacity: 0, y: 20 }}
+      className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] hover:border-white/20 transition-all duration-200"
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: 0.15 }}
+      transition={{ duration: 0.35, delay: 0.1 }}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-400">
-          {totalContributions.toLocaleString()} contributions in the last year
+        <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-300">
+          <span className="text-white font-bold">{totalContributions.toLocaleString()}</span> contributions in the last year
         </h3>
+
+        <a
+          href={`https://github.com/${username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white transition-colors"
+        >
+          <span>@{username}</span>
+          <ExternalLink className="w-3 h-3 stroke-[1.8]" />
+        </a>
       </div>
 
-      <div className="overflow-x-auto pb-2">
+      <div className="overflow-x-auto pb-2 no-scrollbar">
         <svg width={svgWidth} height={svgHeight} className="block" style={{ minWidth: svgWidth }}>
           {monthLabels.map((m, i) => (
-            <text key={i} x={labelWidth + m.col * totalCellSize} y={12} fill="#8b949e" fontSize="10" fontFamily="Inter, sans-serif">
+            <text key={i} x={labelWidth + m.col * totalCellSize} y={12} fill="#71717a" fontSize="10" fontFamily="var(--font-geist-mono), monospace">
               {m.label}
             </text>
           ))}
 
           {DAYS.map((day, i) => (
             day && (
-              <text key={i} x={0} y={topPadding + i * totalCellSize + cellSize - 1} fill="#8b949e" fontSize="10" fontFamily="Inter, sans-serif">
+              <text key={i} x={0} y={topPadding + i * totalCellSize + cellSize - 1} fill="#71717a" fontSize="10" fontFamily="var(--font-geist-mono), monospace">
                 {day}
               </text>
             )
@@ -174,10 +185,10 @@ function ContributionGraph({ username }: { username: string }) {
                   y={topPadding + dayIdx * totalCellSize}
                   width={cellSize}
                   height={cellSize}
-                  rx={2}
-                  ry={2}
+                  rx={2.5}
+                  ry={2.5}
                   fill={LEVEL_COLORS[day.level] || LEVEL_COLORS[0]}
-                  className="cursor-pointer hover:opacity-70 transition-opacity"
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <title>{`${day.count} contributions on ${day.date}`}</title>
                 </rect>
@@ -187,10 +198,10 @@ function ContributionGraph({ username }: { username: string }) {
         </svg>
       </div>
 
-      <div className="flex items-center justify-end gap-1.5 mt-3 text-[11px] text-gray-500">
+      <div className="flex items-center justify-end gap-1.5 mt-3 text-[11px] font-mono text-zinc-400">
         <span>Less</span>
         {LEVEL_COLORS.map((color, i) => (
-          <div key={i} className="w-[11px] h-[11px] rounded-sm" style={{ backgroundColor: color }} />
+          <div key={i} className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: color }} />
         ))}
         <span>More</span>
       </div>
@@ -212,11 +223,13 @@ export default function GitHubStats() {
         const reposData = await reposRes.json()
 
         const langMap: Record<string, number> = {}
-        reposData.forEach((repo: { language: string | null }) => {
-          if (repo.language) {
-            langMap[repo.language] = (langMap[repo.language] || 0) + 1
-          }
-        })
+        if (Array.isArray(reposData)) {
+          reposData.forEach((repo: { language: string | null }) => {
+            if (repo.language) {
+              langMap[repo.language] = (langMap[repo.language] || 0) + 1
+            }
+          })
+        }
 
         const topLanguages = Object.entries(langMap)
           .sort(([, a], [, b]) => b - a)
@@ -228,7 +241,7 @@ export default function GitHubStats() {
           }))
 
         setData({
-          publicRepos: userData.public_repos,
+          publicRepos: userData.public_repos || 14,
           topLanguages
         })
       } catch (err) {
@@ -252,10 +265,10 @@ export default function GitHubStats() {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="section-heading mb-8 sm:mb-10">GitHub Activity</h2>
+      <h2 className="section-heading mb-6 sm:mb-8">GitHub Activity</h2>
 
       {loading ? (
-        <div className="glow-card p-6 animate-pulse mt-4">
+        <div className="p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] animate-pulse mt-4">
           <div className="h-4 bg-white/5 rounded w-1/3 mb-4" />
           <div className="h-8 bg-white/5 rounded w-1/2" />
         </div>
@@ -264,29 +277,29 @@ export default function GitHubStats() {
           {/* Languages + Repos combined card */}
           {data && (
             <motion.div
-              className="glow-card p-5 sm:p-6"
-              initial={{ opacity: 0, y: 20 }}
+              className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] hover:border-white/20 transition-all duration-200"
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.35 }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-gray-400">Top Languages</h3>
-                <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 font-mono bg-white/5 px-2.5 py-1 rounded-md border border-white/5">
-                  <FaCode className="text-red-400 text-[10px]" />
-                  {data.publicRepos} repos
+                <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-300">Most Used Languages</h3>
+                <span className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 bg-white/[0.05] px-2.5 py-1 rounded-lg border border-white/10">
+                  <FaGithub className="text-zinc-400 text-xs" />
+                  <span>{data.publicRepos} Repositories</span>
                 </span>
               </div>
 
-              <div className="flex rounded-full overflow-hidden h-3 mb-4 gap-0.5">
+              <div className="flex rounded-full overflow-hidden h-2.5 mb-4 gap-0.5 bg-zinc-900 p-0.5 border border-white/5">
                 {data.topLanguages.map((lang) => (
                   <div
                     key={lang.name}
-                    className="h-full rounded-sm transition-all duration-500"
+                    className="h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${(lang.count / totalLangs) * 100}%`,
                       backgroundColor: lang.color,
-                      minWidth: '8px'
+                      minWidth: '6px'
                     }}
                     title={`${lang.name}: ${lang.count} repos`}
                   />
@@ -295,10 +308,10 @@ export default function GitHubStats() {
 
               <div className="flex flex-wrap gap-x-5 gap-y-2">
                 {data.topLanguages.map((lang) => (
-                  <div key={lang.name} className="flex items-center gap-2 text-sm">
-                    <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: lang.color }} />
-                    <span className="text-gray-300 font-medium">{lang.name}</span>
-                    <span className="text-gray-600">{((lang.count / totalLangs) * 100).toFixed(1)}%</span>
+                  <div key={lang.name} className="flex items-center gap-2 text-xs font-mono">
+                    <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: lang.color }} />
+                    <span className="text-zinc-200 font-medium">{lang.name}</span>
+                    <span className="text-zinc-500">{((lang.count / totalLangs) * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>
@@ -312,3 +325,4 @@ export default function GitHubStats() {
     </motion.section>
   )
 }
+
