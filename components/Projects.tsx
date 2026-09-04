@@ -14,8 +14,8 @@ interface ProjectsProps {
   projects: Project[]
 }
 
-// Precise Gamma (γ) vector icon matching user screenshot
-const ProjectLogoIcon = ({ className = "w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" }: { className?: string }) => (
+// Minimal Git-branch-inspired Y-shaped icon with thin silver/white stroke
+const ProjectLogoIcon = ({ className = "w-4.5 h-4.5 text-zinc-300 group-hover:text-white transition-colors" }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -25,7 +25,10 @@ const ProjectLogoIcon = ({ className = "w-4 h-4 text-zinc-400 group-hover:text-w
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M7 4.5c1.2 3.8 3.5 8 5.2 12.5 0 0-2.2 2.2-2 0s2.2-4.2 3.8-6L17.5 4.5" />
+    <path d="M12 21V12M12 12L6 4.5M12 12L18 4.5" />
+    <circle cx="6" cy="4.5" r="1.5" fill="currentColor" stroke="none" />
+    <circle cx="18" cy="4.5" r="1.5" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="21" r="1.5" fill="currentColor" stroke="none" />
   </svg>
 )
 

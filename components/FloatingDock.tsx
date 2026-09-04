@@ -1,42 +1,96 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Home, FolderGit2, Mail } from 'lucide-react'
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+  MotionValue,
+} from 'framer-motion'
+import {
+  Home,
+  FolderGit2,
+} from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 
-const dockItems = [
+interface DockItemData {
+  id: string
+  label: string
+  icon: React.ElementType
+  href: string
+  external?: boolean
+}
+
+const dockItems: DockItemData[] = [
   { id: 'about', label: 'Home', icon: Home, href: '#about' },
   { id: 'projects', label: 'Projects', icon: FolderGit2, href: '#projects' },
-  { id: 'divider-1', isDivider: true },
   { id: 'github', label: 'GitHub', icon: FaGithub, href: 'https://github.com/Anwaribra', external: true },
   { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/in/anwar-mousa/', external: true },
-  { id: 'divider-2', isDivider: true },
-  { id: 'connect', label: 'Contact', icon: Mail, href: '#connect' },
 ]
 
 export default function FloatingDock() {
-  const [activeSection, setActiveSection] = useState<string>('about')
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null)
+  const mouseX = useMotionValue(Infinity)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const connectEl = document.getElementById('connect')
-      const projectsEl = document.getElementById('projects')
+  return (
+    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden pointer-events-none px-3 select-none max-w-full">
+      <motion.div
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        onTouchStart={(e) => {
+          if (e.touches[0]) mouseX.set(e.touches[0].pageX)
+        }}
+        onTouchMove={(e) => {
+          if (e.touches[0]) mouseX.set(e.touches[0].pageX)
+        }}
+        onTouchEnd={() => mouseX.set(Infinity)}
+        className="pointer-events-auto flex h-14 items-end gap-2.5 sm:gap-3 rounded-full bg-[#0d0d12]/85 border border-white/20 px-3 pb-2.5 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)]"
+        initial={{ y: 80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+      >
+        {/* Liquid top border highlight */}
+        <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
-      if (connectEl && connectEl.getBoundingClientRect().top <= window.innerHeight * 0.55) {
-        setActiveSection('connect')
-      } else if (projectsEl && projectsEl.getBoundingClientRect().top <= window.innerHeight * 0.45 && projectsEl.getBoundingClientRect().bottom > 150) {
-        setActiveSection('projects')
-      } else {
-        setActiveSection('about')
-      }
-    }
+        {dockItems.map((item) => (
+          <React.Fragment key={item.id}>
+            {/* Insert subtle divider before social links */}
+            {item.id === 'github' && (
+              <div className="h-5 w-[1px] bg-white/15 mx-0.5 self-center" aria-hidden="true" />
+            )}
+            <DockIcon mouseX={mouseX} item={item} />
+          </React.Fragment>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+function DockIcon({
+  mouseX,
+  item,
+}: {
+  mouseX: MotionValue
+  item: DockItemData
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
+    return val - bounds.x - bounds.width / 2
+  })
+
+  // Magic UI Dock spring interpolation
+  const widthSync = useTransform(distance, [-120, 0, 120], [34, 52, 34])
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 180, damping: 12 })
+
+  const iconSizeSync = useTransform(distance, [-120, 0, 120], [16, 24, 16])
+  const iconSize = useSpring(iconSizeSync, { mass: 0.1, stiffness: 180, damping: 12 })
+
+  const IconComponent = item.icon
 
   const handleScrollTo = (href: string) => {
     const targetId = href.replace('#', '')
@@ -46,105 +100,50 @@ export default function FloatingDock() {
     }
   }
 
+  const content = (
+    <motion.div
+      ref={ref}
+      style={{ width, height: width }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => {
+        setIsHovered(true)
+        setTimeout(() => setIsHovered(false), 1200)
+      }}
+      className="relative flex items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:border-white/30 hover:bg-white/[0.12] text-zinc-300 hover:text-white transition-colors cursor-pointer shadow-sm active:scale-90"
+    >
+      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center">
+        <IconComponent className="w-full h-full stroke-[1.8]" />
+      </motion.div>
+
+      {/* Magic UI Dock Tooltip */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.85 }}
+            animate={{ opacity: 1, y: -40, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.85 }}
+            transition={{ duration: 0.15 }}
+            className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-1 text-[11px] font-mono font-medium text-white bg-[#141418] border border-white/20 rounded-lg shadow-xl backdrop-blur-xl whitespace-nowrap pointer-events-none"
+          >
+            {item.label}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+
+  if (item.external) {
+    return (
+      <Link href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+        {content}
+      </Link>
+    )
+  }
+
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden pointer-events-none px-4 select-none">
-      <motion.nav
-        className="pointer-events-auto relative flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#0d0d12]/85 border border-white/20 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.2)] overflow-hidden"
-        initial={{ y: 60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-      >
-        {/* Subtle top liquid glare */}
-        <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
-
-        {dockItems.map((item) => {
-          if (item.isDivider) {
-            return (
-              <div
-                key={item.id}
-                className="h-3.5 w-[1px] bg-white/15 mx-1 shrink-0"
-                aria-hidden="true"
-              />
-            )
-          }
-
-          const IconComponent = item.icon!
-          const isActive = !item.external && activeSection === item.id
-
-          const buttonContent = (
-            <motion.div
-              className={`relative flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
-                isActive
-                  ? 'bg-white/20 text-white shadow-[0_0_12px_rgba(255,255,255,0.2)]'
-                  : 'text-zinc-400 hover:text-white hover:bg-white/10'
-              }`}
-              whileHover={{ scale: 1.15, y: -2 }}
-              whileTap={{ scale: 0.88 }}
-              onMouseEnter={() => setActiveTooltip(item.id)}
-              onMouseLeave={() => setActiveTooltip(null)}
-              onTouchStart={() => setActiveTooltip(item.id)}
-              onTouchEnd={() => setTimeout(() => setActiveTooltip(null), 800)}
-            >
-              <IconComponent className="w-4 h-4 stroke-[1.8]" />
-
-              {/* Minimal active glow dot */}
-              {isActive && (
-                <motion.span
-                  layoutId="active-dock-dot"
-                  className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]"
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                />
-              )}
-
-              {/* Floating Tooltip */}
-              <AnimatePresence>
-                {activeTooltip === item.id && (
-                  <motion.div
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 text-[10px] font-mono font-bold tracking-wider text-zinc-100 bg-[#16161c] border border-white/25 rounded-full backdrop-blur-2xl whitespace-nowrap shadow-2xl pointer-events-none"
-                    initial={{ opacity: 0, y: 4, scale: 0.88 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 3, scale: 0.88 }}
-                    transition={{ duration: 0.12 }}
-                  >
-                    {item.label}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )
-
-          if (item.external) {
-            return (
-              <Link
-                key={item.id}
-                href={item.href!}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={item.label}
-                className="relative flex items-center justify-center"
-              >
-                {buttonContent}
-              </Link>
-            )
-          }
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleScrollTo(item.href!)}
-              aria-label={item.label}
-              type="button"
-              className="relative flex items-center justify-center"
-            >
-              {buttonContent}
-            </button>
-          )
-        })}
-      </motion.nav>
-    </div>
+    <button type="button" onClick={() => handleScrollTo(item.href)} aria-label={item.label}>
+      {content}
+    </button>
   )
 }
-
-
-
-
