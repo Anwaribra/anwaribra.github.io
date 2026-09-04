@@ -84,13 +84,6 @@ export default function Hero() {
               >
                 <FaLinkedin className="text-base" />
               </Link>
-              <a
-                href="mailto:anwarmousa100@gmail.com"
-                className="hover:text-white transition-colors duration-200"
-                aria-label="Email"
-              >
-                <Mail className="w-4.5 h-4.5 stroke-[1.8]" />
-              </a>
               <Link
                 href="/assets/docs/CV.pdf"
                 target="_blank"
