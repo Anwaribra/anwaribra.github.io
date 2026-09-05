@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <FloatingDock />
-      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto pb-24 sm:pb-20">
+      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto pb-32 sm:pb-24">
 
         <Hero />
         <ExperienceSection experiences={experiences} />
@@ -29,7 +29,6 @@ export default function Home() {
         <Education />
         <div className="section-divider" />
         <GitHubStats />
-        <div className="section-divider" />
         <Connect />
         <BackToTop />
       </main>

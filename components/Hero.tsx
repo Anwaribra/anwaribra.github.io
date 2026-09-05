@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { FileText, Mail } from 'lucide-react'
-import { FaGithub, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 export default function Hero() {
@@ -17,6 +17,22 @@ export default function Hero() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
+      {/* Batman Emblem Watermark anchored cleanly behind the header on mobile & desktop */}
+      <div 
+        className="absolute top-12 right-0 sm:top-0 sm:right-0 -z-10 pointer-events-none select-none opacity-25 sm:opacity-40" 
+        aria-hidden="true"
+      >
+        <div className="relative w-48 h-28 sm:w-64 sm:h-36 select-none pointer-events-none">
+          <Image
+            src="/78b72283-9eab-4d14-9aad-25689318b047.svg"
+            alt="Bat Watermark"
+            fill
+            className="object-contain select-none pointer-events-none filter [filter:brightness(0)_invert(25%)_sepia(100%)_saturate(4000%)_hue-rotate(345deg)]"
+            unoptimized
+          />
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row items-start gap-6 sm:gap-8">
         {/* Profile Photo */}
         <motion.div
@@ -93,22 +109,6 @@ export default function Hero() {
               >
                 <FileText className="w-4.5 h-4.5 stroke-[1.8]" />
               </Link>
-
-              {/* Batman Emblem Watermark anchored cleanly in the top right background */}
-              <div 
-                className="absolute -top-6 right-0 -z-10 pointer-events-none select-none opacity-35 sm:opacity-45" 
-                aria-hidden="true"
-              >
-                <div className="relative w-44 h-24 sm:w-64 sm:h-36 select-none pointer-events-none">
-                  <Image
-                    src="/78b72283-9eab-4d14-9aad-25689318b047.svg"
-                    alt="Bat Watermark"
-                    fill
-                    className="object-contain select-none pointer-events-none filter [filter:brightness(0)_invert(25%)_sepia(100%)_saturate(4000%)_hue-rotate(345deg)]"
-                    unoptimized
-                  />
-                </div>
-              </div>
             </motion.div>
           </div>
 
@@ -132,7 +132,7 @@ export default function Hero() {
           >
             <a
               href="mailto:anwarmousa100@gmail.com"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-md active:scale-95"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#FF3B30] text-white hover:bg-[#E03228] transition-all duration-200 shadow-md active:scale-95"
             >
               <Mail className="w-3.5 h-3.5 stroke-[2]" /> Get in Touch
             </a>
@@ -163,9 +163,3 @@ export default function Hero() {
     </motion.section>
   )
 }
-
-
-
-
-
-

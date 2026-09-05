@@ -9,6 +9,12 @@ import './globals.css'
 
 const siteUrl = 'https://anwarmousa.me'
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Anwar Ibrahim - Data Engineer Portfolio',

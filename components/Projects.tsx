@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
+  GitBranch,
   ExternalLink, 
   ChevronsUpDown, 
   X 
@@ -13,24 +14,6 @@ import { Project } from '@/data/portfolio'
 interface ProjectsProps {
   projects: Project[]
 }
-
-// Minimal Git-branch-inspired Y-shaped icon with thin silver/white stroke
-const ProjectLogoIcon = ({ className = "w-4.5 h-4.5 text-zinc-300 group-hover:text-white transition-colors" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M12 21V12M12 12L6 4.5M12 12L18 4.5" />
-    <circle cx="6" cy="4.5" r="1.5" fill="currentColor" stroke="none" />
-    <circle cx="18" cy="4.5" r="1.5" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="21" r="1.5" fill="currentColor" stroke="none" />
-  </svg>
-)
 
 export default function Projects({ projects }: ProjectsProps) {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -86,9 +69,9 @@ export default function Projects({ projects }: ProjectsProps) {
                 transition={{ duration: 0.25, delay: index * 0.04 }}
                 className="py-6 first:pt-2 last:pb-2 flex items-start gap-3 sm:gap-4 group"
               >
-                {/* Project Icon Badge with Custom V Logo matching user drawing */}
+                {/* Official Git Branch Icon Container */}
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center p-1.5 shrink-0 group-hover:border-white/20 transition-colors shadow-sm mt-0.5">
-                  <ProjectLogoIcon className="w-5 h-5 text-zinc-400 group-hover:text-white stroke-[1.8] transition-colors" />
+                  <GitBranch className="w-5 h-5 text-zinc-300 group-hover:text-white stroke-[1.8] transition-colors" />
                 </div>
 
                 {/* Right Content */}
