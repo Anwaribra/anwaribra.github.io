@@ -17,7 +17,7 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Anwar Ibrahim - Data Engineer Portfolio',
+  title: 'Anwar Ibrahim - Data & AI Systems Engineer Portfolio',
   description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights. Specialized in ETL processes, data modeling, and cloud technologies.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
   authors: [{ name: 'Anwar Ibrahim' }],
