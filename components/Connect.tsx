@@ -3,13 +3,14 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Mail } from 'lucide-react'
-import { FaGithub, FaLinkedin, FaWhatsapp, FaTwitter } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
 
 export default function Connect() {
   return (
     <motion.section
       id="connect"
-      className="py-12 sm:py-16 border-t border-white/[0.08] mt-8"
+      className="pt-12 sm:pt-16 pb-2 border-t border-white/[0.08] mt-8"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
@@ -65,10 +66,10 @@ export default function Connect() {
             href="https://x.com/_vincenzzo"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="X (Twitter)"
+            aria-label="X"
             className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
           >
-            <FaTwitter className="w-5 h-5" />
+            <FaXTwitter className="w-5 h-5" />
           </a>
         </div>
       </div>

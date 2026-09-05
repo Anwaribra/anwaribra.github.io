@@ -7,6 +7,7 @@ import Education from '@/components/Education'
 import Certifications from '@/components/Certifications'
 import GitHubStats from '@/components/GitHubStats'
 import Connect from '@/components/Connect'
+import FooterSignature from '@/components/FooterSignature'
 import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
 import { projects, experiences, certifications } from '@/data/portfolio'
@@ -15,7 +16,7 @@ export default function Home() {
   return (
     <>
       <FloatingDock />
-      <main className="relative z-10 min-h-screen px-4 sm:px-6 py-8 sm:py-12 max-w-4xl mx-auto pb-32 sm:pb-24">
+      <main className="relative z-10 min-h-screen px-4 sm:px-6 pt-8 sm:pt-12 pb-0 max-w-4xl mx-auto">
 
         <Hero />
         <ExperienceSection experiences={experiences} />
@@ -30,6 +31,7 @@ export default function Home() {
         <div className="section-divider" />
         <GitHubStats />
         <Connect />
+        <FooterSignature />
         <BackToTop />
       </main>
     </>
