@@ -87,7 +87,7 @@ export default function HeroVideoBackground() {
 
     const triggerDraw = () => {
       if (!rafRef.current) {
-        rafRef.current = requestAnimationFrame(drawLoop)
+        rafRef.current = requestAnimationFrame(() => drawLoop())
       }
     }
 
