@@ -7,6 +7,8 @@ import './globals.css'
 
 
 
+import { ThemeProvider } from '@/components/ThemeProvider'
+
 const siteUrl = 'https://anwarmousa.me'
 
 export const viewport = {
@@ -93,29 +95,30 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} text-white font-sans antialiased`}>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-sans antialiased transition-colors duration-300`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          {/* Google Analytics GA4 */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-MTJ3REXMR7"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-MTJ3REXMR7');
+            `}
+          </Script>
 
-        {/* Google Analytics GA4 */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-MTJ3REXMR7"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-MTJ3REXMR7');
-          `}
-        </Script>
-
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-        {children}
+          <Script
+            id="structured-data"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

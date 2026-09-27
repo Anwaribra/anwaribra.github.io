@@ -14,15 +14,15 @@ interface CertificationsProps {
 
 const ISSUER_META: Record<string, { icon: React.ReactNode; tag: string }> = {
   "Amazon Web Services": {
-    icon: <FaAws className="w-5 h-5 text-zinc-300 group-hover:text-[#FF9900] transition-colors" />,
+    icon: <FaAws className="w-5 h-5 text-zinc-400 dark:text-zinc-300 group-hover:text-[#FF9900] transition-colors" />,
     tag: "AWS Certified",
   },
   Google: {
-    icon: <SiGoogle className="w-4 h-4 text-zinc-300 group-hover:text-[#4285F4] transition-colors" />,
+    icon: <SiGoogle className="w-4 h-4 text-zinc-400 dark:text-zinc-300 group-hover:text-[#4285F4] transition-colors" />,
     tag: "Google Professional",
   },
   "Digital Egypt Pioneers Initiative (DEPI)": {
-    icon: <ShieldCheck className="w-5 h-5 text-zinc-300 group-hover:text-cyan-400 transition-colors" />,
+    icon: <ShieldCheck className="w-5 h-5 text-zinc-400 dark:text-zinc-300 group-hover:text-cyan-400 transition-colors" />,
     tag: "DEPI Specialist",
   },
 }
@@ -44,7 +44,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
       <div className="flex flex-col pt-2">
         {certifications.map((cert, index) => {
           const meta = ISSUER_META[cert.issuer] ?? {
-            icon: <Award className="w-4 h-4 text-zinc-500 group-hover:text-zinc-300 transition-colors" />,
+            icon: <Award className="w-4 h-4 text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors" />,
             tag: "Verified Certificate",
           }
 
@@ -66,7 +66,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
               className="py-3 sm:py-4 flex flex-col sm:flex-row gap-1 sm:gap-6 group px-4 -mx-4 transition-all cursor-pointer"
             >
               {/* Issuer (Left Column) */}
-              <div className="w-48 shrink-0 text-sm font-medium text-zinc-500 group-hover:text-zinc-400 transition-colors">
+              <div className="w-48 shrink-0 text-sm font-medium text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-400 transition-colors">
                 {displayIssuer}
               </div>
 
@@ -75,11 +75,11 @@ export default function Certifications({ certifications }: CertificationsProps) 
                 <div className="flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                   {meta.icon}
                 </div>
-                <h3 className="text-base font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+                <h3 className="text-base font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-black dark:group-hover:text-white transition-colors truncate">
                   {cert.name}
                 </h3>
                 {cert.url && (
-                  <ExternalLink className="w-3.5 h-3.5 stroke-[2] text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
+                  <ExternalLink className="w-3.5 h-3.5 stroke-[2] text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors shrink-0" />
                 )}
               </div>
             </CardWrapper>

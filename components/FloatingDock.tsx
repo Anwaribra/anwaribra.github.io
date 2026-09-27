@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
 import {
   motion,
   useMotionValue,
@@ -13,7 +14,9 @@ import {
 import {
   FileText,
   Mail,
-  Check
+  Check,
+  Sun,
+  Moon
 } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 
@@ -47,21 +50,68 @@ export default function FloatingDock() {
           if (e.touches[0]) mouseX.set(e.touches[0].pageX)
         }}
         onTouchEnd={() => mouseX.set(Infinity)}
-        className="pointer-events-auto flex h-12 items-center gap-3 sm:gap-4 rounded-2xl bg-white/[0.03] border border-white/10 px-4 backdrop-blur-xl shadow-2xl shadow-black/50"
+        className="pointer-events-auto flex h-12 items-center gap-3 sm:gap-4 rounded-2xl bg-[rgba(255,255,255,0.86)] dark:bg-white/[0.03] border border-light-border dark:border-white/10 px-4 backdrop-blur-xl shadow-[0_8px_30px_rgba(24,24,27,0.08)] dark:shadow-2xl dark:shadow-black/50 transition-colors"
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 350, damping: 25 }}
       >
         {/* Subtle inner top highlight */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none rounded-t-2xl" />
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 dark:via-white/20 to-transparent pointer-events-none rounded-t-2xl" />
 
         {dockItems.map((item) => (
           <React.Fragment key={item.id}>
             <DockIcon mouseX={mouseX} item={item} />
           </React.Fragment>
         ))}
+
+        <div className="w-[1px] h-6 bg-black/10 dark:bg-white/10 mx-1" />
+
+        <ThemeToggle mouseX={mouseX} />
       </motion.div>
     </div>
+  )
+}
+
+function ThemeToggle({ mouseX }: { mouseX: MotionValue }) {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const ref = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => setMounted(true), [])
+
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
+    return val - bounds.x - bounds.width / 2
+  })
+
+  const widthSync = useTransform(distance, [-120, 0, 120], [34, 52, 34])
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 180, damping: 12 })
+
+  const iconSizeSync = useTransform(distance, [-120, 0, 120], [16, 24, 16])
+  const iconSize = useSpring(iconSizeSync, { mass: 0.1, stiffness: 180, damping: 12 })
+
+  if (!mounted) {
+    return <div style={{ width: 34, height: 34 }} className="flex-shrink-0" />
+  }
+
+  const isDark = theme === 'dark'
+
+  return (
+    <motion.button
+      ref={ref}
+      style={{ width, height: width }}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      className="relative flex items-center justify-center rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/[0.08] text-light-secondary dark:text-zinc-400 hover:text-light-accent dark:hover:text-white transition-all cursor-pointer group active:scale-95"
+      aria-label="Toggle theme"
+    >
+      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center drop-shadow-sm dark:group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
+        {isDark ? (
+          <Sun className="w-full h-full stroke-[1.5]" />
+        ) : (
+          <Moon className="w-full h-full stroke-[1.5]" />
+        )}
+      </motion.div>
+    </motion.button>
   )
 }
 
@@ -116,9 +166,9 @@ function DockIcon({
       ref={ref}
       style={{ width, height: width }}
       onClick={handleAction}
-      className="relative flex items-center justify-center rounded-xl bg-transparent hover:bg-white/[0.08] text-zinc-400 hover:text-white transition-all cursor-pointer group active:scale-95"
+      className="relative flex items-center justify-center rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/[0.08] text-light-secondary dark:text-zinc-400 hover:text-light-accent dark:hover:text-white transition-all cursor-pointer group active:scale-95"
     >
-      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center drop-shadow-md group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
+      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center drop-shadow-sm dark:group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
         <IconComponent className="w-full h-full stroke-[1.5]" />
       </motion.div>
     </motion.div>

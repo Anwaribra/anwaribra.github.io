@@ -45,7 +45,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
               className="py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 group px-4 -mx-4 transition-all cursor-pointer"
             >
               {/* Year */}
-              <div className="w-16 shrink-0 text-sm font-mono text-zinc-500 group-hover:text-zinc-400 transition-colors">
+              <div className="w-16 shrink-0 text-sm font-mono text-light-muted dark:text-zinc-500 group-hover:text-light-primary dark:group-hover:text-zinc-400 transition-colors">
                 {year}
               </div>
 
@@ -62,19 +62,19 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                       unoptimized
                     />
                   ) : (
-                    <span className="text-[11px] font-mono font-bold text-zinc-300">
+                    <span className="text-[11px] font-mono font-bold text-light-secondary dark:text-zinc-300">
                       {exp.company.slice(0, 2).toUpperCase()}
                     </span>
                   )}
                 </div>
-                <h3 className="text-base font-medium text-zinc-200 group-hover:text-white transition-colors">
+                <h3 className="text-base font-medium text-light-primary dark:text-zinc-200 group-hover:text-light-primary dark:group-hover:text-white transition-colors">
                   {exp.company}
                 </h3>
               </div>
 
               {/* Role - Right Aligned on Desktop */}
               <div className="flex-1 min-w-0 flex items-center justify-start sm:justify-end gap-2 mt-1 sm:mt-0">
-                <p className="text-sm text-zinc-500 truncate group-hover:text-zinc-300 transition-colors">
+                <p className="text-sm text-light-secondary dark:text-zinc-500 truncate group-hover:text-light-primary dark:group-hover:text-zinc-300 transition-colors">
                   {exp.role}
                 </p>
               </div>

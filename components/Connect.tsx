@@ -10,7 +10,7 @@ export default function Connect() {
   return (
     <motion.section
       id="connect"
-      className="pt-12 sm:pt-16 pb-24 border-t border-white/[0.08] mt-8 relative group"
+      className="pt-12 sm:pt-16 pb-24 border-t border-black/10 dark:border-white/[0.08] mt-8 relative group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
@@ -33,7 +33,7 @@ export default function Connect() {
 
       <div className="space-y-6 max-w-2xl relative z-10">
         {/* Headline matching user screenshot */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight font-sans">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight font-sans transition-colors">
           Let&apos;s build something that has to stay up.
         </h2>
 
@@ -42,7 +42,7 @@ export default function Connect() {
           <a
             href="mailto:anwarmousa100@gmail.com"
             aria-label="Email"
-            className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 hover:scale-110"
           >
             <Mail className="w-5 h-5 stroke-[1.8]" />
           </a>
@@ -52,7 +52,7 @@ export default function Connect() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 hover:scale-110"
           >
             <FaWhatsapp className="w-5 h-5" />
           </a>
@@ -62,7 +62,7 @@ export default function Connect() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 hover:scale-110"
           >
             <FaGithub className="w-5 h-5" />
           </a>
@@ -72,7 +72,7 @@ export default function Connect() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 hover:scale-110"
           >
             <FaLinkedin className="w-5 h-5" />
           </a>
@@ -82,7 +82,7 @@ export default function Connect() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X"
-            className="text-zinc-400 hover:text-white transition-all duration-200 hover:scale-110"
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 hover:scale-110"
           >
             <FaXTwitter className="w-5 h-5" />
           </a>

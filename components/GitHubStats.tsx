@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { FaGithub } from 'react-icons/fa'
 import { ExternalLink } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 const GITHUB_USERNAME = 'Anwaribra'
 
@@ -35,7 +36,7 @@ const LANG_COLORS: Record<string, string> = {
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const DAYS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
 
-const LEVEL_COLORS = [
+const DARK_LEVEL_COLORS = [
   '#161b22',
   '#0e4429',
   '#006d32',
@@ -43,10 +44,20 @@ const LEVEL_COLORS = [
   '#39d353',
 ]
 
+const LIGHT_LEVEL_COLORS = [
+  '#ebedf0',
+  '#9be9a8',
+  '#40c463',
+  '#30a14e',
+  '#216e39',
+]
+
 function ContributionGraph({ username }: { username: string }) {
   const [contributions, setContributions] = useState<ContributionDay[]>([])
   const [totalContributions, setTotalContributions] = useState(0)
   const [loading, setLoading] = useState(true)
+  const { theme } = useTheme()
+  const levelColors = theme === 'light' ? LIGHT_LEVEL_COLORS : DARK_LEVEL_COLORS
 
   useEffect(() => {
     async function fetchContributions() {
@@ -118,9 +129,9 @@ function ContributionGraph({ username }: { username: string }) {
 
   if (loading) {
     return (
-      <div className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] animate-pulse">
-        <div className="h-4 bg-white/5 rounded w-1/3 mb-4" />
-        <div className="h-24 bg-white/5 rounded" />
+      <div className="p-5 sm:p-6 rounded-2xl bg-black/5 dark:bg-[#121214]/60 border border-black/10 dark:border-white/[0.08] animate-pulse">
+        <div className="h-4 bg-black/10 dark:bg-white/5 rounded w-1/3 mb-4" />
+        <div className="h-24 bg-black/10 dark:bg-white/5 rounded" />
       </div>
     )
   }
@@ -137,22 +148,22 @@ function ContributionGraph({ username }: { username: string }) {
 
   return (
     <motion.div
-      className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] hover:border-white/20 transition-all duration-200"
+      className="p-5 sm:p-6 rounded-2xl bg-light-surface dark:bg-[#121214]/60 border border-light-border dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 shadow-sm dark:shadow-none"
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.35, delay: 0.1 }}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-300">
-          <span className="text-white font-bold">{totalContributions.toLocaleString()}</span> contributions in the last year
+        <h3 className="text-xs sm:text-sm font-mono font-medium text-light-secondary dark:text-zinc-300">
+          <span className="text-light-primary dark:text-white font-bold">{totalContributions.toLocaleString()}</span> contributions in the last year
         </h3>
 
         <a
           href={`https://github.com/${username}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
         >
           <span>@{username}</span>
           <ExternalLink className="w-3 h-3 stroke-[1.8]" />
@@ -187,7 +198,7 @@ function ContributionGraph({ username }: { username: string }) {
                   height={cellSize}
                   rx={2.5}
                   ry={2.5}
-                  fill={LEVEL_COLORS[day.level] || LEVEL_COLORS[0]}
+                  fill={levelColors[day.level] || levelColors[0]}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <title>{`${day.count} contributions on ${day.date}`}</title>
@@ -198,9 +209,9 @@ function ContributionGraph({ username }: { username: string }) {
         </svg>
       </div>
 
-      <div className="flex items-center justify-end gap-1.5 mt-3 text-[11px] font-mono text-zinc-400">
+      <div className="flex items-center justify-end gap-1.5 mt-3 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
         <span>Less</span>
-        {LEVEL_COLORS.map((color, i) => (
+        {levelColors.map((color, i) => (
           <div key={i} className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: color }} />
         ))}
         <span>More</span>
@@ -268,30 +279,30 @@ export default function GitHubStats() {
       <h2 className="section-heading mb-6 sm:mb-8">GitHub Activity</h2>
 
       {loading ? (
-        <div className="p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] animate-pulse mt-4">
-          <div className="h-4 bg-white/5 rounded w-1/3 mb-4" />
-          <div className="h-8 bg-white/5 rounded w-1/2" />
+        <div className="p-6 rounded-2xl bg-black/5 dark:bg-[#121214]/60 border border-black/10 dark:border-white/[0.08] animate-pulse mt-4">
+          <div className="h-4 bg-black/10 dark:bg-white/5 rounded w-1/3 mb-4" />
+          <div className="h-8 bg-black/10 dark:bg-white/5 rounded w-1/2" />
         </div>
       ) : (
         <div className="space-y-4 sm:space-y-5 mt-4 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
           {/* Languages + Repos combined card */}
           {data && (
             <motion.div
-              className="p-5 sm:p-6 rounded-2xl bg-[#121214]/60 border border-white/[0.08] hover:border-white/20 transition-all duration-200"
+              className="p-5 sm:p-6 rounded-2xl bg-light-surface dark:bg-[#121214]/60 border border-light-border dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 shadow-sm dark:shadow-none"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35 }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-300">Most Used Languages</h3>
-                <span className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 bg-white/[0.05] px-2.5 py-1 rounded-lg border border-white/10">
-                  <FaGithub className="text-zinc-400 text-xs" />
+                <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-600 dark:text-zinc-300">Most Used Languages</h3>
+                <span className="inline-flex items-center gap-1.5 text-xs font-mono text-light-secondary dark:text-zinc-300 bg-black/5 dark:bg-white/[0.05] px-2.5 py-1 rounded-lg border border-light-border dark:border-white/10">
+                  <FaGithub className="text-zinc-500 dark:text-zinc-400 text-xs" />
                   <span>{data.publicRepos} Repositories</span>
                 </span>
               </div>
 
-              <div className="flex rounded-full overflow-hidden h-2.5 mb-4 gap-0.5 bg-zinc-900 p-0.5 border border-white/5">
+              <div className="flex rounded-full overflow-hidden h-2.5 mb-4 gap-0.5 bg-zinc-200 dark:bg-zinc-900 p-0.5 border border-black/5 dark:border-white/5">
                 {data.topLanguages.map((lang) => (
                   <div
                     key={lang.name}
@@ -310,8 +321,8 @@ export default function GitHubStats() {
                 {data.topLanguages.map((lang) => (
                   <div key={lang.name} className="flex items-center gap-2 text-xs font-mono">
                     <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: lang.color }} />
-                    <span className="text-zinc-200 font-medium">{lang.name}</span>
-                    <span className="text-zinc-500">{((lang.count / totalLangs) * 100).toFixed(1)}%</span>
+                    <span className="text-zinc-800 dark:text-zinc-200 font-medium">{lang.name}</span>
+                    <span className="text-zinc-500 dark:text-zinc-500">{((lang.count / totalLangs) * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>

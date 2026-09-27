@@ -76,23 +76,23 @@ export default function Education() {
               className="py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 group px-4 -mx-4 transition-all"
             >
               {/* Period */}
-              <div className="w-32 sm:w-36 shrink-0 text-[11px] sm:text-xs font-mono text-zinc-500 group-hover:text-zinc-400 transition-colors pt-0.5">
+              <div className="w-32 sm:w-36 shrink-0 text-[11px] sm:text-xs font-mono text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-400 transition-colors pt-0.5">
                 {edu.period}
               </div>
 
               {/* Icon + Institution */}
               <div className="flex items-center gap-3 sm:w-64 shrink-0">
                 <div className="flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                  <IconComponent className="w-5 h-5 text-zinc-500 group-hover:text-zinc-300 transition-colors" />
+                  <IconComponent className="w-5 h-5 text-zinc-500 dark:text-zinc-500 group-hover:text-black dark:group-hover:text-zinc-300 transition-colors" />
                 </div>
-                <h3 className="text-base font-medium text-zinc-200 group-hover:text-white transition-colors">
+                <h3 className="text-base font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-black dark:group-hover:text-white transition-colors">
                   {edu.shortName || edu.institution}
                 </h3>
               </div>
 
               {/* Degree - Right Aligned on Desktop */}
               <div className="flex-1 min-w-0 flex items-center justify-start sm:justify-end gap-2 mt-1 sm:mt-0">
-                <p className="text-sm text-zinc-500 group-hover:text-zinc-300 transition-colors text-right sm:text-right">
+                <p className="text-sm text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors text-right sm:text-right">
                   {edu.degree}
                 </p>
               </div>

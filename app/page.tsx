@@ -28,7 +28,6 @@ export default function Home() {
         <div className="section-divider" />
         <Certifications certifications={certifications} />
         <Connect />
-        <BackToTop />
       </main>
     </>
   )

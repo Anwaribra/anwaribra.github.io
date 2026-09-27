@@ -51,14 +51,14 @@ export default function Projects({ projects }: ProjectsProps) {
               >
                 {/* Official Git Branch Icon Container */}
                 <div className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0 mt-0.5">
-                  <GitBranch className="w-5 h-5 text-zinc-300 group-hover:text-white stroke-[1.8] transition-colors" />
+                  <GitBranch className="w-5 h-5 text-zinc-400 dark:text-zinc-300 group-hover:text-black dark:group-hover:text-white stroke-[1.8] transition-colors" />
                 </div>
 
                 {/* Right Content */}
                 <div className="flex-1 min-w-0">
                   {/* Top Line: Title & Action Links */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <h3 className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-zinc-100 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-light-primary dark:text-white tracking-tight group-hover:text-light-secondary dark:group-hover:text-zinc-100 transition-colors">
                       {project.title}
                     </h3>
 
@@ -68,7 +68,7 @@ export default function Projects({ projects }: ProjectsProps) {
                         href={project.source}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-mono font-medium transition-all duration-200"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/[0.04] border border-light-border dark:border-white/10 text-light-secondary dark:text-zinc-300 hover:text-light-primary dark:hover:text-white hover:bg-black/10 dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-white/20 text-xs font-mono font-medium transition-all duration-200"
                         aria-label={`Source code for ${project.title}`}
                       >
                         <FaGithub className="text-xs" />
@@ -79,7 +79,7 @@ export default function Projects({ projects }: ProjectsProps) {
                           href={project.demo}
                           target={project.demo.startsWith('/') ? undefined : '_blank'}
                           rel={project.demo.startsWith('/') ? undefined : 'noopener noreferrer'}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white text-black hover:bg-zinc-200 text-xs font-mono font-medium transition-all duration-200 shadow-sm"
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-light-primary dark:bg-white text-light-surface dark:text-black hover:bg-black dark:hover:bg-zinc-200 text-xs font-mono font-medium transition-all duration-200 shadow-sm"
                           aria-label={`Live Demo for ${project.title}`}
                         >
                           <span>Demo</span>
@@ -90,7 +90,7 @@ export default function Projects({ projects }: ProjectsProps) {
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs sm:text-sm text-zinc-400/90 leading-relaxed mt-2">
+                  <p className="text-xs sm:text-sm text-light-secondary dark:text-zinc-400/90 leading-relaxed mt-2">
                     {project.description}
                   </p>
 
@@ -107,7 +107,7 @@ export default function Projects({ projects }: ProjectsProps) {
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-medium text-zinc-300 bg-white/[0.05] border border-white/10 hover:border-white/25 hover:text-white rounded-xl transition-all duration-200 cursor-pointer active:scale-95 shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-mono font-medium text-light-secondary dark:text-zinc-300 bg-black/[0.03] dark:bg-white/[0.05] border border-light-border dark:border-white/10 hover:border-black/20 dark:hover:border-white/25 hover:text-light-primary dark:hover:text-white rounded-xl transition-all duration-200 cursor-pointer active:scale-95 shadow-sm"
           >
             {isExpanded ? (
               <>

@@ -1,8 +1,12 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useTheme } from 'next-themes'
 
 export default function HeroVideoBackground() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+  
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -273,12 +277,18 @@ export default function HeroVideoBackground() {
       
       // 2. Draw the full-color video using 'source-in' to mask it softly
       ctx.globalCompositeOperation = 'source-in'
+      
+      // Apply theme-appropriate filter to the spotlight video
+      const isDarkTheme = document.documentElement.classList.contains('dark')
+      ctx.filter = 'none' // Spotlight reveals true video in both modes
+
       try {
         ctx.drawImage(video, x, y, drawWidth, drawHeight)
       } catch (err) {
         console.error('[VideoHero] Canvas drawImage failed:', err)
       }
       
+      ctx.filter = 'none'
       ctx.restore()
     }
 
@@ -295,29 +305,44 @@ export default function HeroVideoBackground() {
   return (
     <div 
       ref={containerRef}
-      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-auto bg-[#0d0d0f]"
+      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-auto bg-light-bg dark:bg-[#0d0d0f] transition-colors duration-300 border-b border-light-border dark:border-transparent"
       aria-hidden="true"
+      onContextMenu={(e) => e.preventDefault()}
     >
       {/* 1. Base Layer: Real HTML5 Video */}
       <video
         ref={videoRef}
         src="/Legend_of_the_Northern.mp4"
-        className="absolute inset-0 w-full h-full object-cover object-[center_65%]"
-        style={{ filter: 'grayscale(100%) brightness(75%)', opacity: 0.9 }}
+        className="absolute inset-0 w-full h-full object-cover object-[center_65%] transition-all duration-300 pointer-events-none select-none"
+        style={isDark ? {
+          filter: 'grayscale(100%) brightness(75%)',
+          opacity: 0.9
+        } : {
+          filter: 'grayscale(35%) saturate(35%) brightness(72%) contrast(88%)',
+          opacity: 0.72
+        }}
         loop
         muted
         playsInline
         preload="auto"
+        draggable={false}
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback"
       />
+      
+      {/* Light Mode Neutral Overlay */}
+      {!isDark && (
+        <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ background: 'rgba(246, 246, 244, 0.18)' }} />
+      )}
       
       {/* 2. Spotlight Canvas Layer */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 block w-full h-full outline-none pointer-events-none"
+        className="absolute inset-0 block w-full h-full outline-none pointer-events-none transition-all duration-300"
       />
 
-      {/* 3. Smooth fade at the bottom to blend seamlessly with the About section */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#0d0d0f] to-transparent pointer-events-none" />
+      {/* 3. Smooth fade at the bottom to blend seamlessly with the About section in Dark Mode */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-zinc-50 dark:from-[#0d0d0f] to-transparent pointer-events-none transition-colors duration-300 hidden dark:block" />
     </div>
   )
 }

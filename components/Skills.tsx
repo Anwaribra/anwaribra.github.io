@@ -85,17 +85,17 @@ export default function Skills() {
             className="py-3 sm:py-4 flex flex-col sm:flex-row gap-1 sm:gap-6 group px-4 -mx-4 transition-all"
           >
             {/* Category Title (Left Column) */}
-            <div className="w-48 shrink-0 text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+            <div className="w-48 shrink-0 text-sm font-medium text-light-primary dark:text-zinc-200 group-hover:text-light-primary dark:group-hover:text-white transition-colors">
               {category.title}
             </div>
 
             {/* Skills List (Right Column) */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors leading-relaxed">
+              <p className="text-sm text-light-muted dark:text-zinc-500 group-hover:text-light-secondary dark:group-hover:text-zinc-400 transition-colors leading-relaxed">
                 {category.skills.map((skill, i) => (
                   <React.Fragment key={skill.name}>
-                    <span className="group-hover:text-zinc-300 transition-colors">{skill.name}</span>
-                    {i < category.skills.length - 1 && <span className="mx-1.5 text-zinc-600">·</span>}
+                    <span className="group-hover:text-light-primary dark:group-hover:text-zinc-300 transition-colors">{skill.name}</span>
+                    {i < category.skills.length - 1 && <span className="mx-1.5 text-light-border dark:text-zinc-600">·</span>}
                   </React.Fragment>
                 ))}
               </p>

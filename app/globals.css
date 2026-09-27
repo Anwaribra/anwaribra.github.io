@@ -13,17 +13,35 @@
   --card-border-hover: #2E2E2E;
 }
 
+.light {
+  --foreground-rgb: 24, 24, 27;
+  --card-bg: #ffffff;
+  --card-bg-hover: #f9f9f9;
+  --card-border: #dededb;
+  --card-border-hover: #cccccc;
+}
+
 * {
   scroll-behavior: smooth;
   box-sizing: border-box;
 }
 
 ::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.dark ::selection {
   background-color: #ffffff;
   color: #000000;
 }
 
-::-moz-selection {
+.dark ::-moz-selection {
   background-color: #ffffff;
   color: #000000;
 }
@@ -35,12 +53,18 @@ html {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: rgb(var(--foreground-rgb));
-  background: #0d0d0f;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
   background-attachment: fixed;
   overflow-x: hidden;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+}
+
+.light body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 0, 0, 0.03) 0%, transparent 50%);
 }
 
 
@@ -78,6 +102,10 @@ body {
   transition: all 0.2s ease-out;
   position: relative;
   overflow: hidden;
+}
+
+.light .glow-card {
+  box-shadow: 0 8px 24px rgba(24, 24, 27, 0.04);
 }
 
 .glow-card::before {
@@ -592,6 +620,11 @@ a, button {
   letter-spacing: -0.025em;
   position: relative;
   display: inline-block;
+  color: #18181b;
+  transition: color 0.3s ease;
+}
+
+.dark .section-heading {
   color: #ffffff;
 }
 
@@ -602,8 +635,12 @@ a, button {
   left: 0;
   width: 40px;
   height: 2px;
-  background: linear-gradient(to right, #ffffff, transparent);
+  background: linear-gradient(to right, #18181b, transparent);
   border-radius: 2px;
+}
+
+.dark .section-heading::after {
+  background: linear-gradient(to right, #ffffff, transparent);
 }
 
 /* Graduation badge */
