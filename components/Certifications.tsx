@@ -37,57 +37,52 @@ export default function Certifications({ certifications }: CertificationsProps) 
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="section-heading mb-6">Certifications</h2>
+      <div className="mb-6">
+        <h2 className="section-heading mb-0">Certifications</h2>
+      </div>
 
-      {/* Clean Borderless List View (Max Katz Style) */}
-      <div className="divide-y divide-white/[0.06] pt-2">
+      <div className="flex flex-col pt-2">
         {certifications.map((cert, index) => {
           const meta = ISSUER_META[cert.issuer] ?? {
-            icon: <Award className="w-5 h-5 text-zinc-300" />,
+            icon: <Award className="w-4 h-4 text-zinc-500 group-hover:text-zinc-300 transition-colors" />,
             tag: "Verified Certificate",
           }
 
+          const CardWrapper = cert.url ? motion.a : motion.div
+          const wrapperProps = cert.url ? { href: cert.url, target: "_blank", rel: "noopener noreferrer" } : {}
+
+          // Format long issuer names for cleaner layout
+          const displayIssuer = cert.issuer.includes("DEPI") ? "DEPI" : cert.issuer
+
           return (
-            <motion.div
+            // @ts-ignore - dynamic motion component props
+            <CardWrapper
+              {...wrapperProps}
               key={index}
               initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.25, delay: index * 0.05 }}
-              className="py-6 first:pt-2 last:pb-2 flex items-start gap-3 sm:gap-4 group"
+              className="py-3 sm:py-4 flex flex-col sm:flex-row gap-1 sm:gap-6 group px-4 -mx-4 transition-all cursor-pointer"
             >
-              {/* Brand Badge Icon */}
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center p-1.5 shrink-0 group-hover:border-white/20 transition-colors shadow-sm mt-0.5">
-                {meta.icon}
+              {/* Issuer (Left Column) */}
+              <div className="w-48 shrink-0 text-sm font-medium text-zinc-500 group-hover:text-zinc-400 transition-colors">
+                {displayIssuer}
               </div>
 
-              {/* Right Content */}
-              <div className="flex-1 min-w-0">
-                {/* Header line: Title & Verify Link */}
-                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-zinc-100 transition-colors">
-                    {cert.name}
-                  </h3>
-
-                  {cert.url && (
-                    <Link
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-mono font-medium text-zinc-400 hover:text-white transition-colors shrink-0"
-                      aria-label={`Verify ${cert.name}`}
-                    >
-                      <span>Verify Credential</span>
-                      <ExternalLink className="w-3.5 h-3.5 stroke-[1.8]" />
-                    </Link>
-                  )}
+              {/* Icon + Title (Right Column) */}
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                  {meta.icon}
                 </div>
-
-                {/* Issuer Name */}
-                <p className="text-xs sm:text-sm font-medium text-zinc-400 mt-0.5">
-                  {cert.issuer}
-                </p>
+                <h3 className="text-base font-medium text-zinc-200 group-hover:text-white transition-colors truncate">
+                  {cert.name}
+                </h3>
+                {cert.url && (
+                  <ExternalLink className="w-3.5 h-3.5 stroke-[2] text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
+                )}
               </div>
-            </motion.div>
+            </CardWrapper>
           )
         })}
       </div>

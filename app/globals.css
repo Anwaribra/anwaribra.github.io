@@ -6,7 +6,7 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --accent-green: #FF3B30;
+  --accent-green: #ffffff;
   --card-bg: #111111;
   --card-bg-hover: #161616;
   --card-border: #1F1F1F;
@@ -36,27 +36,14 @@ html {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: rgb(var(--foreground-rgb));
-  background: #000000;
+  background: #0d0d0f;
   background-image:
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
   background-attachment: fixed;
   overflow-x: hidden;
 }
 
-/* Subtle neutral grid background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 20%, transparent 70%);
-}
+
 
 /* Profile image */
 .profile-image {
@@ -152,7 +139,7 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 90% 0%, rgba(255, 59, 48, 0.12), transparent 32%);
+  background: radial-gradient(circle at 90% 0%, rgba(255, 255, 255, 0.06), transparent 32%);
   opacity: 0;
   transition: opacity 0.25s ease;
   pointer-events: none;
@@ -191,10 +178,6 @@ body::before {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
   color: #d4d4d8;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -207,17 +190,11 @@ body::before {
   height: 34px;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
   color: #a1a1aa;
   transition: all 0.2s ease;
 }
 
 .project-action:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.07);
   color: #ffffff;
 }
 
@@ -336,13 +313,13 @@ body::before {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #ef4444;
+  background: #ffffff;
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
 }
 
 /* Timeline */
@@ -430,25 +407,15 @@ body::before {
   height: 38px;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
   color: #7a7a82;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 700;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 22px rgba(0, 0, 0, 0.22);
   transition: all 0.2s ease;
 }
 
 .experience-node:hover .experience-node-icon,
 .experience-node.active .experience-node-icon {
-  border-color: rgba(255, 255, 255, 0.22);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.045));
   color: #ffffff;
 }
 
@@ -537,8 +504,8 @@ body::before {
 
 /* Section divider */
 .section-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  height: 0px;
+  background: transparent;
   margin: 2rem 0;
 }
 
@@ -648,9 +615,9 @@ a, button {
   border-radius: 20px;
   font-size: 11px;
   font-weight: 600;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.25);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -666,7 +633,7 @@ a, button {
   position: relative;
   padding: 16px 8px;
   border-radius: 16px;
-  border: 1px solid rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   background: rgba(10, 10, 10, 0.4);
   overflow: hidden;
 }
@@ -675,7 +642,7 @@ a, button {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(239, 68, 68, 0.03) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
   pointer-events: none;
 }
 

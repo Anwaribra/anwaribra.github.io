@@ -129,6 +129,7 @@ export const experiences: Experience[] = [
     role: "BI Engineer",
     company: "Link Development",
     period: "Jul 2025 – Jan 2026 · Hybrid",
+    url: "https://linkdevelopment.com/",
     logo: "/assets/logos/link-development.png",
     description: "Built BI dashboards and data models at Link Development to support internal decision-making.",
     achievements: [
@@ -142,6 +143,7 @@ export const experiences: Experience[] = [
     role: "Data Engineer",
     company: "DPEI",
     period: "Oct 2024 - May 2025",
+    url: "https://depi.gov.eg/",
     logo: "/assets/logos/depi.svg",
     description: "Built ETL and streaming data pipelines using Apache Airflow, Kafka, Spark, and Snowflake.",
     achievements: [
@@ -151,22 +153,12 @@ export const experiences: Experience[] = [
       "Delivered data models and ETL workflows alongside engineering teams"
     ]
   },
-  {
-    role: "Data Analyst Intern",
-    company: "NeuronetiX",
-    period: "Sep 2024 – Oct 2024",
-    logo: "/assets/logos/neuronetix.svg",
-    description: "Analyzed operational datasets at NeuronetiX to extract business trends using Python and SQL.",
-    achievements: [
-      "Created automated reporting dashboards using Python and SQL",
-      "Performed statistical analysis on datasets to identify operational trends",
-      "Presented data findings to stakeholders using visualizations and dashboards"
-    ]
-  },
+
   {
     role: "Business Intelligence Intern",
     company: "PwC",
     period: "Jun 2024 – Aug 2024",
+    url: "https://www.pwc.com/",
     logo: "/assets/logos/pwc.png",
     description: "Built client reporting dashboards and performed data quality checks at PwC.",
     achievements: [

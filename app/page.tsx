@@ -1,4 +1,3 @@
-import React from 'react'
 import Hero from '@/components/Hero'
 import Skills from '@/components/Skills'
 import Projects from '@/components/Projects'
@@ -7,7 +6,6 @@ import Education from '@/components/Education'
 import Certifications from '@/components/Certifications'
 import GitHubStats from '@/components/GitHubStats'
 import Connect from '@/components/Connect'
-import FooterSignature from '@/components/FooterSignature'
 import BackToTop from '@/components/BackToTop'
 import FloatingDock from '@/components/FloatingDock'
 import { projects, experiences, certifications } from '@/data/portfolio'
@@ -16,8 +14,7 @@ export default function Home() {
   return (
     <>
       <FloatingDock />
-      <main className="relative z-10 min-h-screen px-4 sm:px-6 pt-8 sm:pt-12 pb-0 max-w-4xl mx-auto">
-
+      <main className="relative z-10 min-h-screen px-4 sm:px-6 pb-0 max-w-3xl mx-auto">
         <Hero />
         <ExperienceSection experiences={experiences} />
         <div className="section-divider" />
@@ -25,13 +22,12 @@ export default function Home() {
         <div className="section-divider" />
         <Skills />
         <div className="section-divider" />
-        <Certifications certifications={certifications} />
+        <GitHubStats />
         <div className="section-divider" />
         <Education />
         <div className="section-divider" />
-        <GitHubStats />
+        <Certifications certifications={certifications} />
         <Connect />
-        <FooterSignature />
         <BackToTop />
       </main>
     </>

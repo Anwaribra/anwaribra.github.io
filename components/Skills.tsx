@@ -70,35 +70,35 @@ export default function Skills() {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="section-heading mb-8 sm:mb-10">Skills</h2>
+      <div className="mb-6">
+        <h2 className="section-heading mb-0">Skills</h2>
+      </div>
 
-      <div className="skills-list mt-4">
+      <div className="flex flex-col pt-2">
         {skillsData.map((category, index) => (
           <motion.div
             key={category.title}
-            className="skills-row"
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.08 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.25, delay: index * 0.05 }}
+            className="py-3 sm:py-4 flex flex-col sm:flex-row gap-1 sm:gap-6 group px-4 -mx-4 transition-all"
           >
-            <h3 className="skills-category">
+            {/* Category Title (Left Column) */}
+            <div className="w-48 shrink-0 text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
               {category.title}
-            </h3>
+            </div>
 
-            <div className="skills-cloud">
-              {category.skills.map((skill, skillIndex) => (
-                <motion.span
-                  key={skill.name}
-                  className="skills-token"
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.25, delay: index * 0.05 + skillIndex * 0.025 }}
-                >
-                  {skill.name}
-                </motion.span>
-              ))}
+            {/* Skills List (Right Column) */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm text-zinc-500 group-hover:text-zinc-400 transition-colors leading-relaxed">
+                {category.skills.map((skill, i) => (
+                  <React.Fragment key={skill.name}>
+                    <span className="group-hover:text-zinc-300 transition-colors">{skill.name}</span>
+                    {i < category.skills.length - 1 && <span className="mx-1.5 text-zinc-600">·</span>}
+                  </React.Fragment>
+                ))}
+              </p>
             </div>
           </motion.div>
         ))}

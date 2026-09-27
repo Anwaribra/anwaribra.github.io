@@ -273,7 +273,7 @@ export default function GitHubStats() {
           <div className="h-8 bg-white/5 rounded w-1/2" />
         </div>
       ) : (
-        <div className="space-y-4 sm:space-y-5 mt-4">
+        <div className="space-y-4 sm:space-y-5 mt-4 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
           {/* Languages + Repos combined card */}
           {data && (
             <motion.div

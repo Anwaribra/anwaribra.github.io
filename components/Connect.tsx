@@ -10,13 +10,28 @@ export default function Connect() {
   return (
     <motion.section
       id="connect"
-      className="pt-12 sm:pt-16 pb-2 border-t border-white/[0.08] mt-8"
+      className="pt-12 sm:pt-16 pb-24 border-t border-white/[0.08] mt-8 relative group"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5 }}
     >
-      <div className="space-y-6 max-w-2xl">
+      {/* Sword Watermark placed on the right side */}
+      <img
+        src="/assets/images/sword-watermark.png"
+        alt="Decorative sword"
+        className="absolute w-[clamp(300px,45vw,600px)] opacity-25 grayscale-[80%] saturate-50 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:grayscale-0 group-hover:saturate-100 z-0 pointer-events-none"
+        style={{
+          right: 'clamp(-4rem, -5vw, 0rem)', // Pushed further to the right edge
+          top: '50%',
+          transform: 'translateY(-50%) rotate(180deg)', // Rotated exactly 180 degrees to put the hilt on top-right
+          userSelect: 'none',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+        }}
+      />
+
+      <div className="space-y-6 max-w-2xl relative z-10">
         {/* Headline matching user screenshot */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight font-sans">
           Let&apos;s build something that has to stay up.

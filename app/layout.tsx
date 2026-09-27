@@ -94,8 +94,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-black text-white font-sans antialiased`}>
-
+      <body className={`${GeistSans.variable} ${GeistMono.variable} text-white font-sans antialiased`}>
 
         {/* Google Analytics GA4 */}
         <Script
