@@ -18,29 +18,13 @@ export default function Connect() {
   return (
     <motion.section
       id="connect"
-      className="pt-12 sm:pt-16 pb-24 border-t border-black/10 dark:border-white/[0.08] mt-8 relative group overflow-hidden"
+      className="pt-12 sm:pt-16 pb-24 border-t border-black/10 dark:border-white/[0.08] mt-8 relative"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5 }}
     >
-      {/* Sword Watermark strictly framed inside Connect section */}
-      <img
-        src="/assets/images/sword-watermark.png"
-        alt=""
-        aria-hidden="true"
-        className="absolute w-[clamp(320px,46vw,600px)] opacity-25 grayscale-[80%] saturate-50 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:grayscale-0 group-hover:saturate-100 z-0 pointer-events-none"
-        style={{
-          right: 'clamp(-4rem, -5vw, 0rem)',
-          top: '55%',
-          transform: 'translateY(-50%) rotate(180deg)',
-          userSelect: 'none',
-          maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-        }}
-      />
-
-      <div className="space-y-6 max-w-3xl relative z-10">
+      <div className="space-y-6 max-w-2xl relative z-10">
         {/* Handwritten Headline adapting gracefully to light/dark mode */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-handwritten text-zinc-900 dark:text-[#C6F36A] leading-tight tracking-wide dark:drop-shadow-[0_0_12px_rgba(198,243,106,0.15)]">
           Let&apos;s build something that has to stay up.

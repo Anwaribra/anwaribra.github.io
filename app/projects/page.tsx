@@ -13,7 +13,7 @@ export default function ProjectsPage() {
   return (
     <>
       <FloatingDock />
-      <div className="min-h-screen px-4 sm:px-6 max-w-3xl mx-auto flex flex-col justify-between">
+      <div className="min-h-screen px-4 sm:px-6 max-w-2xl mx-auto flex flex-col justify-between">
         <div>
           <Header />
           <main className="pt-4 sm:pt-6 space-y-6">
