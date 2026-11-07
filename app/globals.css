@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Great+Vibes&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,11 +6,6 @@
 
 html, body {
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-}
-
-::selection {
-  background-color: #C6F36A;
-  color: #000000;
 }
 
 :root {
@@ -63,19 +58,19 @@ html, body {
 .dock-item-btn {
   --lg-blur: 6px;
   border-radius: 9999px !important;
-  width: 34px !important;
-  height: 34px !important;
+  width: 40px !important;
+  height: 40px !important;
   padding: 0 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease !important;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, color 0.2s ease !important;
 }
 
 @media (min-width: 640px) {
   .dock-item-btn {
-    width: 36px !important;
-    height: 36px !important;
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 

@@ -53,7 +53,7 @@ export default function Projects({
                 {/* Title & Action Buttons */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight group-hover:text-[#C6F36A] transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight group-hover:text-zinc-950 dark:group-hover:text-[#C6F36A] transition-colors">
                       {project.title}
                     </h3>
                   </div>
@@ -64,7 +64,7 @@ export default function Projects({
                       href={project.source}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:text-[#C6F36A] dark:hover:text-[#C6F36A] hover:border-[#C6F36A]/30 transition-all duration-200 text-xs font-mono font-medium"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-[#C6F36A] hover:border-zinc-900/30 dark:hover:border-[#C6F36A]/30 transition-all duration-200 text-xs font-mono font-medium"
                       aria-label={`Source code for ${project.title}`}
                     >
                       <FaGithub className="text-xs" />

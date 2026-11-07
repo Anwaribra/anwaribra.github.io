@@ -58,7 +58,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                       href={exp.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-base sm:text-lg font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-[#C6F36A] hover:text-[#C6F36A] transition-colors"
+                      className="text-base sm:text-lg font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#C6F36A] dark:hover:text-[#C6F36A] transition-colors"
                     >
                       {exp.company}
                     </a>
@@ -98,7 +98,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                             href={sub.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-[#C6F36A] hover:text-[#C6F36A] transition-colors"
+                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#C6F36A] dark:hover:text-[#C6F36A] transition-colors"
                           >
                             {sub.title}
                           </a>

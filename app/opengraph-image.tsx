@@ -20,7 +20,7 @@ export default async function Image() {
           justifyContent: 'space-between',
           backgroundColor: '#07080a',
           backgroundImage:
-            'radial-gradient(ellipse 80% 60% at 50% 10%, rgba(239,68,68,0.12) 0%, transparent 60%), linear-gradient(180deg, #0a0c10 0%, #050608 100%)',
+            'radial-gradient(ellipse 80% 60% at 50% 10%, rgba(198, 243, 106, 0.08) 0%, transparent 60%), linear-gradient(180deg, #0a0c10 0%, #050608 100%)',
           padding: '60px 80px',
           fontFamily: 'sans-serif',
           color: '#ffffff',
@@ -39,11 +39,11 @@ export default async function Image() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
+              backgroundColor: 'rgba(198, 243, 106, 0.12)',
+              border: '1px solid rgba(198, 243, 106, 0.3)',
               borderRadius: '999px',
               padding: '8px 20px',
-              color: '#fca5a5',
+              color: '#C6F36A',
               fontSize: '18px',
               fontWeight: 600,
               letterSpacing: '0.05em',
@@ -54,8 +54,8 @@ export default async function Image() {
                 width: '10px',
                 height: '10px',
                 borderRadius: '50%',
-                backgroundColor: '#ef4444',
-                boxShadow: '0 0 10px #ef4444',
+                backgroundColor: '#C6F36A',
+                boxShadow: '0 0 10px #C6F36A',
               }}
             />
             PORTFOLIO & ENGINEERING SHOWCASE

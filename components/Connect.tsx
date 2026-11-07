@@ -27,7 +27,8 @@ export default function Connect() {
       {/* Sword Watermark strictly framed inside Connect section */}
       <img
         src="/assets/images/sword-watermark.png"
-        alt="Decorative sword"
+        alt=""
+        aria-hidden="true"
         className="absolute w-[clamp(320px,46vw,600px)] opacity-25 grayscale-[80%] saturate-50 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:grayscale-0 group-hover:saturate-100 z-0 pointer-events-none"
         style={{
           right: 'clamp(-4rem, -5vw, 0rem)',
@@ -40,8 +41,8 @@ export default function Connect() {
       />
 
       <div className="space-y-6 max-w-3xl relative z-10">
-        {/* Handwritten Headline in Acid Lime */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-handwritten text-[#C6F36A] leading-tight tracking-wide drop-shadow-[0_0_12px_rgba(198,243,106,0.15)]">
+        {/* Handwritten Headline adapting gracefully to light/dark mode */}
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-handwritten text-zinc-900 dark:text-[#C6F36A] leading-tight tracking-wide dark:drop-shadow-[0_0_12px_rgba(198,243,106,0.15)]">
           Let&apos;s build something that has to stay up.
         </h2>
 
@@ -50,13 +51,13 @@ export default function Connect() {
           {/* 1-Click Copy Email Pill */}
           <button
             onClick={copyEmail}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/5 dark:bg-white/[0.04] border border-black/10 dark:border-white/10 hover:border-[#C6F36A]/40 text-xs sm:text-sm font-mono text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 group/btn shadow-sm"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/5 dark:bg-white/[0.04] border border-black/10 dark:border-white/10 hover:border-zinc-900/30 dark:hover:border-[#C6F36A]/40 text-xs sm:text-sm font-mono text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all duration-200 group/btn shadow-sm"
             title="Click to copy email address"
           >
-            <Mail className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover/btn:text-[#C6F36A] transition-colors" />
+            <Mail className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 group-hover/btn:text-zinc-900 dark:group-hover/btn:text-[#C6F36A] transition-colors" />
             <span>anwarmousa100@gmail.com</span>
             {copied ? (
-              <span className="flex items-center gap-1 text-[#C6F36A] text-xs font-semibold pl-1">
+              <span className="flex items-center gap-1 text-emerald-600 dark:text-[#C6F36A] text-xs font-semibold pl-1">
                 <Check className="w-3.5 h-3.5" />
                 <span>Copied!</span>
               </span>

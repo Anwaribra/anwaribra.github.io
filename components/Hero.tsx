@@ -25,7 +25,7 @@ export default function Hero() {
             href="https://www.thinkerlab.tech/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-zinc-900 dark:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-500 underline-offset-4 hover:decoration-[#C6F36A] hover:text-[#C6F36A] transition-colors"
+            className="font-medium text-zinc-900 dark:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-500 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#C6F36A] dark:hover:text-[#C6F36A] transition-colors"
           >
             Thinker
           </a>

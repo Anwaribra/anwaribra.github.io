@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 
@@ -37,8 +37,16 @@ function ContributionGraph({ username }: { username: string }) {
   const [totalContributions, setTotalContributions] = useState(0)
   const [loading, setLoading] = useState(true)
   const [hoveredDay, setHoveredDay] = useState<{ count: number; date: string } | null>(null)
-  const { theme } = useTheme()
-  const levelColors = theme === 'light' ? LIGHT_LEVEL_COLORS : DARK_LEVEL_COLORS
+  const [mounted, setMounted] = useState(false)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const { resolvedTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = mounted ? resolvedTheme !== 'light' : true
+  const levelColors = isDark ? DARK_LEVEL_COLORS : LIGHT_LEVEL_COLORS
 
   useEffect(() => {
     async function fetchContributions() {
@@ -108,6 +116,13 @@ function ContributionGraph({ username }: { username: string }) {
     return { weeks: weeksArr, monthLabels: labels }
   }, [contributions])
 
+  // Auto-scroll to end (most recent activity) on mobile viewports
+  useEffect(() => {
+    if (!loading && weeks.length > 0 && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth
+    }
+  }, [loading, weeks])
+
   if (loading) {
     return (
       <div className="w-full animate-pulse space-y-2 py-2">
@@ -129,7 +144,11 @@ function ContributionGraph({ username }: { username: string }) {
 
   return (
     <div className="w-full select-none pt-1">
-      <div className="overflow-x-auto pb-1 no-scrollbar">
+      <div
+        ref={scrollContainerRef}
+        className="overflow-x-auto pb-1 no-scrollbar scroll-smooth [mask-image:linear-gradient(to_right,transparent,black_20px,black_calc(100%-20px),transparent)] sm:[mask-image:none]"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
         <svg width={svgWidth} height={svgHeight} className="block" style={{ minWidth: svgWidth }}>
           {monthLabels.map((m, i) => (
             <text
@@ -176,6 +195,7 @@ function ContributionGraph({ username }: { username: string }) {
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                   onMouseEnter={() => setHoveredDay({ count: day.count, date: day.date })}
                   onMouseLeave={() => setHoveredDay(null)}
+                  onTouchStart={() => setHoveredDay({ count: day.count, date: day.date })}
                 />
               )
             })
@@ -183,10 +203,10 @@ function ContributionGraph({ username }: { username: string }) {
         </svg>
       </div>
 
-      {/* Clean status text below the graph matching reference screenshot */}
-      <p className="mt-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+      {/* Clean status text below the graph with stable layout min-height */}
+      <div className="mt-2 min-h-[20px] text-xs font-mono text-zinc-500 dark:text-zinc-400 flex items-center">
         {hoveredDay ? (
-          <>
+          <p>
             <span className="text-zinc-900 dark:text-white font-medium">{hoveredDay.count}</span>{' '}
             {hoveredDay.count === 1 ? 'contribution' : 'contributions'} on{' '}
             <span className="text-zinc-900 dark:text-white font-medium">
@@ -196,11 +216,11 @@ function ContributionGraph({ username }: { username: string }) {
                 year: 'numeric',
               })}
             </span>
-          </>
+          </p>
         ) : (
-          `Total ${totalContributions.toLocaleString()} contributions in lifetime`
+          <p>{`Total ${totalContributions.toLocaleString()} contributions in lifetime`}</p>
         )}
-      </p>
+      </div>
     </div>
   )
 }

@@ -92,7 +92,7 @@ export default function Education() {
 
               {/* Degree - Right Aligned on Desktop */}
               <div className="flex-1 min-w-0 flex items-center justify-start sm:justify-end gap-2 mt-1 sm:mt-0">
-                <p className="text-sm text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors text-right sm:text-right">
+                <p className="text-sm text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors text-left sm:text-right">
                   {edu.degree}
                 </p>
               </div>

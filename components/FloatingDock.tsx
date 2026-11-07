@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import { FileText, Mail, Check, Sun, Moon } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { Glass, Button } from 'glisse'
+import { Glass } from 'glisse'
 
 interface DockItemData {
   id: string
@@ -54,16 +54,16 @@ export default function FloatingDock() {
   }
 
   return (
-    <div className="fixed bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-2 select-none max-w-full">
+    <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] sm:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-3 select-none max-w-full">
       <motion.div
-        initial={{ y: 30, opacity: 0 }}
+        initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
         className="pointer-events-auto"
       >
         <Glass
           data-theme={mounted ? (resolvedTheme || 'dark') : 'dark'}
-          className="dock-liquid-glass flex h-11 sm:h-12 items-center gap-0.5 sm:gap-1 rounded-full px-1.5 sm:px-2 py-1 shadow-2xl"
+          className="dock-liquid-glass flex h-12 sm:h-13 items-center gap-1 sm:gap-1.5 rounded-full px-2 py-1 shadow-2xl"
         >
           {dockItems.map((item) => {
             const Icon = item.icon
@@ -76,33 +76,27 @@ export default function FloatingDock() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="inline-flex rounded-full"
+                  className="dock-item-btn rounded-full cursor-pointer"
                 >
-                  <Button
-                    variant="glass"
-                    className="dock-item-btn"
-                    aria-label={item.label}
-                    icon={<Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[1.8]" />}
-                  />
+                  <Icon className="w-4 h-4 stroke-[1.8]" />
                 </a>
               )
             }
 
             return (
-              <Button
+              <button
                 key={item.id}
-                variant="glass"
-                className="dock-item-btn"
+                type="button"
+                className="dock-item-btn rounded-full cursor-pointer"
                 aria-label={item.label}
                 onClick={handleContactClick}
-                icon={
-                  isCopied ? (
-                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 dark:text-emerald-400 stroke-[2.2]" />
-                  ) : (
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[1.8]" />
-                  )
-                }
-              />
+              >
+                {isCopied ? (
+                  <Check className="w-4 h-4 text-emerald-500 dark:text-emerald-400 stroke-[2.2]" />
+                ) : (
+                  <Icon className="w-4 h-4 stroke-[1.8]" />
+                )}
+              </button>
             )
           })}
 
@@ -110,21 +104,20 @@ export default function FloatingDock() {
           <div className="w-[1px] h-4 bg-black/10 dark:bg-white/10 mx-0.5 rounded-full shrink-0" />
 
           {/* Theme Toggle Button */}
-          <Button
-            variant="glass"
-            className="dock-item-btn"
+          <button
+            type="button"
+            className="dock-item-btn rounded-full cursor-pointer"
             aria-label="Toggle theme"
             onClick={toggleTheme}
-            icon={
-              !mounted ? (
-                <div className="w-3.5 h-3.5" />
-              ) : isDark ? (
-                <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-300 hover:text-white stroke-[1.8] transition-transform duration-300 hover:rotate-45" />
-              ) : (
-                <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600 hover:text-zinc-950 stroke-[1.8] transition-transform duration-300 hover:-rotate-12" />
-              )
-            }
-          />
+          >
+            {!mounted ? (
+              <div className="w-4 h-4" />
+            ) : isDark ? (
+              <Sun className="w-4 h-4 text-zinc-300 hover:text-white stroke-[1.8] transition-transform duration-300 hover:rotate-45" />
+            ) : (
+              <Moon className="w-4 h-4 text-zinc-600 hover:text-zinc-950 stroke-[1.8] transition-transform duration-300 hover:-rotate-12" />
+            )}
+          </button>
         </Glass>
       </motion.div>
     </div>
