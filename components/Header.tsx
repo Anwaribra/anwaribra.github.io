@@ -55,7 +55,7 @@ export default function Header() {
             onDragStart={(e) => e.preventDefault()}
             onContextMenu={(e) => e.preventDefault()}
             className="block w-full cursor-pointer pointer-events-auto"
-            title="Anwar Mousa Portfolio"
+            title="Snow Flower (설화) · Inspired by Legend of the Northern Blade"
           >
             <Image
               src="/assets/images/sword-horizontal.webp"

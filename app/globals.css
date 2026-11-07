@@ -145,7 +145,7 @@ html, body {
 
 .light .apple-icon-btn:hover,
 [data-theme="light"] .apple-icon-btn:hover {
-  color: #18181b;
+  color: #09090b !important;
   border-color: rgba(168, 85, 247, 0.5);
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
 }

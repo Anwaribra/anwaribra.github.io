@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Check, FileText } from 'lucide-react'
-import { FaGithub, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 
 export default function Connect() {
@@ -36,11 +36,6 @@ export default function Connect() {
       href: 'https://www.linkedin.com/in/anwar-mousa/',
       icon: FaLinkedin,
     },
-    {
-      name: 'WhatsApp',
-      href: 'https://wa.me/201144162459',
-      icon: FaWhatsapp,
-    },
   ]
 
   return (
@@ -71,7 +66,7 @@ export default function Connect() {
             {copied ? (
               <Check className="w-4 h-4 text-[#A855F7] stroke-[2.5]" />
             ) : (
-              <Mail className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" />
+              <Mail className="w-4 h-4 text-zinc-700 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />
             )}
           </button>
 
@@ -87,7 +82,7 @@ export default function Connect() {
                 title={item.name}
                 className="apple-icon-btn group relative"
               >
-                <Icon className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" />
+                <Icon className="w-4 h-4 text-zinc-700 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />
               </a>
             )
           })}
