@@ -17,26 +17,31 @@ export default function Header() {
   ]
 
   return (
-    <header className="w-full pt-6 sm:pt-8 pb-5 flex flex-col gap-3 sm:gap-4">
-      {/* Horizontal Katana Slash positioned directly across the top */}
+    <header className="w-full pt-4 sm:pt-6 pb-5 flex flex-col gap-2 sm:gap-3">
+      {/* Horizontal Katana Slash - full width above header, flies from left and locks into focus */}
       <motion.div
-        initial={{ opacity: 0, x: -70, scaleX: 0.94 }}
-        animate={{ opacity: 1, x: 0, scaleX: 1 }}
-        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full select-none pointer-events-none relative flex items-center justify-center overflow-hidden"
+        initial={{ opacity: 0, x: -160, filter: 'blur(10px)', scale: 0.95 }}
+        animate={{ opacity: 1, x: 0, filter: 'blur(0px)', scale: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 240,
+          damping: 20,
+          mass: 0.7,
+        }}
+        className="w-full select-none pointer-events-none relative flex items-center justify-center overflow-visible"
       >
         <Image
           src="/assets/images/sword-horizontal.webp"
-          alt="Katana accent"
-          width={1295}
-          height={126}
+          alt="Katana Banner"
+          width={2590}
+          height={253}
           priority
-          className="w-full h-auto object-contain max-h-[24px] sm:max-h-[30px] opacity-75 dark:opacity-90 drop-shadow-[0_0_10px_rgba(168,85,247,0.35)] dark:drop-shadow-[0_0_14px_rgba(168,85,247,0.5)] transition-all duration-300"
+          className="w-full h-auto object-contain max-h-[48px] sm:max-h-[60px] opacity-85 dark:opacity-95 drop-shadow-[0_0_16px_rgba(168,85,247,0.45)] dark:drop-shadow-[0_0_24px_rgba(168,85,247,0.65)] transition-all duration-300"
         />
       </motion.div>
 
       {/* Main Header Row: Avatar + Name on left, Nav Tabs on right */}
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full flex items-center justify-between pt-1">
         {/* Left: Avatar + Domain */}
         <Link
           href="/"
