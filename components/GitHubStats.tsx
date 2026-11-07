@@ -134,16 +134,16 @@ function ContributionGraph({ username }: { username: string }) {
 
   if (weeks.length === 0) return null
 
-  const cellSize = 10
-  const cellGap = 2.5
+  const cellSize = 8.5
+  const cellGap = 2
   const totalCellSize = cellSize + cellGap
-  const labelWidth = 28
-  const topPadding = 18
+  const labelWidth = 24
+  const topPadding = 14
   const svgWidth = labelWidth + weeks.length * totalCellSize + 4
-  const svgHeight = topPadding + 7 * totalCellSize + 4
+  const svgHeight = topPadding + 7 * totalCellSize + 2
 
   return (
-    <div className="w-full select-none pt-1">
+    <div className="w-full select-none">
       <div
         ref={scrollContainerRef}
         className="overflow-x-auto pb-1 no-scrollbar scroll-smooth [mask-image:linear-gradient(to_right,transparent,black_20px,black_calc(100%-20px),transparent)] sm:[mask-image:none]"
@@ -154,9 +154,9 @@ function ContributionGraph({ username }: { username: string }) {
             <text
               key={i}
               x={labelWidth + m.col * totalCellSize}
-              y={11}
+              y={9}
               fill="#71717a"
-              fontSize="10"
+              fontSize="9"
               fontFamily="var(--font-geist-mono), monospace"
             >
               {m.label}
@@ -171,7 +171,7 @@ function ContributionGraph({ username }: { username: string }) {
                   x={0}
                   y={topPadding + i * totalCellSize + cellSize - 1}
                   fill="#71717a"
-                  fontSize="10"
+                  fontSize="9"
                   fontFamily="var(--font-geist-mono), monospace"
                 >
                   {day}
@@ -189,8 +189,8 @@ function ContributionGraph({ username }: { username: string }) {
                   y={topPadding + dayIdx * totalCellSize}
                   width={cellSize}
                   height={cellSize}
-                  rx={2.5}
-                  ry={2.5}
+                  rx={2}
+                  ry={2}
                   fill={levelColors[day.level] || levelColors[0]}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                   onMouseEnter={() => setHoveredDay({ count: day.count, date: day.date })}
@@ -204,7 +204,7 @@ function ContributionGraph({ username }: { username: string }) {
       </div>
 
       {/* Clean status text below the graph with stable layout min-height */}
-      <div className="mt-2 min-h-[20px] text-xs font-mono text-zinc-500 dark:text-zinc-400 flex items-center">
+      <div className="mt-1 min-h-[18px] text-[11px] font-mono text-zinc-500 dark:text-zinc-400 flex items-center">
         {hoveredDay ? (
           <p>
             <span className="text-zinc-900 dark:text-white font-medium">{hoveredDay.count}</span>{' '}
@@ -229,7 +229,7 @@ export default function GitHubStats() {
   return (
     <motion.section
       id="github"
-      className="pt-2 pb-2"
+      className="!mt-1 !mb-0"
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}

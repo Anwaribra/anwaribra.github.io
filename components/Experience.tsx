@@ -13,14 +13,14 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
   return (
     <motion.section
       id="experience"
-      className="pt-2 pb-6 sm:pb-8"
+      className="!mt-4 sm:!mt-6 pt-0 pb-6 sm:pb-8"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5 }}
     >
       {/* Header */}
-      <h2 className="section-heading mb-6 sm:mb-8">Experience</h2>
+      <h2 className="section-heading mb-4 sm:mb-6">Experience</h2>
 
       {/* Clean Typographic Minimalist List (matching user reference) */}
       <div className="space-y-6 sm:space-y-8">

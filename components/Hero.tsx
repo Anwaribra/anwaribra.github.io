@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <motion.section
       id="about"
-      className="pb-4 sm:pb-6"
+      className="pb-1 sm:pb-2"
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
