@@ -96,7 +96,7 @@ export default function Projects({
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-black/[0.03] dark:bg-white/[0.03] text-zinc-600 dark:text-zinc-400 border border-black/[0.05] dark:border-white/[0.06]"
+                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-black/[0.03] dark:bg-white/[0.03] text-zinc-600 dark:text-zinc-400 border border-black/[0.05] dark:border-white/[0.06] hover:border-[#C6F36A]/30 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
                       >
                         {tech}
                       </span>
