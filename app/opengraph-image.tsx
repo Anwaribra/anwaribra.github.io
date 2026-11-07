@@ -39,11 +39,11 @@ export default async function Image() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: 'rgba(198, 243, 106, 0.12)',
-              border: '1px solid rgba(198, 243, 106, 0.3)',
+              backgroundColor: 'rgba(168, 85, 247, 0.12)',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
               borderRadius: '999px',
               padding: '8px 20px',
-              color: '#C6F36A',
+              color: '#A855F7',
               fontSize: '18px',
               fontWeight: 600,
               letterSpacing: '0.05em',
@@ -54,8 +54,8 @@ export default async function Image() {
                 width: '10px',
                 height: '10px',
                 borderRadius: '50%',
-                backgroundColor: '#C6F36A',
-                boxShadow: '0 0 10px #C6F36A',
+                backgroundColor: '#A855F7',
+                boxShadow: '0 0 10px #A855F7',
               }}
             />
             PORTFOLIO & ENGINEERING SHOWCASE

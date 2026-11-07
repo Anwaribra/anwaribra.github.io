@@ -8,12 +8,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
         mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
         handwritten: ["'Caveat'", 'cursive'],
       },
       colors: {
-        'acid-lime': '#C6F36A',
+        'acid-lime': '#A855F7',
+        'sword-purple': '#A855F7',
+        'sword-purple-light': '#C084FC',
+        'sword-purple-dark': '#9333EA',
         'dark-bg': '#000000',
         'dark-surface': '#111111',
         'dark-border': '#1F1F1F',

@@ -18,12 +18,13 @@ export default function Home() {
           <main className="pt-4 sm:pt-6 space-y-6 sm:space-y-8">
             <Hero />
             <GitHubStats />
+            <Connect />
             <ExperienceSection experiences={experiences} />
             <Education />
             <Certifications certifications={certifications} />
           </main>
         </div>
-        <Connect />
+        <footer className="py-8" />
       </div>
     </>
   )

@@ -12,9 +12,7 @@ export default function Hero() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
-        About
-      </h1>
+      <h1 className="sr-only">About Anwar Mousa</h1>
 
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-normal">
         <p>
@@ -25,7 +23,7 @@ export default function Hero() {
             href="https://www.thinkerlab.tech/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-zinc-900 dark:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-500 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#C6F36A] dark:hover:text-[#C6F36A] transition-colors"
+            className="font-medium text-zinc-900 dark:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-500 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#A855F7] dark:hover:text-[#A855F7] transition-colors"
           >
             Thinker
           </a>
