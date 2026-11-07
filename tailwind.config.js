@@ -7,7 +7,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        handwritten: ["'Caveat'", 'cursive'],
+      },
       colors: {
+        'acid-lime': '#C6F36A',
         'dark-bg': '#000000',
         'dark-surface': '#111111',
         'dark-border': '#1F1F1F',

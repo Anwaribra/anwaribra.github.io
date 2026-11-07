@@ -2,16 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { FaGithub } from 'react-icons/fa'
-import { ExternalLink } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 const GITHUB_USERNAME = 'Anwaribra'
-
-interface GitHubData {
-  publicRepos: number
-  topLanguages: { name: string; count: number; color: string }[]
-}
 
 interface ContributionDay {
   date: string
@@ -19,43 +12,31 @@ interface ContributionDay {
   level: number
 }
 
-const LANG_COLORS: Record<string, string> = {
-  Python: '#3572A5',
-  TypeScript: '#3178c6',
-  JavaScript: '#f1e05a',
-  Jupyter: '#DA5B0B',
-  'Jupyter Notebook': '#DA5B0B',
-  HTML: '#e34c26',
-  CSS: '#563d7c',
-  Shell: '#89e051',
-  Dockerfile: '#384d54',
-  SQL: '#e38c00',
-  PLpgSQL: '#336790',
-}
-
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const DAYS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
 
+// Monochrome shades matching Gurbinder reference (Image 1)
 const DARK_LEVEL_COLORS = [
-  '#161b22',
-  '#0e4429',
-  '#006d32',
-  '#26a641',
-  '#39d353',
+  '#1e2024', // Level 0 (inactive)
+  '#3a3d46', // Level 1
+  '#656a79', // Level 2
+  '#a2abbf', // Level 3
+  '#ffffff', // Level 4 (white peak pop)
 ]
 
 const LIGHT_LEVEL_COLORS = [
   '#ebedf0',
-  '#9be9a8',
-  '#40c463',
-  '#30a14e',
-  '#216e39',
+  '#c4c8d2',
+  '#8d94a3',
+  '#535a68',
+  '#111215',
 ]
 
 function ContributionGraph({ username }: { username: string }) {
   const [contributions, setContributions] = useState<ContributionDay[]>([])
   const [totalContributions, setTotalContributions] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [hoveredDay, setHoveredDay] = useState<{ count: number; date: string } | null>(null)
   const { theme } = useTheme()
   const levelColors = theme === 'light' ? LIGHT_LEVEL_COLORS : DARK_LEVEL_COLORS
 
@@ -129,62 +110,55 @@ function ContributionGraph({ username }: { username: string }) {
 
   if (loading) {
     return (
-      <div className="p-5 sm:p-6 rounded-2xl bg-black/5 dark:bg-[#121214]/60 border border-black/10 dark:border-white/[0.08] animate-pulse">
-        <div className="h-4 bg-black/10 dark:bg-white/5 rounded w-1/3 mb-4" />
-        <div className="h-24 bg-black/10 dark:bg-white/5 rounded" />
+      <div className="w-full animate-pulse space-y-2 py-2">
+        <div className="h-28 bg-black/5 dark:bg-white/5 rounded-lg w-full" />
+        <div className="h-3 bg-black/5 dark:bg-white/5 rounded w-1/4" />
       </div>
     )
   }
 
   if (weeks.length === 0) return null
 
-  const cellSize = 11
-  const cellGap = 3
+  const cellSize = 10
+  const cellGap = 2.5
   const totalCellSize = cellSize + cellGap
-  const labelWidth = 32
-  const topPadding = 20
-  const svgWidth = labelWidth + weeks.length * totalCellSize + 10
-  const svgHeight = topPadding + 7 * totalCellSize + 5
+  const labelWidth = 28
+  const topPadding = 18
+  const svgWidth = labelWidth + weeks.length * totalCellSize + 4
+  const svgHeight = topPadding + 7 * totalCellSize + 4
 
   return (
-    <motion.div
-      className="p-5 sm:p-6 rounded-2xl bg-light-surface dark:bg-[#121214]/60 border border-light-border dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 shadow-sm dark:shadow-none"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.35, delay: 0.1 }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xs sm:text-sm font-mono font-medium text-light-secondary dark:text-zinc-300">
-          <span className="text-light-primary dark:text-white font-bold">{totalContributions.toLocaleString()}</span> contributions in the last year
-        </h3>
-
-        <a
-          href={`https://github.com/${username}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
-        >
-          <span>@{username}</span>
-          <ExternalLink className="w-3 h-3 stroke-[1.8]" />
-        </a>
-      </div>
-
-      <div className="overflow-x-auto pb-2 no-scrollbar">
+    <div className="w-full select-none pt-1">
+      <div className="overflow-x-auto pb-1 no-scrollbar">
         <svg width={svgWidth} height={svgHeight} className="block" style={{ minWidth: svgWidth }}>
           {monthLabels.map((m, i) => (
-            <text key={i} x={labelWidth + m.col * totalCellSize} y={12} fill="#71717a" fontSize="10" fontFamily="var(--font-geist-mono), monospace">
+            <text
+              key={i}
+              x={labelWidth + m.col * totalCellSize}
+              y={11}
+              fill="#71717a"
+              fontSize="10"
+              fontFamily="var(--font-geist-mono), monospace"
+            >
               {m.label}
             </text>
           ))}
 
-          {DAYS.map((day, i) => (
-            day && (
-              <text key={i} x={0} y={topPadding + i * totalCellSize + cellSize - 1} fill="#71717a" fontSize="10" fontFamily="var(--font-geist-mono), monospace">
-                {day}
-              </text>
-            )
-          ))}
+          {DAYS.map(
+            (day, i) =>
+              day && (
+                <text
+                  key={i}
+                  x={0}
+                  y={topPadding + i * totalCellSize + cellSize - 1}
+                  fill="#71717a"
+                  fontSize="10"
+                  fontFamily="var(--font-geist-mono), monospace"
+                >
+                  {day}
+                </text>
+              )
+          )}
 
           {weeks.map((week, weekIdx) =>
             week.map((day, dayIdx) => {
@@ -200,140 +174,48 @@ function ContributionGraph({ username }: { username: string }) {
                   ry={2.5}
                   fill={levelColors[day.level] || levelColors[0]}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
-                >
-                  <title>{`${day.count} contributions on ${day.date}`}</title>
-                </rect>
+                  onMouseEnter={() => setHoveredDay({ count: day.count, date: day.date })}
+                  onMouseLeave={() => setHoveredDay(null)}
+                />
               )
             })
           )}
         </svg>
       </div>
 
-      <div className="flex items-center justify-end gap-1.5 mt-3 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
-        <span>Less</span>
-        {levelColors.map((color, i) => (
-          <div key={i} className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: color }} />
-        ))}
-        <span>More</span>
-      </div>
-    </motion.div>
+      {/* Clean status text below the graph matching reference screenshot */}
+      <p className="mt-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+        {hoveredDay ? (
+          <>
+            <span className="text-zinc-900 dark:text-white font-medium">{hoveredDay.count}</span>{' '}
+            {hoveredDay.count === 1 ? 'contribution' : 'contributions'} on{' '}
+            <span className="text-zinc-900 dark:text-white font-medium">
+              {new Date(hoveredDay.date).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
+          </>
+        ) : (
+          `Total ${totalContributions.toLocaleString()} contributions in lifetime`
+        )}
+      </p>
+    </div>
   )
 }
 
 export default function GitHubStats() {
-  const [data, setData] = useState<GitHubData | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchGitHubData() {
-      try {
-        const userRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`)
-        const userData = await userRes.json()
-
-        const reposRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`)
-        const reposData = await reposRes.json()
-
-        const langMap: Record<string, number> = {}
-        if (Array.isArray(reposData)) {
-          reposData.forEach((repo: { language: string | null }) => {
-            if (repo.language) {
-              langMap[repo.language] = (langMap[repo.language] || 0) + 1
-            }
-          })
-        }
-
-        const topLanguages = Object.entries(langMap)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, 6)
-          .map(([name, count]) => ({
-            name,
-            count,
-            color: LANG_COLORS[name] || '#8b949e'
-          }))
-
-        setData({
-          publicRepos: userData.public_repos || 14,
-          topLanguages
-        })
-      } catch (err) {
-        console.error('Failed to fetch GitHub data:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchGitHubData()
-  }, [])
-
-  const totalLangs = data?.topLanguages.reduce((acc, l) => acc + l.count, 0) || 1
-
   return (
     <motion.section
       id="github"
-      className="py-8 sm:py-12"
-      initial={{ opacity: 0, y: 20 }}
+      className="pt-2 pb-2"
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.35 }}
     >
-      <h2 className="section-heading mb-6 sm:mb-8">GitHub Activity</h2>
-
-      {loading ? (
-        <div className="p-6 rounded-2xl bg-black/5 dark:bg-[#121214]/60 border border-black/10 dark:border-white/[0.08] animate-pulse mt-4">
-          <div className="h-4 bg-black/10 dark:bg-white/5 rounded w-1/3 mb-4" />
-          <div className="h-8 bg-black/10 dark:bg-white/5 rounded w-1/2" />
-        </div>
-      ) : (
-        <div className="space-y-4 sm:space-y-5 mt-4 grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-          {/* Languages + Repos combined card */}
-          {data && (
-            <motion.div
-              className="p-5 sm:p-6 rounded-2xl bg-light-surface dark:bg-[#121214]/60 border border-light-border dark:border-white/[0.08] hover:border-black/20 dark:hover:border-white/20 transition-all duration-200 shadow-sm dark:shadow-none"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35 }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xs sm:text-sm font-mono font-medium text-zinc-600 dark:text-zinc-300">Most Used Languages</h3>
-                <span className="inline-flex items-center gap-1.5 text-xs font-mono text-light-secondary dark:text-zinc-300 bg-black/5 dark:bg-white/[0.05] px-2.5 py-1 rounded-lg border border-light-border dark:border-white/10">
-                  <FaGithub className="text-zinc-500 dark:text-zinc-400 text-xs" />
-                  <span>{data.publicRepos} Repositories</span>
-                </span>
-              </div>
-
-              <div className="flex rounded-full overflow-hidden h-2.5 mb-4 gap-0.5 bg-zinc-200 dark:bg-zinc-900 p-0.5 border border-black/5 dark:border-white/5">
-                {data.topLanguages.map((lang) => (
-                  <div
-                    key={lang.name}
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${(lang.count / totalLangs) * 100}%`,
-                      backgroundColor: lang.color,
-                      minWidth: '6px'
-                    }}
-                    title={`${lang.name}: ${lang.count} repos`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-x-5 gap-y-2">
-                {data.topLanguages.map((lang) => (
-                  <div key={lang.name} className="flex items-center gap-2 text-xs font-mono">
-                    <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: lang.color }} />
-                    <span className="text-zinc-800 dark:text-zinc-200 font-medium">{lang.name}</span>
-                    <span className="text-zinc-500 dark:text-zinc-500">{((lang.count / totalLangs) * 100).toFixed(1)}%</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Contribution Graph */}
-          <ContributionGraph username={GITHUB_USERNAME} />
-        </div>
-      )}
+      <ContributionGraph username={GITHUB_USERNAME} />
     </motion.section>
   )
 }
-

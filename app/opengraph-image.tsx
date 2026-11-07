@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Anwar Ibrahim - Data Engineer Portfolio'
+export const alt = 'Anwar Mousa - Data & AI Engineer'
 export const size = {
   width: 1200,
   height: 630,
@@ -87,7 +87,7 @@ export default async function Image() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://github.com/Anwaribra.png"
-              alt="Anwar Ibrahim"
+              alt="Anwar Mousa"
               style={{
                 width: '100%',
                 height: '100%',
@@ -108,7 +108,7 @@ export default async function Image() {
                 lineHeight: 1.1,
               }}
             >
-              Anwar Ibrahim
+              Anwar Mousa
             </h1>
             <p
               style={{

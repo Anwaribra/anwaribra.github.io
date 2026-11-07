@@ -31,9 +31,9 @@ export default function Connect() {
         }}
       />
 
-      <div className="space-y-6 max-w-2xl relative z-10">
-        {/* Headline matching user screenshot */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white leading-tight font-sans transition-colors">
+      <div className="space-y-6 max-w-3xl relative z-10">
+        {/* Handwritten Headline in Acid Lime */}
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-handwritten text-[#C6F36A] leading-tight tracking-wide drop-shadow-[0_0_12px_rgba(198,243,106,0.15)]">
           Let&apos;s build something that has to stay up.
         </h2>
 

@@ -8,6 +8,12 @@ export interface Project {
   image?: string
 }
 
+export interface SubProject {
+  title: string
+  url?: string
+  description: string
+}
+
 export interface Experience {
   role: string
   company: string
@@ -16,6 +22,7 @@ export interface Experience {
   logo?: string
   description?: string
   achievements?: string[]
+  subProjects?: SubProject[]
 }
 
 export const projects: Project[] = [
@@ -47,12 +54,6 @@ export const projects: Project[] = [
     technologies: ["Apache Airflow", "Python", "Snowflake Cloud", "Docker", "Apache Kafka", "Apache Spark", "Streamlit"],
     source: "https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline",
     image: "/assets/projects/forex-pipeline.png"
-  },
-  {
-    title: "Lakehouse Analytics Platform",
-    description: "Lakehouse platform using Apache Spark and Delta Lake implementing Medallion architecture (Bronze, Silver, Gold) for schema enforcement.",
-    technologies: ["Python", "Apache Spark", "Delta Lake", "Docker"],
-    source: "https://github.com/Anwaribra/Lakehouse-Analytics-Platform"
   },
   {
     title: "RideTrack - Real-time Ride-Sharing Analytics",
@@ -97,12 +98,6 @@ export const projects: Project[] = [
     source: "https://github.com/Anwaribra/ShopStream-Data-Warehouse"
   },
   {
-    title: "Financial Fraud Detection System",
-    description: "Fraud detection system using scikit-learn, Pandas, and Python to train classification models on financial transaction datasets.",
-    technologies: ["Python", "Jupyter", "scikit-learn", "Pandas", "Machine Learning"],
-    source: "https://github.com/Anwaribra/Financial-Fraud-Detection-System"
-  },
-  {
     title: "Car Price Prediction ETL Pipeline",
     description: "ETL pipeline and regression model for car price prediction built with Python, scikit-learn, and PostgreSQL, achieving a 98%+ R² score.",
     technologies: ["Python", "Scikit-learn", "Matplotlib", "PostgreSQL"],
@@ -112,15 +107,21 @@ export const projects: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    role: "Founder & Software Engineer",
-    company: "ThinkerLab",
-    period: "Present",
+    role: "Software Engineer",
+    company: "Thinker",
+    period: "Aug 2025 — Present",
     url: "https://www.thinkerlab.tech/",
     logo: "/assets/logos/thinkerlab.png",
-    description: "Building ThinkerLab as a small product studio focused on data platforms, AI-powered workflows, and practical software systems.",
+    description: "Data platforms, autonomous AI workflows, and practical software systems built with Next.js, FastAPI, and PostgreSQL.",
+    subProjects: [
+      {
+        title: "Dots",
+        url: "https://dots-execution.vercel.app/",
+        description: "AI-powered personal execution planner that turns priorities into realistic weekly plans and adapts dynamically."
+      }
+    ],
     achievements: [
-      "Founded ThinkerLab to design and ship focused software products across data, AI, and web systems.",
-      "Built SaaS-style products using Next.js, FastAPI, PostgreSQL, and Python.",
+      "Built SaaS products using Next.js, FastAPI, PostgreSQL, and Python.",
       "Designed ETL pipelines, backend systems, and AI-powered workflow automation.",
       "Maintained production-ready products and technical projects from concept to deployment."
     ]
@@ -128,39 +129,36 @@ export const experiences: Experience[] = [
   {
     role: "BI Engineer",
     company: "Link Development",
-    period: "Jul 2025 – Jan 2026 · Hybrid",
+    period: "Jul 2025 — Jan 2026",
     url: "https://linkdevelopment.com/",
     logo: "/assets/logos/link-development.png",
-    description: "Built BI dashboards and data models at Link Development to support internal decision-making.",
+    description: "Interactive Power BI dashboards, star-schema data models, and automated SQL reporting pipelines for operational teams.",
     achievements: [
       "Built and maintained interactive dashboards and reports using Power BI",
       "Designed star-schema data models and automated ETL pipelines for reporting",
-      "Translated business requirements from operational teams into SQL and BI reporting datasets",
-      "Validated data quality and schema consistency across reporting platforms"
+      "Translated business requirements from operational teams into SQL and BI reporting datasets"
     ]
   },
   {
     role: "Data Engineer",
-    company: "DPEI",
-    period: "Oct 2024 - May 2025",
+    company: "DEPI",
+    period: "Oct 2024 — May 2025",
     url: "https://depi.gov.eg/",
     logo: "/assets/logos/depi.svg",
-    description: "Built ETL and streaming data pipelines using Apache Airflow, Kafka, Spark, and Snowflake.",
+    description: "End-to-end ETL and streaming data pipelines using Apache Airflow, Kafka, Spark, and Snowflake warehouse optimization.",
     achievements: [
       "Designed and implemented ETL pipelines using Apache Airflow, reducing data processing time by 40%",
       "Built streaming data pipelines using Apache Kafka and Apache Spark",
-      "Optimized analytical queries in Snowflake, improving query performance by 35%",
-      "Delivered data models and ETL workflows alongside engineering teams"
+      "Optimized analytical queries in Snowflake, improving query performance by 35%"
     ]
   },
-
   {
     role: "Business Intelligence Intern",
     company: "PwC",
-    period: "Jun 2024 – Aug 2024",
+    period: "Jun 2024 — Aug 2024",
     url: "https://www.pwc.com/",
     logo: "/assets/logos/pwc.png",
-    description: "Built client reporting dashboards and performed data quality checks at PwC.",
+    description: "Client reporting dashboards in Power BI, data quality validation pipelines, and dimensional warehouse modeling.",
     achievements: [
       "Built interactive Power BI dashboards for client reporting engagements",
       "Ran data quality validation checks across client datasets",

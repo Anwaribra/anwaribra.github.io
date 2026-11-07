@@ -1,24 +1,11 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  AnimatePresence,
-  MotionValue,
-} from 'framer-motion'
-import {
-  FileText,
-  Mail,
-  Check,
-  Sun,
-  Moon
-} from 'lucide-react'
+import { motion } from 'framer-motion'
+import { FileText, Mail, Check, Sun, Moon } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { Glass, Button } from 'glisse'
 
 interface DockItemData {
   id: string
@@ -32,159 +19,114 @@ const dockItems: DockItemData[] = [
   { id: 'github', label: 'GitHub', icon: FaGithub, href: 'https://github.com/Anwaribra', external: true },
   { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/in/anwar-mousa/', external: true },
   { id: 'resume', label: 'Resume', icon: FileText, href: '/assets/docs/CV.pdf', external: true },
-  { id: 'contact', label: 'Contact', icon: Mail, href: 'mailto:anwarmousa100@gmail.com', external: true },
+  { id: 'contact', label: 'Contact', icon: Mail, href: 'mailto:anwarmousa100@gmail.com', external: false },
 ]
 
 export default function FloatingDock() {
-  const mouseX = useMotionValue(Infinity)
-
-  return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-3 select-none max-w-full">
-      <motion.div
-        onMouseMove={(e) => mouseX.set(e.pageX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        onTouchStart={(e) => {
-          if (e.touches[0]) mouseX.set(e.touches[0].pageX)
-        }}
-        onTouchMove={(e) => {
-          if (e.touches[0]) mouseX.set(e.touches[0].pageX)
-        }}
-        onTouchEnd={() => mouseX.set(Infinity)}
-        className="pointer-events-auto flex h-12 items-center gap-3 sm:gap-4 rounded-2xl bg-[rgba(255,255,255,0.86)] dark:bg-white/[0.03] border border-light-border dark:border-white/10 px-4 backdrop-blur-xl shadow-[0_8px_30px_rgba(24,24,27,0.08)] dark:shadow-2xl dark:shadow-black/50 transition-colors"
-        initial={{ y: 80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-      >
-        {/* Subtle inner top highlight */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 dark:via-white/20 to-transparent pointer-events-none rounded-t-2xl" />
-
-        {dockItems.map((item) => (
-          <React.Fragment key={item.id}>
-            <DockIcon mouseX={mouseX} item={item} />
-          </React.Fragment>
-        ))}
-
-        <div className="w-[1px] h-6 bg-black/10 dark:bg-white/10 mx-1" />
-
-        <ThemeToggle mouseX={mouseX} />
-      </motion.div>
-    </div>
-  )
-}
-
-function ThemeToggle({ mouseX }: { mouseX: MotionValue }) {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const ref = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => setMounted(true), [])
-
-  const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
-    return val - bounds.x - bounds.width / 2
-  })
-
-  const widthSync = useTransform(distance, [-120, 0, 120], [34, 52, 34])
-  const width = useSpring(widthSync, { mass: 0.1, stiffness: 180, damping: 12 })
-
-  const iconSizeSync = useTransform(distance, [-120, 0, 120], [16, 24, 16])
-  const iconSize = useSpring(iconSizeSync, { mass: 0.1, stiffness: 180, damping: 12 })
-
-  if (!mounted) {
-    return <div style={{ width: 34, height: 34 }} className="flex-shrink-0" />
-  }
-
-  const isDark = theme === 'dark'
-
-  return (
-    <motion.button
-      ref={ref}
-      style={{ width, height: width }}
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative flex items-center justify-center rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/[0.08] text-light-secondary dark:text-zinc-400 hover:text-light-accent dark:hover:text-white transition-all cursor-pointer group active:scale-95"
-      aria-label="Toggle theme"
-    >
-      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center drop-shadow-sm dark:group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
-        {isDark ? (
-          <Sun className="w-full h-full stroke-[1.5]" />
-        ) : (
-          <Moon className="w-full h-full stroke-[1.5]" />
-        )}
-      </motion.div>
-    </motion.button>
-  )
-}
-
-function DockIcon({
-  mouseX,
-  item,
-}: {
-  mouseX: MotionValue
-  item: DockItemData
-}) {
-  const ref = useRef<HTMLDivElement>(null)
   const [isCopied, setIsCopied] = useState(false)
 
-  const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
-    return val - bounds.x - bounds.width / 2
-  })
-
-  // Magic UI Dock spring interpolation
-  const widthSync = useTransform(distance, [-120, 0, 120], [34, 52, 34])
-  const width = useSpring(widthSync, { mass: 0.1, stiffness: 180, damping: 12 })
-
-  const iconSizeSync = useTransform(distance, [-120, 0, 120], [16, 24, 16])
-  const iconSize = useSpring(iconSizeSync, { mass: 0.1, stiffness: 180, damping: 12 })
-
-  const IconComponent = isCopied && item.id === 'contact' ? Check : item.icon
-
-  const handleScrollTo = (href: string) => {
-    const targetId = href.replace('#', '')
-    const el = document.getElementById(targetId)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  useEffect(() => {
+    setMounted(true)
+    if (resolvedTheme) {
+      document.documentElement.setAttribute('data-theme', resolvedTheme)
     }
+  }, [resolvedTheme])
+
+  const isDark = mounted ? resolvedTheme === 'dark' : true
+
+  const toggleTheme = () => {
+    const nextTheme = isDark ? 'light' : 'dark'
+    setTheme(nextTheme)
+    document.documentElement.setAttribute('data-theme', nextTheme)
   }
 
-  const handleAction = async (e: React.MouseEvent) => {
-    if (item.id === 'contact') {
-      e.preventDefault()
-      try {
-        const email = item.href.replace('mailto:', '')
-        await navigator.clipboard.writeText(email)
-        setIsCopied(true)
-        setTimeout(() => setIsCopied(false), 2000)
-      } catch (err) {
-        console.error('Failed to copy', err)
-      }
+  const handleContactClick = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    try {
+      await navigator.clipboard.writeText('anwarmousa100@gmail.com')
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 2000)
+    } catch {
+      window.location.href = 'mailto:anwarmousa100@gmail.com'
     }
-  }
-
-  const content = (
-    <motion.div
-      ref={ref}
-      style={{ width, height: width }}
-      onClick={handleAction}
-      className="relative flex items-center justify-center rounded-xl bg-transparent hover:bg-black/5 dark:hover:bg-white/[0.08] text-light-secondary dark:text-zinc-400 hover:text-light-accent dark:hover:text-white transition-all cursor-pointer group active:scale-95"
-    >
-      <motion.div style={{ width: iconSize, height: iconSize }} className="flex items-center justify-center drop-shadow-sm dark:group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
-        <IconComponent className="w-full h-full stroke-[1.5]" />
-      </motion.div>
-    </motion.div>
-  )
-
-  if (item.external) {
-    return (
-      <Link href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
-        {content}
-      </Link>
-    )
   }
 
   return (
-    <button type="button" onClick={() => handleScrollTo(item.href)} aria-label={item.label}>
-      {content}
-    </button>
+    <div className="fixed bottom-4 sm:bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-2 select-none max-w-full">
+      <motion.div
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+        className="pointer-events-auto"
+      >
+        <Glass
+          data-theme={mounted ? (resolvedTheme || 'dark') : 'dark'}
+          className="dock-liquid-glass flex h-11 sm:h-12 items-center gap-0.5 sm:gap-1 rounded-full px-1.5 sm:px-2 py-1 shadow-2xl"
+        >
+          {dockItems.map((item) => {
+            const Icon = item.icon
+
+            if (item.external) {
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.label}
+                  className="inline-flex rounded-full"
+                >
+                  <Button
+                    variant="glass"
+                    className="dock-item-btn"
+                    aria-label={item.label}
+                    icon={<Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[1.8]" />}
+                  />
+                </a>
+              )
+            }
+
+            return (
+              <Button
+                key={item.id}
+                variant="glass"
+                className="dock-item-btn"
+                aria-label={item.label}
+                onClick={handleContactClick}
+                icon={
+                  isCopied ? (
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 dark:text-emerald-400 stroke-[2.2]" />
+                  ) : (
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[1.8]" />
+                  )
+                }
+              />
+            )
+          })}
+
+          {/* Minimalist Slim Liquid Glass Divider */}
+          <div className="w-[1px] h-4 bg-black/10 dark:bg-white/10 mx-0.5 rounded-full shrink-0" />
+
+          {/* Theme Toggle Button */}
+          <Button
+            variant="glass"
+            className="dock-item-btn"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            icon={
+              !mounted ? (
+                <div className="w-3.5 h-3.5" />
+              ) : isDark ? (
+                <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-300 hover:text-white stroke-[1.8] transition-transform duration-300 hover:rotate-45" />
+              ) : (
+                <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600 hover:text-zinc-950 stroke-[1.8] transition-transform duration-300 hover:-rotate-12" />
+              )
+            }
+          />
+        </Glass>
+      </motion.div>
+    </div>
   )
 }

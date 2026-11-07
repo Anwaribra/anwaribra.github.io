@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
+import 'glisse/styles.css'
 
 
 
@@ -19,30 +20,30 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Anwar Ibrahim - Data & AI Systems Engineer Portfolio',
+  title: 'Anwar Mousa | Data & AI Engineer',
   description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights. Specialized in ETL processes, data modeling, and cloud technologies.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
-  authors: [{ name: 'Anwar Ibrahim' }],
-  creator: 'Anwar Ibrahim',
+  authors: [{ name: 'Anwar Mousa' }],
+  creator: 'Anwar Mousa',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Anwar Ibrahim | Data Engineer & AI Infrastructure',
+    title: 'Anwar Mousa | Data & AI Engineer',
     description: 'Data Engineer specialized in automated data pipelines, dbt, Apache Airflow, pgvector RAG agents, and FastMCP platforms.',
-    siteName: 'Anwar Ibrahim Portfolio',
+    siteName: 'Anwar Mousa Portfolio',
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: 'Anwar Ibrahim - Data Engineer Showcase',
+        alt: 'Anwar Mousa - Data Engineer Showcase',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anwar Ibrahim | Data Engineer & AI Infrastructure',
+    title: 'Anwar Mousa | Data & AI Engineer',
     description: 'Data Engineer specialized in automated data pipelines, dbt, Apache Airflow, pgvector RAG agents, and FastMCP platforms.',
     creator: '@_vincenzzo',
     images: [`${siteUrl}/opengraph-image`],
@@ -71,7 +72,7 @@ export default function RootLayout({
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Anwar Ibrahim',
+    name: 'Anwar Mousa',
     jobTitle: 'Data Engineer',
     url: siteUrl,
     sameAs: [
@@ -96,7 +97,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-sans antialiased transition-colors duration-300`}>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} ${GeistSans.className} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-sans antialiased transition-colors duration-300`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Google Analytics GA4 */}
           <Script

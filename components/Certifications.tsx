@@ -31,7 +31,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
   return (
     <motion.section
       id="certifications"
-      className="py-8 sm:py-12"
+      className="pt-2 pb-6"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
