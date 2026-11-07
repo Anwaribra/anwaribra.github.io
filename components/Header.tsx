@@ -18,15 +18,13 @@ export default function Header() {
 
   return (
     <header className="w-full pt-4 sm:pt-6 pb-5 flex flex-col gap-2 sm:gap-3">
-      {/* Horizontal Katana Slash - full width above header, flies from left and locks into focus */}
+      {/* Horizontal Katana Slash - subtle, refined glow & gentle slide from left */}
       <motion.div
-        initial={{ opacity: 0, x: -160, filter: 'blur(10px)', scale: 0.95 }}
-        animate={{ opacity: 1, x: 0, filter: 'blur(0px)', scale: 1 }}
+        initial={{ opacity: 0, x: -35 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{
-          type: 'spring',
-          stiffness: 240,
-          damping: 20,
-          mass: 0.7,
+          duration: 0.45,
+          ease: [0.16, 1, 0.3, 1],
         }}
         className="w-full select-none pointer-events-none relative flex items-center justify-center overflow-visible"
       >
@@ -36,7 +34,7 @@ export default function Header() {
           width={2590}
           height={253}
           priority
-          className="w-full h-auto object-contain max-h-[48px] sm:max-h-[60px] opacity-85 dark:opacity-95 drop-shadow-[0_0_16px_rgba(168,85,247,0.45)] dark:drop-shadow-[0_0_24px_rgba(168,85,247,0.65)] transition-all duration-300"
+          className="w-full h-auto object-contain max-h-[44px] sm:max-h-[54px] opacity-60 dark:opacity-75 drop-shadow-[0_0_6px_rgba(168,85,247,0.15)] dark:drop-shadow-[0_0_8px_rgba(168,85,247,0.22)] transition-opacity duration-300"
         />
       </motion.div>
 
