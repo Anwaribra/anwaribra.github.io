@@ -1,113 +1,169 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import { ExternalLink } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
-import { Project } from '@/data/portfolio'
+import styles from './Projects.module.css'
 
-interface ProjectsProps {
-  projects: Project[]
-  title?: string
-  subtitle?: string
+type NodeProps = { x: number; y: number; title: string; detail?: string; accent?: boolean; width?: number }
+function Node({ x, y, title, detail, accent = false, width = 136 }: NodeProps) {
+  return <g transform={`translate(${x} ${y})`} className={accent ? styles.nodeAccent : styles.node}>
+    <rect width={width} height="66" rx="10" />
+    <circle cx="16" cy="19" r="3" />
+    <text x="16" y="39" className={styles.nodeTitle}>{title}</text>
+    {detail && <text x="16" y="54" className={styles.nodeDetail}>{detail}</text>}
+  </g>
+}
+function Pipe({ d, muted = false }: { d: string; muted?: boolean }) {
+  return <path d={d} className={muted ? styles.pipeMuted : styles.pipe} />
+}
+function DataFlow({ agent }: { agent: boolean }) {
+  if (agent) return <svg viewBox="0 0 860 240" role="img" aria-label="Prototype agent workflow: health signals, diagnosis through MCP, proposed plan, human approval, simulated actions. Execution is not a production repair system." className={styles.flowSvg}>
+    <text x="34" y="30" className={styles.svgLabel}>DIAGNOSE. PROPOSE. ASK FIRST.</text>
+    <Pipe d="M164 121 H198 M334 121 H368 M504 121 H538 M674 121 H708" muted />
+    <Node x={28} y={88} width={136} title="Health signals" detail="pipeline evidence" />
+    <Node x={198} y={88} title="Diagnosis" detail="agent + MCP" />
+    <Node x={368} y={88} title="Plan" detail="proposed changes" />
+    <Node x={538} y={88} title="Approval" detail="human decision" accent />
+    <Node x={708} y={88} width={124} title="Actions" detail="simulated adapters" />
+    <text x="430" y="207" textAnchor="middle" className={styles.svgNote}>Prototype control flow. Rerun and refresh adapters are simulated.</text>
+  </svg>
+  return <svg viewBox="0 0 860 240" role="img" aria-label="Sample JSON data flows through dlt into PostgreSQL raw tables, then dbt staging and marts. Dagster orchestrates ingestion, transformation, and checks." className={styles.flowSvg}>
+    <text x="34" y="30" className={styles.svgLabel}>BATCH DATA / ASSET-BASED ORCHESTRATION</text>
+    <path d="M206 76 V61 H784 V76" className={styles.bracket} />
+    <text x="495" y="54" textAnchor="middle" className={styles.orchestrator}>Dagster</text>
+    <Pipe d="M156 121 H198 M334 121 H376 M512 121 H554 M690 121 H732" />
+    <Node x={28} y={88} width={128} title="Sample JSON" detail="e-commerce data" />
+    <Node x={198} y={88} title="Ingest" detail="dlt" />
+    <Node x={376} y={88} title="Raw tables" detail="PostgreSQL" />
+    <Node x={554} y={88} title="Transform" detail="dbt" accent />
+    <Node x={732} y={88} width={100} title="Marts" detail="SQL models" />
+    <path d="M622 154 V187 H444" className={styles.pipeMuted} />
+    <circle cx="435" cy="187" r="4" className={styles.signal} />
+    <text x="421" y="191" textAnchor="end" className={styles.svgNote}>quality checks</text>
+  </svg>
+}
+function MobileDataFlow({ agent }: { agent: boolean }) {
+  const nodes = agent
+    ? [['Signals', 'pipeline evidence'], ['Diagnosis', 'agent + MCP'], ['Plan', 'proposed changes'], ['Approval', 'human decision'], ['Actions', 'simulated adapters']]
+    : [['Sample JSON', 'e-commerce data'], ['Ingest', 'dlt'], ['Raw tables', 'PostgreSQL'], ['Transform', 'dbt'], ['Marts', 'SQL models']]
+  return <svg viewBox="0 0 340 318" className={styles.mobileFlow} role="img" aria-label={agent ? 'Prototype workflow: evidence, diagnosis, plan, human approval, simulated actions.' : 'Dagster orchestrates sample JSON ingestion through dlt into PostgreSQL, dbt transformation, and analytical marts.'}>
+    <text x="17" y="17" className={styles.svgLabel}>{agent ? 'PROTOTYPE / HUMAN APPROVAL' : 'ORCHESTRATED WITH DAGSTER'}</text>
+    <Pipe d="M153 69 H187 M255 102 V128 M187 161 H153 M85 194 V222" />
+    <Node x={17} y={36} title={nodes[0][0]} detail={nodes[0][1]} />
+    <Node x={187} y={36} title={nodes[1][0]} detail={nodes[1][1]} />
+    <Node x={187} y={128} title={nodes[2][0]} detail={nodes[2][1]} />
+    <Node x={17} y={128} title={nodes[3][0]} detail={nodes[3][1]} accent />
+    <Node x={17} y={222} title={nodes[4][0]} detail={nodes[4][1]} />
+    <text x="188" y="251" className={styles.svgNote}>{agent ? 'Execution adapters' : 'Data quality'}</text><text x="188" y="266" className={styles.svgNote}>{agent ? 'are simulated.' : 'checks included.'}</text>
+  </svg>
+}
+function AynMap() {
+  return <svg viewBox="0 0 460 270" role="img" aria-label="Ayn product map. Evidence links to criteria within standards, and gap analysis identifies criteria without approved evidence. Horus assists the workflow." className={styles.aynSvg}>
+    <defs><pattern id="ayn-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" className={styles.gridDot} /></pattern></defs>
+    <rect width="460" height="270" fill="url(#ayn-dots)" />
+    <circle cx="230" cy="135" r="100" className={styles.orbit} />
+    <circle cx="230" cy="135" r="76" className={styles.orbitInner} />
+    <path d="M143 77 Q230 44 317 77 M143 193 Q230 226 317 193 M125 94 V176 M335 94 V176" className={styles.mapLine} />
+    <path d="M156 81 L199 117 M304 81 L261 117 M156 189 L199 153 M304 189 L261 153" className={styles.mapLine} />
+    <g className={styles.mapPill}><rect x="61" y="51" width="130" height="44" rx="9" /><text x="126" y="78" textAnchor="middle">Evidence</text></g>
+    <g className={styles.mapPill}><rect x="269" y="51" width="130" height="44" rx="9" /><text x="334" y="78" textAnchor="middle">Standards</text></g>
+    <g className={styles.mapPill}><rect x="61" y="175" width="130" height="44" rx="9" /><text x="126" y="202" textAnchor="middle">Gap analysis</text></g>
+    <g className={styles.mapPill}><rect x="269" y="175" width="130" height="44" rx="9" /><text x="334" y="202" textAnchor="middle">Horus</text></g>
+    <circle cx="230" cy="135" r="37" className={styles.aynCore} /><text x="230" y="145" textAnchor="middle" className={styles.aynWord}>Ayn.</text>
+  </svg>
+}
+function FleetFlow() {
+  return <svg viewBox="0 0 460 270" role="img" aria-label="Simulated vehicle telemetry goes through MQTT, a Kafka bridge, Spark Structured Streaming, and Cassandra." className={styles.fleetSvg}>
+    <text x="29" y="36" className={styles.svgLabel}>TELEMETRY / SIMULATED SOURCE</text>
+    {[0, 1, 2].map(i => <g key={i} transform={`translate(${33 + i * 27} 66)`} className={styles.vehicle}><rect width="17" height="29" rx="4" /><path d="M4 8 H13 M4 20 H13" /></g>)}
+    <path d="M66 103 V126 H86 V157" className={styles.pipeMuted} />
+    <text x="103" y="130" className={styles.svgNote}>MQTT bridge</text>
+    <Node x={28} y={157} width={118} title="Kafka" detail="event bridge" />
+    <Node x={171} y={157} width={118} title="Spark" detail="stream processing" accent />
+    <Node x={314} y={157} width={118} title="Cassandra" detail="telemetry store" />
+    <Pipe d="M146 190 H171 M289 190 H314" />
+    <path d="M86 134 h10 m-5 -5 v10" className={styles.crosshair} />
+    <path d="M409 85 h10 m-5 -5 v10" className={styles.crosshair} />
+  </svg>
+}
+function EconomicFlow() {
+  return <svg viewBox="0 0 460 270" role="img" aria-label="Daily Airflow workflow extracts currency, metals, stocks, and economic indicators into PostgreSQL, then runs dbt models for analytical tables." className={styles.eisSvg}>
+    <text x="29" y="36" className={styles.svgLabel}>ECONOMIC INDICATORS / DAILY BATCH</text>
+    {['FX', 'METALS', 'MARKETS'].map((t, i) => <g key={t} transform={`translate(${28 + i * 145} 65)`} className={styles.market}><rect width="114" height="45" rx="8" /><text x="57" y="28" textAnchor="middle">{t}</text></g>)}
+    <path d="M85 110 V135 H375 V110 M230 110 V135 M85 135 V158" className={styles.pipeMuted} />
+    <Node x={28} y={158} width={118} title="PostgreSQL" detail="raw indicators" />
+    <Node x={171} y={158} width={118} title="dbt" detail="analytics models" accent />
+    <Node x={314} y={158} width={118} title="Analytics" detail="SQL models" />
+    <Pipe d="M146 191 H171 M289 191 H314" />
+    <text x="230" y="251" textAnchor="middle" className={styles.svgNote}>scheduled with Airflow</text>
+  </svg>
 }
 
-export default function Projects({
-  projects,
-  title = 'Projects',
-  subtitle,
-}: ProjectsProps) {
-  return (
-    <motion.section
-      id="projects"
-      className="pb-12"
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          {title}
-        </h1>
-        {subtitle && (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 font-normal">
-            {subtitle}
-          </p>
-        )}
-      </div>
-
-      {/* Projects List */}
-      <div className="divide-y divide-black/[0.06] dark:divide-white/[0.06]">
-        {projects.map((project, index) => {
-          return (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, delay: index * 0.03 }}
-              className="py-5 first:pt-2 last:pb-4 flex flex-col group"
-            >
-              {/* Content */}
-              <div className="w-full">
-                {/* Title & Action Buttons */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white tracking-tight group-hover:text-zinc-950 dark:group-hover:text-[#A855F7] transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-                    <a
-                      href={project.source}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/[0.04] border border-black/10 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-[#A855F7] hover:border-zinc-900/30 dark:hover:border-[#A855F7]/30 transition-all duration-200 text-xs font-mono font-medium"
-                      aria-label={`Source code for ${project.title}`}
-                    >
-                      <FaGithub className="text-xs" />
-                      <span>Source</span>
-                    </a>
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        target={project.demo.startsWith('/') ? undefined : '_blank'}
-                        rel={project.demo.startsWith('/') ? undefined : 'noopener noreferrer'}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#A855F7] text-white hover:bg-[#9333ea] text-xs font-mono font-semibold transition-all duration-200 shadow-sm"
-                        aria-label={`Live Demo for ${project.title}`}
-                      >
-                        <span>Demo</span>
-                        <ExternalLink className="w-3 h-3 stroke-[2.2]" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {/* Description */}
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mt-2 font-normal">
-                  {project.description}
-                </p>
-
-                {/* Technology Badges */}
-                {project.technologies && project.technologies.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 mt-3">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-black/[0.03] dark:bg-white/[0.03] text-zinc-600 dark:text-zinc-400 border border-black/[0.05] dark:border-white/[0.06] hover:border-[#A855F7]/30 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
-    </motion.section>
-  )
+type ProjectId = 'dataops' | 'ayn' | 'fleet' | 'eis' | 'space'
+const selectedProjects: { id: ProjectId; name: string; line: string; source: string; category: string; website?: string }[] = [
+  { id: 'dataops', name: 'DataOps Agent', line: 'Pipeline diagnosis, with a human in the loop.', category: 'Agent prototype', source: 'https://github.com/Anwaribra/DataOps-Agent' },
+  { id: 'ayn', name: 'Ayn', line: 'Evidence, standards, and accreditation.', category: 'Full-stack product', source: 'https://github.com/Anwaribra/Ayn', website: 'https://aynplatform.app/' },
+  { id: 'fleet', name: 'IoT Fleet', line: 'One pipeline for simulated vehicle telemetry.', category: 'Streaming', source: 'https://github.com/Anwaribra/IoT-Fleet-Monitoring-System' },
+  { id: 'eis', name: 'Egypt Economic Indicators', line: 'A daily view of rates, markets, and metals.', category: 'Analytics', source: 'https://github.com/Anwaribra/Real-Time-EIS-Pipeline' },
+  { id: 'space', name: 'Space Benders', line: 'A crew. A spacecraft. A shared mission.', category: 'Multiplayer game', source: 'https://github.com/Eyad-Dawood/Nasa-hackathon-project' },
+]
+const furtherWork = [
+  { name: 'Lakehouse Analytics', url: 'https://github.com/Anwaribra/Lakehouse-Analytics-Platform' },
+  { name: 'Platform Observability', url: 'https://github.com/Anwaribra/Data-Platform-Observability' },
+  { name: 'Forex Pipeline', url: 'https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline' },
+]
+function Miniature({ id }: { id: ProjectId }) {
+  if (id === 'space') return <div className={styles.gameThumb}><img src="/assets/projects/space-benders-art.jpg" alt="Original Space Benders game artwork" /><img src="/assets/projects/space-benders-logo.png" alt="Space Benders" /></div>
+  if (id === 'ayn') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
+    <circle cx="80" cy="48" r="32" className={styles.miniOrbit} />
+    <path d="M38 24 L80 48 L122 24 M38 72 L80 48 L122 72" className={styles.miniLine} />
+    {[[31,18],[115,18],[31,66],[115,66]].map(([x,y],i)=><rect key={i} x={x} y={y} width="14" height="12" rx="3" className={styles.miniBox} />)}
+    <circle cx="80" cy="48" r="19" className={styles.miniCore} /><text x="80" y="53" textAnchor="middle" className={styles.miniWord}>Ayn.</text>
+  </svg>
+  if (id === 'fleet') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
+    <path d="M25 25 V48 H53 M67 48 H92 M106 48 H130" className={styles.miniLine} />
+    {[10,22,34].map(x=><rect key={x} x={x} y="16" width="7" height="13" rx="2" className={styles.miniBox} />)}
+    <rect x="53" y="40" width="14" height="16" rx="3" className={styles.miniBox} /><rect x="92" y="35" width="14" height="26" rx="3" className={styles.miniCore} />
+    <path d="M130 40 C130 34 148 34 148 40 V56 C148 62 130 62 130 56 Z M130 40 C130 46 148 46 148 40" className={styles.miniStore} />
+    <path d="M10 77 H25 L29 71 L33 81 L38 74 H151" className={styles.miniSignal} />
+  </svg>
+  if (id === 'eis') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
+    <path d="M29 22 V44 H130 V22 M80 22 V44 M29 44 V68 H56 M72 68 H96 M112 68 H138" className={styles.miniLine} />
+    {[29,80,130].map(x=><circle key={x} cx={x} cy="22" r="6" className={styles.miniBox} />)}
+    <rect x="20" y="59" width="18" height="18" rx="3" className={styles.miniBox} />
+    <rect x="56" y="59" width="16" height="18" rx="3" className={styles.miniCore} /><rect x="96" y="59" width="16" height="18" rx="3" className={styles.miniBox} /><path d="M138 58 V77 M145 53 V77 M152 63 V77" className={styles.miniLine} />
+  </svg>
+  return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
+    <path d="M35 24 V17 H137 V24 M26 49 H40 M59 49 H72 M91 49 H104 M123 49 H137 M114 59 V75 H79" className={styles.miniLine} />
+    {[8,40,72,104,136].map((x,i)=><rect key={x} x={x} y="39" width="19" height="20" rx="4" className={i===3?styles.miniCore:styles.miniBox} />)}
+    <circle cx="74" cy="75" r="3" className={styles.signal} />
+  </svg>
+}
+function ExpandedDiagram({ id }: { id: ProjectId }) {
+  const [agent, setAgent] = useState(false)
+  if (id === 'dataops') return <>
+    <div className={styles.detailTools}><div className={styles.switcher} role="group" aria-label="DataOps diagram view"><button type="button" aria-pressed={!agent} onClick={()=>setAgent(false)}>Data flow</button><button type="button" aria-pressed={agent} onClick={()=>setAgent(true)}>Agent loop</button></div><a href="/demo/dataops">Interactive simulation <ArrowUpRight size={12} /></a></div>
+    <DataFlow agent={agent} /><MobileDataFlow agent={agent} />
+  </>
+  return <>{id==='ayn'?<AynMap />:id==='fleet'?<FleetFlow />:<EconomicFlow />}</>
+}
+export default function Projects() {
+  const [open, setOpen] = useState<ProjectId | null>(null)
+  return <section id="projects" className={styles.showcase}>
+    <header className={styles.intro}><div><p className={styles.eyebrow}>SELECTED WORK</p><h1>Projects<span>.</span></h1></div><span className={styles.total}>{String(selectedProjects.length).padStart(2,'0')} / SELECTED</span></header>
+    <div className={styles.projectList}>
+      {selectedProjects.map((p,i)=><article className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
+        <div className={styles.projectRow}>
+          <div className={styles.thumbnail}><Miniature id={p.id} /></div>
+          <div className={styles.projectCopy}><p className={styles.category}><span>{String(i+1).padStart(2,'0')}</span> / {p.category}</p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
+            {p.id!=='space'&&<button type="button" className={styles.expand} aria-expanded={open===p.id} aria-controls={`${p.id}-diagram`} onClick={()=>setOpen(open===p.id?null:p.id)}>{open===p.id?'Close':p.id==='ayn'?'Product map':'Architecture'}<ChevronDown size={11} className={open===p.id?styles.chevronOpen:''} /></button>}
+          </div>
+          <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
+        </div>
+        {p.id!=='space'&&<div id={`${p.id}-diagram`} hidden={open!==p.id} className={styles.details}>{open===p.id&&<ExpandedDiagram id={p.id} />}</div>}
+      </article>)}
+    </div>
+    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={11} /></a>)}</div></section>
+  </section>
 }
