@@ -76,9 +76,10 @@ export default function VisitorCounter() {
       {count !== null && (
         <span
           className="absolute right-0 -top-1 sm:-top-1.5 text-[9px] sm:text-[10px] font-mono text-zinc-500/70 dark:text-zinc-400/60 select-none tracking-widest pointer-events-none"
+          aria-label={`${count} visits`}
           title="Approximate site visits since tracking began. Updates may be delayed by up to four hours."
         >
-          {count} visits
+          {count}
         </span>
       )}
     </>
