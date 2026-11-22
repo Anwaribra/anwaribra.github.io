@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import VisitorCounter from '@/components/VisitorCounter'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -11,23 +12,6 @@ export default function Header() {
   const pathname = usePathname()
   const isAbout = pathname === '/'
   const isProjects = pathname === '/projects'
-
-  const [views, setViews] = useState<number | null>(null)
-
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem('has_counted_view')
-    const method = hasVisited ? 'GET' : 'POST'
-
-    fetch('/api/views', { method })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.views) {
-          setViews(data.views)
-          sessionStorage.setItem('has_counted_view', 'true')
-        }
-      })
-      .catch(() => setViews(1843))
-  }, [])
 
   const navItems = [
     { name: 'About', href: '/', active: isAbout },
@@ -72,12 +56,7 @@ export default function Header() {
           </Link>
         </motion.div>
 
-        {/* Secret Visitor Counter Hint - Static, does NOT slide with sword */}
-        <span
-          className="absolute right-0 -top-1 sm:-top-1.5 text-[9px] sm:text-[10px] font-mono text-zinc-500/70 dark:text-zinc-400/60 select-none tracking-widest pointer-events-none"
-        >
-          {views !== null ? `#${views.toLocaleString()}` : '#1,843'}
-        </span>
+        <VisitorCounter />
       </div>
 
       {/* Main Header Row: Avatar + Name on left, Glisse Liquid Glass Nav Tabs on right */}
