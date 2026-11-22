@@ -49,6 +49,13 @@ export const projects: Project[] = [
     image: "/assets/projects/ayn.png"
   },
   {
+    title: "Space Benders - NASA Deep Space Co-op",
+    description: "Real-time cooperative spacecraft-design game where players take engineering roles, assemble a spacecraft, and check launch readiness against aerospace constraints.",
+    technologies: ["TypeScript", "Phaser", "Colyseus", "Node.js", "Express", "Vite", "WebGL"],
+    source: "https://github.com/Eyad-Dawood/Nasa-hackathon-project",
+    demo: "https://eyad-dawood.github.io/Nasa-hackathon-project/"
+  },
+  {
     title: "Real-time Forex Data Pipeline & Analytics Dashboard",
     description: "ETL pipeline built with Apache Airflow for processing currency rates from Alpha Vantage API into Snowflake using Medallion architecture.",
     technologies: ["Apache Airflow", "Python", "Snowflake Cloud", "Docker", "Apache Kafka", "Apache Spark", "Streamlit"],
