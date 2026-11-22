@@ -47,7 +47,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                         width={16}
                         height={16}
                         className={`object-contain w-4 h-4 ${
-                          isThinker ? 'dark:invert' : ''
+                          isThinker ? 'invert dark:invert-0' : ''
                         }`}
                         unoptimized
                       />

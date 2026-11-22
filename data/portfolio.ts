@@ -118,7 +118,7 @@ export const experiences: Experience[] = [
     company: "Thinker",
     period: "Aug 2025 — Present",
     url: "https://www.thinkerlab.tech/",
-    logo: "/assets/logos/thinkerlab.png",
+    logo: "/assets/logos/thinker-tk.png",
     description: "Data platforms, autonomous AI workflows, and practical software systems built with Next.js, FastAPI, and PostgreSQL.",
     subProjects: [
       {
