@@ -959,6 +959,7 @@ a, button {
 /* Spider web theme pull: faint at rest, only the knot takes input */
 .web-pull { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
 .web-pull-svg { position: absolute; inset: 0; overflow: visible; }
-.web-pull-knot { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 9999px; background: transparent; border: 0; padding: 0; pointer-events: auto; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.web-pull-knot { position: absolute; right: 0; top: 0; width: 120px; height: 30px; border-radius: 0 0 0 24px; background: transparent; border: 0; padding: 0; pointer-events: auto; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
+@media (min-width: 600px) { .web-pull-knot { width: 170px; height: 56px; border-radius: 0 0 0 40px; } }
 .web-pull-knot:active { cursor: grabbing; }
 .web-pull-knot:focus-visible { outline: 1px dashed rgba(124, 106, 156, 0.7); outline-offset: -4px; }
