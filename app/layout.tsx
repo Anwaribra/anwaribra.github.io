@@ -25,6 +25,7 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: { canonical: '/' },
   title: { default: 'Anwar Mousa | Data & Software Engineer, open to work', template: '%s' },
   description: 'Data and software engineer in Egypt, open to work. Airflow, Kafka, Spark, Snowflake, dbt, Power BI and AI-backed products.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
@@ -80,6 +81,8 @@ export default function RootLayout({
     name: 'Anwar Mousa',
     jobTitle: 'Data and Software Engineer',
     url: siteUrl,
+    image: `${siteUrl}/opengraph-image`,
+    address: { '@type': 'PostalAddress', addressCountry: 'EG' },
     sameAs: [
       'https://github.com/Anwaribra',
       'https://www.linkedin.com/in/anwar-mousa/',
@@ -107,9 +110,9 @@ export default function RootLayout({
           {/* Google Analytics GA4 */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-MTJ3REXMR7"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
-          <Script id="google-analytics" strategy="afterInteractive">
+          <Script id="google-analytics" strategy="lazyOnload">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
