@@ -963,3 +963,8 @@ a, button {
 @media (min-width: 600px) { .web-pull-knot { width: 170px; height: 56px; border-radius: 0 0 0 40px; } }
 .web-pull-knot:active { cursor: grabbing; }
 .web-pull-knot:focus-visible { outline: 1px dashed rgba(124, 106, 156, 0.7); outline-offset: -4px; }
+
+/* Keep the web itself live and on top while the theme is revealed under it */
+.web-pull { view-transition-name: spider-web; }
+::view-transition-group(spider-web), ::view-transition-new(spider-web) { animation: none; }
+::view-transition-old(spider-web) { display: none; }

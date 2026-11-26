@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useTheme } from 'next-themes'
+import { flushSync } from 'react-dom'
 import { revealTheme } from '@/lib/themeReveal'
 
 /**
@@ -13,7 +14,9 @@ import { revealTheme } from '@/lib/themeReveal'
 const RADII = [30, 58, 88, 122, 158, 190]   // ring radii in web units (web is 200 units wide)
 const NR = 8                                  // radial strands, from straight down toward left (stops short of the top edge so nothing hugs or clips at the screen top)
 const GRAB = { ring: 2, radial: 6 }
-const THRESHOLD = 42    // small pull is enough (raw finger travel in px)
+const THRESHOLD = 42    // fallback (no View Transitions): finger travel needed to switch
+const COMMIT_R = 90     // drag reveal: release past this reveal radius (px) to commit the switch
+const REVEAL_GAIN = 1.8 // reveal radius grows this much per px the finger moves away from the corner
 const MAX = 190
 const SAG = 0.1
 
@@ -61,6 +64,54 @@ export default function WebPull() {
       for (let k = 0; k < RADII.length - 1; k++) mk('radial', [k, j, 0], [k + 1, j, 0], (wgt[k][j] + wgt[k + 1][j]) / 2)
     }
     for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk('ring', [k, j, 0], [k, j + 1, 0], (wgt[k][j] + wgt[k][j + 1]) / 2)
+
+    type VT = { ready: Promise<void>; finished: Promise<void>; skipTransition: () => void }
+    type VTDoc = Document & { startViewTransition?: (cb: () => void) => VT }
+    const vtSupported = !!(document as VTDoc).startViewTransition && !reduce
+    type Reveal = { vt: VT; anim: Animation | null; prev: string; next: string; maxR: number; frac: number }
+    let rev: Reveal | null = null, busy = false, r0 = 0
+    const pullRadius = (px: number, py: number) => Math.max(0, Math.hypot(W() - px, py) - r0) * REVEAL_GAIN
+    const setFrac = (f: number) => { if (!rev) return; rev.frac = Math.min(1, Math.max(0, f)); if (rev.anim) rev.anim.currentTime = rev.frac * 1000 }
+    // Start a paused view transition: the other theme is the "new" layer, clipped to a circle at the corner that we scrub with the finger.
+    const beginReveal = () => {
+      const { resolvedTheme: cur, setTheme: set } = themeRef.current
+      const prev = cur === 'light' ? 'light' : 'dark', next = prev === 'light' ? 'dark' : 'light'
+      const maxR = Math.hypot(W(), window.innerHeight)
+      const vt = (document as VTDoc).startViewTransition!(() => { flushSync(() => set(next)) })
+      const st: Reveal = { vt, anim: null, prev, next, maxR, frac: 0 }
+      rev = st
+      vt.ready.then(() => {
+        if (rev !== st) return
+        st.anim = document.documentElement.animate(
+          { clipPath: [`circle(0px at ${W()}px 0px)`, `circle(${maxR}px at ${W()}px 0px)`] },
+          { duration: 1000, easing: 'linear', fill: 'both', pseudoElement: '::view-transition-new(root)' })
+        st.anim.pause(); st.anim.currentTime = st.frac * 1000
+      }).catch(() => { if (rev === st) rev = null })
+      vt.finished.finally(() => { if (rev === st) { rev = null; busy = false } })
+    }
+    const tweenFrac = (st: Reveal, to: number, ms: number, done: () => void) => {
+      const from = st.frac, t0 = performance.now()
+      const stepT = (now: number) => {
+        const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3)
+        if (rev !== st) return
+        setFrac(from + (to - from) * e)
+        if (k < 1) requestAnimationFrame(stepT); else done()
+      }
+      requestAnimationFrame(stepT)
+    }
+    const endReveal = (commit: boolean) => {
+      const st = rev; if (!st) return
+      busy = true
+      const run = () => {
+        if (commit) tweenFrac(st, 1, 300, () => { try { st.anim?.finish() } catch {} ; try { st.vt.skipTransition() } catch {} })
+        else tweenFrac(st, 0, 260, () => {
+          // back to the starting theme, then drop the transition without a flash
+          flushSync(() => themeRef.current.setTheme(st.prev))
+          try { st.vt.skipTransition() } catch {}
+        })
+      }
+      if (st.anim) run(); else st.vt.ready.then(run).catch(() => { rev = null; busy = false })
+    }
 
     let ox = 0, oy = 0, vx = 0, vy = 0      // grab offset in px (and its spring velocity)
     let dragging = false, raf = 0, last = 0, crossed = false, peak = 0, tx = 0, ty = 0
@@ -120,7 +171,8 @@ export default function WebPull() {
 
     const down = (e: PointerEvent) => {
       dragging = true; crossed = false; peak = 0; btn.setPointerCapture(e.pointerId)
-      sx = e.clientX; sy = e.clientY; tx = ox; ty = oy
+      if (busy) { dragging = false; return }
+      sx = e.clientX; sy = e.clientY; tx = ox; ty = oy; r0 = Math.hypot(W() - sx, sy)
       lpx = e.clientX; lpy = e.clientY; lt = e.timeStamp; pvx = pvy = 0; vx = vy = 0; kick()
     }
     const move = (e: PointerEvent) => {
@@ -131,7 +183,9 @@ export default function WebPull() {
       peak = Math.max(peak, raw)
       const [rx, ry] = rubber(e.clientX - sx, e.clientY - sy)
       tx = rx; ty = ry
-      const over = raw >= THRESHOLD
+      if (vtSupported && !rev && !busy && raw >= 6) beginReveal()
+      if (rev) setFrac(pullRadius(e.clientX, e.clientY) / rev.maxR)
+      const over = vtSupported ? pullRadius(e.clientX, e.clientY) >= COMMIT_R : raw >= THRESHOLD
       if (over && !crossed && navigator.vibrate) { try { navigator.vibrate(8) } catch {} }
       crossed = over
     }
@@ -142,7 +196,8 @@ export default function WebPull() {
       const stretch = Math.hypot(ox, oy), speed = Math.hypot(pvx, pvy)
       const fling = peak > 12 && speed > 450
       vx = Math.max(-1500, Math.min(1500, pvx * 0.3)); vy = Math.max(-1500, Math.min(1500, pvy * 0.3))
-      if (peak >= THRESHOLD || fling) {
+      if (rev) endReveal(pullRadius(e.clientX, e.clientY) >= COMMIT_R || fling && e.type === 'pointerup')
+      else if (!vtSupported && (peak >= THRESHOLD || fling)) {
         const s = scale(); const [gx, gy] = node(GRAB.ring, GRAB.radial)
         const x = Math.min(Math.max(W() + gx * s + ox, 0), W()), y = Math.max(0, gy * s + oy)
         const { resolvedTheme: cur, setTheme: set } = themeRef.current
