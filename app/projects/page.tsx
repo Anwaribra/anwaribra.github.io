@@ -5,6 +5,8 @@ import ThinkerDock from '@/components/ThinkerDock'
 
 export const metadata = {
   title: 'Projects | Anwar Mousa, Data & Software Engineer',
+  alternates: { canonical: '/projects' },
+  openGraph: { title: 'Projects | Anwar Mousa, Data & Software Engineer', url: 'https://anwarmousa.me/projects', images: ['https://anwarmousa.me/opengraph-image'] },
   description: 'Data platforms, streaming ETL architectures, and autonomous AI systems built by Anwar Mousa.',
 }
 

@@ -938,3 +938,27 @@ a, button {
   background: linear-gradient(180deg, rgba(150,120,200,0.20), rgba(110,85,155,0.12));
   border-color: rgba(176,150,214,0.25);
 }
+
+/* Theme toggle: circular reveal via View Transitions */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Hide scrollbars on horizontal scrollers (the class was used but never defined: it showed a black track) */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Hero fade-in in CSS so the text paints before JS hydrates (better LCP) */
+@keyframes hero-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.hero-enter { animation: hero-enter .4s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .hero-enter { animation: none; } }
+
+/* Spider web theme pull: faint at rest, only the knot takes input */
+.web-pull { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.web-pull-svg { position: absolute; inset: 0; overflow: visible; }
+.web-pull-knot { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 9999px; background: transparent; border: 0; padding: 0; pointer-events: auto; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.web-pull-knot:active { cursor: grabbing; }
+.web-pull-knot:focus-visible { outline: 1px dashed rgba(124, 106, 156, 0.7); outline-offset: -4px; }

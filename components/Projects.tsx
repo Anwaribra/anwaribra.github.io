@@ -118,34 +118,6 @@ const furtherWork = [
   { name: 'Platform Observability', url: 'https://github.com/Anwaribra/Data-Platform-Observability' },
   { name: 'Forex Pipeline', url: 'https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline' },
 ]
-function Miniature({ id }: { id: ProjectId }) {
-  if (id === 'thinkerui' || id === 'toolkit') return <div style={{ width: '100%', height: '100%', background: '#08080c', display: 'grid', placeItems: 'center' }}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ width: '46%', height: 'auto' }} /></div>
-  if (id === 'space') return <div className={styles.gameThumb}><img src="/assets/projects/space-benders-art.jpg" alt="Original Space Benders game artwork" /><img src="/assets/projects/space-benders-logo.png" alt="Space Benders" /></div>
-  if (id === 'ayn') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
-    <circle cx="80" cy="48" r="32" className={styles.miniOrbit} />
-    <path d="M38 24 L80 48 L122 24 M38 72 L80 48 L122 72" className={styles.miniLine} />
-    {[[31,18],[115,18],[31,66],[115,66]].map(([x,y],i)=><rect key={i} x={x} y={y} width="14" height="12" rx="3" className={styles.miniBox} />)}
-    <circle cx="80" cy="48" r="19" className={styles.miniCore} /><text x="80" y="53" textAnchor="middle" className={styles.miniWord}>Ayn.</text>
-  </svg>
-  if (id === 'fleet') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
-    <path d="M25 25 V48 H53 M67 48 H92 M106 48 H130" className={styles.miniLine} />
-    {[10,22,34].map(x=><rect key={x} x={x} y="16" width="7" height="13" rx="2" className={styles.miniBox} />)}
-    <rect x="53" y="40" width="14" height="16" rx="3" className={styles.miniBox} /><rect x="92" y="35" width="14" height="26" rx="3" className={styles.miniCore} />
-    <path d="M130 40 C130 34 148 34 148 40 V56 C148 62 130 62 130 56 Z M130 40 C130 46 148 46 148 40" className={styles.miniStore} />
-    <path d="M10 77 H25 L29 71 L33 81 L38 74 H151" className={styles.miniSignal} />
-  </svg>
-  if (id === 'eis') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
-    <path d="M29 22 V44 H130 V22 M80 22 V44 M29 44 V68 H56 M72 68 H96 M112 68 H138" className={styles.miniLine} />
-    {[29,80,130].map(x=><circle key={x} cx={x} cy="22" r="6" className={styles.miniBox} />)}
-    <rect x="20" y="59" width="18" height="18" rx="3" className={styles.miniBox} />
-    <rect x="56" y="59" width="16" height="18" rx="3" className={styles.miniCore} /><rect x="96" y="59" width="16" height="18" rx="3" className={styles.miniBox} /><path d="M138 58 V77 M145 53 V77 M152 63 V77" className={styles.miniLine} />
-  </svg>
-  return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
-    <path d="M35 24 V17 H137 V24 M26 49 H40 M59 49 H72 M91 49 H104 M123 49 H137 M114 59 V75 H79" className={styles.miniLine} />
-    {[8,40,72,104,136].map((x,i)=><rect key={x} x={x} y="39" width="19" height="20" rx="4" className={i===3?styles.miniCore:styles.miniBox} />)}
-    <circle cx="74" cy="75" r="3" className={styles.signal} />
-  </svg>
-}
 function ExpandedDiagram({ id }: { id: ProjectId }) {
   const [agent, setAgent] = useState(false)
   if (id === 'dataops') return <>
@@ -165,7 +137,7 @@ export default function Projects() {
 <p className={styles.stack}>{stacks[p.id]}</p>
           </div>
           
-          <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
+          <a className={`glass-btn ${styles.repoBtn}`} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={13} /><span>Code</span></a>
         </div>
       </motion.article>)}
     </div>

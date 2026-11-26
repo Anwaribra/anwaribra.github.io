@@ -1,19 +1,12 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import { SettlingText } from '@/components/thinker-ui/TextMotion'
 import { Mail, FileText } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <motion.section
-      id="about"
-      className="pb-1 sm:pb-2"
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <section id="about" className="hero-enter pb-1 sm:pb-2">
       <h1 className="sr-only">About Anwar Mousa</h1>
 
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-4 font-normal">
@@ -61,6 +54,6 @@ export default function Hero() {
           </a>
         </div>
       </div>
-    </motion.section>
+    </section>
   )
 }
