@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { flushSync } from 'react-dom'
+import { revealTheme } from '@/lib/themeReveal'
 import { FileText, Mail, Sun, Moon } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { MaterialDock } from '@/components/thinker-ui/MaterialDock'
@@ -27,23 +27,13 @@ export default function ThinkerDock() {
     if (id === 'resume') window.open('/assets/docs/CV.pdf', '_blank', 'noopener')
     if (id === 'theme') {
       const next = isDark ? 'light' : 'dark'
-      const doc = document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void> } }
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       // Origin of the reveal: the toggle button that was just pressed.
       const btn = (document.activeElement as HTMLElement | null)?.closest?.('button') ||
         document.querySelector('[aria-label="Links and theme"] button[aria-label$=" mode"]')
       const rect = btn?.getBoundingClientRect()
       const x = rect ? (rect.left + rect.width / 2) : window.innerWidth / 2
       const y = rect ? (rect.top + rect.height / 2) : window.innerHeight
-      if (!doc.startViewTransition || reduce) { setTheme(next); return }
-      const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
-      const t = doc.startViewTransition(() => { flushSync(() => setTheme(next)) })
-      t.ready.then(() => {
-        document.documentElement.animate(
-          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-          { duration: 650, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', pseudoElement: '::view-transition-new(root)' }
-        )
-      }).catch(() => {})
+      revealTheme(setTheme, next, x, y)
     }
     if (id === 'email') window.location.href = 'mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa'
   }

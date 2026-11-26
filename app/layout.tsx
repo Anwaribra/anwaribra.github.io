@@ -15,6 +15,7 @@ import 'glisse/styles.css'
 
 
 import { ThemeProvider } from '@/components/ThemeProvider'
+import WebPull from '@/components/WebPull'
 
 const siteUrl = 'https://anwarmousa.me'
 
@@ -127,6 +128,7 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
           />
           {children}
+          <WebPull />
         </ThemeProvider>
       </body>
     </html>

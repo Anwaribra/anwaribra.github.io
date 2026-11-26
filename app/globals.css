@@ -955,3 +955,10 @@ a, button {
 @keyframes hero-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 .hero-enter { animation: hero-enter .4s ease-out both; }
 @media (prefers-reduced-motion: reduce) { .hero-enter { animation: none; } }
+
+/* Spider web theme pull: faint at rest, only the knot takes input */
+.web-pull { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.web-pull-svg { position: absolute; inset: 0; overflow: visible; }
+.web-pull-knot { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 9999px; background: transparent; border: 0; padding: 0; pointer-events: auto; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; }
+.web-pull-knot:active { cursor: grabbing; }
+.web-pull-knot:focus-visible { outline: 1px dashed rgba(124, 106, 156, 0.7); outline-offset: -4px; }
