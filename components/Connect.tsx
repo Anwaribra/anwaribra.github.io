@@ -5,13 +5,11 @@ import { motion } from 'framer-motion'
 import { Glass } from 'glisse'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
-import { FileText } from 'lucide-react'
 
 const links = [
   { name: 'GitHub', href: 'https://github.com/Anwaribra', icon: FaGithub },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/anwar-mousa/', icon: FaLinkedin },
   { name: 'X', href: 'https://x.com/_vincenzzo', icon: FaXTwitter },
-  { name: 'Resume', href: '/assets/docs/CV.pdf', icon: FileText },
 ]
 
 export default function Connect() {
@@ -25,7 +23,7 @@ export default function Connect() {
       transition={{ duration: 0.4 }}
     >
       <div className="space-y-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#9333EA] dark:text-[#C084FC] leading-tight tracking-wide">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#7d6b99] dark:text-[#b3a2cc] leading-tight tracking-wide">
           Let&apos;s build something that has to stay up.
         </h2>
         <div className="flex flex-wrap items-center gap-3">

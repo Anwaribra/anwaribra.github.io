@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { SettlingText } from '@/components/thinker-ui/TextMotion'
-import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
+import { Mail, FileText } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -16,12 +16,11 @@ export default function Hero() {
     >
       <h1 className="sr-only">About Anwar Mousa</h1>
 
-      <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-normal">
-        <div className="flex flex-wrap gap-2 pb-1">
-          <AgenticBadge tone="new" label="Software engineer" />
-          <AgenticBadge tone="new" label="Data systems" />
-          <AgenticBadge tone="new" label="Egypt" />
+      <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-4 font-normal">
+        <div className="inline-flex items-center rounded-full border border-zinc-300 dark:border-white/15 px-3.5 py-0.5 font-handwritten text-lg sm:text-xl leading-tight text-zinc-600 dark:text-zinc-400">
+          Open to work · Available now · Remote or on-site
         </div>
+
         <p>
           I&apos;m Anwar, a software engineer and data systems specialist in Egypt. I architect and build
           resilient data platforms, real-time streaming pipelines, and autonomous AI infrastructure. Currently building
@@ -42,6 +41,25 @@ export default function Hero() {
           and agentic AI systems with FastMCP, dbt-core, and modern vector databases. I specialize in bridging raw telemetry
           into reliable, self-healing data products and intelligent workflows.
         </p>
+
+        <div className="cta-glass-wrap flex flex-wrap items-center gap-2.5 pt-1">
+          <a
+            href="mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa"
+            className="glass-btn glass-btn-primary"
+          >
+            <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+            Get in touch
+          </a>
+          <a
+            href="/assets/docs/CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-btn"
+          >
+            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+            Resume
+          </a>
+        </div>
       </div>
     </motion.section>
   )

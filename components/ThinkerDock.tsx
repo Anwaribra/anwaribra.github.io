@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { FileText, Mail, Check, Sun, Moon } from 'lucide-react'
+import { FileText, Mail, Sun, Moon } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { MaterialDock } from '@/components/thinker-ui/MaterialDock'
 
 export default function ThinkerDock() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [copied, setCopied] = useState(false)
   useEffect(() => setMounted(true), [])
   const isDark = mounted ? resolvedTheme !== 'light' : true
 
@@ -17,7 +16,7 @@ export default function ThinkerDock() {
     { id: 'github', label: 'GitHub', icon: <FaGithub size={20} /> },
     { id: 'linkedin', label: 'LinkedIn', icon: <FaLinkedin size={20} /> },
     { id: 'resume', label: 'Resume', icon: <FileText size={20} /> },
-    { id: 'email', label: copied ? 'Copied' : 'Email', icon: copied ? <Check size={20} /> : <Mail size={20} /> },
+    { id: 'email', label: 'Email me', icon: <Mail size={20} /> },
     { id: 'theme', label: isDark ? 'Light mode' : 'Dark mode', icon: isDark ? <Sun size={20} /> : <Moon size={20} /> },
   ]
 
@@ -26,20 +25,14 @@ export default function ThinkerDock() {
     if (id === 'linkedin') window.open('https://www.linkedin.com/in/anwar-mousa/', '_blank', 'noopener')
     if (id === 'resume') window.open('/assets/docs/CV.pdf', '_blank', 'noopener')
     if (id === 'theme') setTheme(isDark ? 'light' : 'dark')
-    if (id === 'email') {
-      try {
-        await navigator.clipboard.writeText('anwarmousa100@gmail.com')
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      } catch {
-        window.location.href = 'mailto:anwarmousa100@gmail.com'
-      }
-    }
+    if (id === 'email') window.location.href = 'mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa'
   }
 
   return (
-    <div className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-50 select-none max-w-full" style={{ zoom: 0.62 }}>
-      <MaterialDock items={items} value="" onChange={go} label="Links and theme" showLabel={false} />
+    <div className="fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 flex justify-center pointer-events-none select-none px-2">
+      <div className="pointer-events-auto [&_[role=group]]:!flex-nowrap [&_[role=group]]:!gap-[6px] [&_[role=group]]:!p-[10px]" style={{ zoom: 0.72 }}>
+        <MaterialDock items={items} value="" onChange={go} label="Links and theme" showLabel={false} />
+      </div>
     </div>
   )
 }
