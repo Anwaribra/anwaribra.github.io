@@ -938,3 +938,11 @@ a, button {
   background: linear-gradient(180deg, rgba(150,120,200,0.20), rgba(110,85,155,0.12));
   border-color: rgba(176,150,214,0.25);
 }
+
+/* Theme toggle: circular reveal via View Transitions */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
