@@ -36,6 +36,7 @@ export default function Header() {
         >
           <Link
             href="/"
+            data-web-grab=""
             draggable={false}
             onDragStart={(e) => e.preventDefault()}
             onContextMenu={(e) => e.preventDefault()}
