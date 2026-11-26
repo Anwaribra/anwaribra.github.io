@@ -6,7 +6,6 @@ import { ExternalLink, Award, ShieldCheck } from 'lucide-react'
 import { FaAws } from 'react-icons/fa'
 import { SiGoogle } from 'react-icons/si'
 import { Certification } from '@/data/portfolio'
-import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
 
 interface CertificationsProps {
   certifications: Certification[]
@@ -47,7 +46,7 @@ export default function Certifications({ certifications }: CertificationsProps) 
           const body = (
             <div className="flex items-center justify-between gap-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 px-4 py-3 hover:border-[#A855F7]/60 transition-colors">
               <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{cert.name}</span>
-              <AgenticBadge tone={issuer === 'DEPI' ? 'active' : issuer === 'Google' ? 'review' : 'pending'} label={issuer === 'Amazon Web Services' ? 'AWS' : issuer} />
+              <span className="text-xs text-zinc-500 dark:text-zinc-400 shrink-0">{issuer === 'Amazon Web Services' ? 'AWS' : issuer}</span>
             </div>
           )
           return cert.url

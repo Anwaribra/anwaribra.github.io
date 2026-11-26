@@ -161,7 +161,7 @@ export default function Projects() {
       {selectedProjects.map((p,i)=><article className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
         <div className={styles.projectRow}>
           <div className={styles.thumbnail}><Miniature id={p.id} /></div>
-          <div className={styles.projectCopy}><p className={styles.category}><AgenticBadge tone={p.id==='thinkerui'||p.id==='toolkit'?'new':'review'} label={p.category} /></p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
+          <div className={styles.projectCopy}><p className={styles.category}><AgenticBadge tone="new" label={p.category} /></p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
             {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div className={styles.expand}><MaterialButton variant="graphite" onClick={()=>setOpen(open===p.id?null:p.id)}>{open===p.id?'Close':p.id==='ayn'?'Product map':'Architecture'}</MaterialButton></div>}
           </div>
           <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
@@ -169,6 +169,6 @@ export default function Projects() {
         {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div id={`${p.id}-diagram`} hidden={open!==p.id} className={styles.details}>{open===p.id&&<ExpandedDiagram id={p.id} />}</div>}
       </article>)}
     </div>
-    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"><AgenticBadge tone="review" label={p.name} /></a>)}</div></section>
+    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"><AgenticBadge tone="new" label={p.name} /></a>)}</div></section>
   </section>
 }

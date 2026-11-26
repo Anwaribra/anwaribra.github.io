@@ -2,10 +2,17 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { MaterialButton } from '@/components/thinker-ui/MaterialControls'
-import { CopySnippet } from '@/components/thinker-ui/FeedbackControls'
+import { Glass } from 'glisse'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
+import { FileText } from 'lucide-react'
 
-const open = (href: string) => () => window.open(href, '_blank', 'noopener')
+const links = [
+  { name: 'GitHub', href: 'https://github.com/Anwaribra', icon: FaGithub },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/anwar-mousa/', icon: FaLinkedin },
+  { name: 'X', href: 'https://x.com/_vincenzzo', icon: FaXTwitter },
+  { name: 'Resume', href: '/assets/docs/CV.pdf', icon: FileText },
+]
 
 export default function Connect() {
   return (
@@ -21,12 +28,21 @@ export default function Connect() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#9333EA] dark:text-[#C084FC] leading-tight tracking-wide">
           Let&apos;s build something that has to stay up.
         </h2>
-        <CopySnippet text="anwarmousa100@gmail.com" label="Copy email address" />
-        <div className="flex flex-wrap items-center gap-2.5">
-          <MaterialButton onClick={open('https://github.com/Anwaribra')}>GitHub</MaterialButton>
-          <MaterialButton onClick={open('https://www.linkedin.com/in/anwar-mousa/')}>LinkedIn</MaterialButton>
-          <MaterialButton onClick={open('https://x.com/_vincenzzo')}>X</MaterialButton>
-          <MaterialButton variant="graphite" onClick={open('/assets/docs/CV.pdf')}>Resume</MaterialButton>
+        <div className="flex flex-wrap items-center gap-3">
+          {links.map(({ name, href, icon: Icon }) => (
+            <Glass key={name} className="dock-liquid-glass rounded-full">
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                title={name}
+                className="dock-item-btn rounded-full cursor-pointer"
+              >
+                <Icon className="w-4 h-4" />
+              </a>
+            </Glass>
+          ))}
         </div>
       </div>
     </motion.section>

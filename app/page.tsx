@@ -6,7 +6,6 @@ import Education from '@/components/Education'
 import Certifications from '@/components/Certifications'
 import Connect from '@/components/Connect'
 import ThinkerDock from '@/components/ThinkerDock'
-import ThinkerFooter from '@/components/ThinkerFooter'
 import { experiences, certifications } from '@/data/portfolio'
 
 export default function Home() {
@@ -25,7 +24,7 @@ export default function Home() {
             <Certifications certifications={certifications} />
           </main>
         </div>
-        <ThinkerFooter />
+        
       </div>
     </>
   )

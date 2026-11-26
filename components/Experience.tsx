@@ -4,8 +4,6 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Experience } from '@/data/portfolio'
-import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
-import { SoftAccordion } from '@/components/thinker-ui/FeedbackControls'
 
 interface ExperienceProps {
   experiences: Experience[]
@@ -97,12 +95,11 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                         <a href={sub.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-[#A855F7]">
                           {sub.title}
                         </a>
-                        <span className="flex items-center gap-2">
-                          {sub.source && (
-                            <a href={sub.source} target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-white">Source</a>
-                          )}
-                          {sub.tag && <AgenticBadge tone={sub.tag === 'Product' ? 'active' : 'new'} label={sub.tag} />}
-                        </span>
+                        {sub.source && (
+                          <a href={sub.source} target="_blank" rel="noopener noreferrer" aria-label={`${sub.title} on GitHub`}>
+                            <span className="inline-flex items-center rounded-full bg-zinc-200/70 dark:bg-white/10 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors">{sub.tag}</span>
+                          </a>
+                        )}
                       </div>
                       <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400/90 leading-relaxed font-normal">{sub.description}</p>
                     </div>
@@ -110,13 +107,6 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                 </div>
               )}
 
-              {exp.achievements && exp.achievements.length > 0 && (
-                <div className="mt-3">
-                  <SoftAccordion defaultOpen={false} items={[{ id: 'details', title: 'What I did', content: (
-                    <ul className="list-disc pl-4 space-y-1">{exp.achievements.map((a) => <li key={a}>{a}</li>)}</ul>
-                  ) }]} />
-                </div>
-              )}
             </motion.div>
           )
         })}

@@ -19,8 +19,8 @@ export default function Hero() {
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-normal">
         <div className="flex flex-wrap gap-2 pb-1">
           <AgenticBadge tone="new" label="Software engineer" />
-          <AgenticBadge tone="review" label="Data systems" />
-          <AgenticBadge tone="active" label="Egypt" />
+          <AgenticBadge tone="new" label="Data systems" />
+          <AgenticBadge tone="new" label="Egypt" />
         </div>
         <p>
           I&apos;m Anwar, a software engineer and data systems specialist in Egypt. I architect and build

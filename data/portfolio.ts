@@ -126,8 +126,7 @@ export const experiences: Experience[] = [
       {
         title: "Dots",
         url: "https://dots-execution.vercel.app/",
-        description: "AI-powered personal execution planner that turns priorities into realistic weekly plans and adapts dynamically.",
-        tag: "Product"
+        description: "AI-powered personal execution planner that turns priorities into realistic weekly plans and adapts dynamically."
       },
       {
         title: "Thinker UI",

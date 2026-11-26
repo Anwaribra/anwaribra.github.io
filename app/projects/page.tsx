@@ -2,7 +2,6 @@ import Header from '@/components/Header'
 import Projects from '@/components/Projects'
 import Connect from '@/components/Connect'
 import ThinkerDock from '@/components/ThinkerDock'
-import ThinkerFooter from '@/components/ThinkerFooter'
 
 export const metadata = {
   title: 'Projects | Anwar Mousa',
@@ -20,7 +19,7 @@ export default function ProjectsPage() {
             <Projects />
           </main>
         </div>
-        <div className="max-w-2xl mx-auto w-full"><Connect /><ThinkerFooter /></div>
+        <div className="max-w-2xl mx-auto w-full"><Connect /></div>
       </div>
     </>
   )
