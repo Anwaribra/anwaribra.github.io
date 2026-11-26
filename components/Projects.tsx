@@ -118,7 +118,7 @@ const furtherWork = [
   { name: 'Forex Pipeline', url: 'https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline' },
 ]
 function Miniature({ id }: { id: ProjectId }) {
-  if (id === 'thinkerui' || id === 'toolkit') return <div className={styles.gameThumb}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ objectFit: 'contain', padding: 18, filter: 'var(--thinker-logo-filter, none)' }} /></div>
+  if (id === 'thinkerui' || id === 'toolkit') return <div style={{ width: '100%', height: '100%', background: '#08080c', display: 'grid', placeItems: 'center' }}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ width: '52%', height: 'auto' }} /></div>
   if (id === 'space') return <div className={styles.gameThumb}><img src="/assets/projects/space-benders-art.jpg" alt="Original Space Benders game artwork" /><img src="/assets/projects/space-benders-logo.png" alt="Space Benders" /></div>
   if (id === 'ayn') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
     <circle cx="80" cy="48" r="32" className={styles.miniOrbit} />
