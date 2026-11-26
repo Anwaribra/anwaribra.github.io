@@ -5,13 +5,11 @@ import { motion } from 'framer-motion'
 import { Glass } from 'glisse'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
-import { FileText } from 'lucide-react'
 
 const links = [
   { name: 'GitHub', href: 'https://github.com/Anwaribra', icon: FaGithub },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/anwar-mousa/', icon: FaLinkedin },
   { name: 'X', href: 'https://x.com/_vincenzzo', icon: FaXTwitter },
-  { name: 'Resume', href: '/assets/docs/CV.pdf', icon: FileText },
 ]
 
 export default function Connect() {
