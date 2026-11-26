@@ -11,8 +11,8 @@ import { revealTheme } from '@/lib/themeReveal'
  * release point; the web springs back. Only a small grab spot takes input, so scrolling is never blocked.
  */
 const RADII = [30, 58, 88, 122, 158, 190]   // ring radii in web units (web is 200 units wide)
-const NR = 9                                  // radial strands, from straight down to straight left
-const GRAB = { ring: 2, radial: 7 }
+const NR = 8                                  // radial strands, from straight down toward left (stops short of the top edge so nothing hugs or clips at the screen top)
+const GRAB = { ring: 2, radial: 6 }
 const THRESHOLD = 100
 const MAX = 240
 const SAG = 0.1
@@ -36,7 +36,7 @@ export default function WebPull() {
 
     // rest-space nodes (web units, origin at the corner anchor, x grows left, y grows down)
     const node = (k: number, j: number): [number, number] => {
-      const th = (j * 90 / (NR - 1)) * Math.PI / 180
+      const th = (j * 11.25) * Math.PI / 180
       return [-Math.sin(th) * RADII[k], Math.cos(th) * RADII[k]]
     }
     const gp = node(GRAB.ring, GRAB.radial)
