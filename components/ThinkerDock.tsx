@@ -29,8 +29,10 @@ export default function ThinkerDock() {
   }
 
   return (
-    <div className="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-50 select-none max-w-full" style={{ zoom: 0.62 }}>
-      <MaterialDock items={items} value="" onChange={go} label="Links and theme" showLabel={false} />
+    <div className="fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 flex justify-center pointer-events-none select-none px-2">
+      <div className="pointer-events-auto [&_[role=group]]:!flex-nowrap [&_[role=group]]:!gap-[6px] [&_[role=group]]:!p-[10px]" style={{ zoom: 0.72 }}>
+        <MaterialDock items={items} value="" onChange={go} label="Links and theme" showLabel={false} />
+      </div>
     </div>
   )
 }
