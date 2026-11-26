@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
 import styles from './Projects.module.css'
+import { AgenticBadge, SegmentControl } from '@/components/thinker-ui/AgenticControls'
+import { MaterialButton } from '@/components/thinker-ui/MaterialControls'
 
 type NodeProps = { x: number; y: number; title: string; detail?: string; accent?: boolean; width?: number }
 function Node({ x, y, title, detail, accent = false, width = 136 }: NodeProps) {
@@ -100,8 +102,10 @@ function EconomicFlow() {
   </svg>
 }
 
-type ProjectId = 'dataops' | 'ayn' | 'fleet' | 'eis' | 'space'
+type ProjectId = 'dataops' | 'ayn' | 'fleet' | 'eis' | 'space' | 'thinkerui' | 'toolkit'
 const selectedProjects: { id: ProjectId; name: string; line: string; source: string; category: string; website?: string }[] = [
+  { id: 'thinkerui', name: 'Thinker UI', line: 'Open-source React components with tactile materials and motion.', category: 'Component library', source: 'https://github.com/Thinker-Labs/thinker-ui', website: 'https://www.thinkerlab.tech/thinker-ui' },
+  { id: 'toolkit', name: 'Thinker Toolkit', line: 'Engineering rules for AI-assisted development, with a verify step.', category: 'Developer tool', source: 'https://github.com/Thinker-Labs/Thinker-toolkit-', website: 'https://www.thinkerlab.tech/' },
   { id: 'dataops', name: 'DataOps Agent', line: 'Pipeline diagnosis, with a human in the loop.', category: 'Agent prototype', source: 'https://github.com/Anwaribra/DataOps-Agent' },
   { id: 'ayn', name: 'Ayn', line: 'Evidence, standards, and accreditation.', category: 'Full-stack product', source: 'https://github.com/Anwaribra/Ayn', website: 'https://aynplatform.app/' },
   { id: 'fleet', name: 'IoT Fleet', line: 'One pipeline for simulated vehicle telemetry.', category: 'Streaming', source: 'https://github.com/Anwaribra/IoT-Fleet-Monitoring-System' },
@@ -114,6 +118,7 @@ const furtherWork = [
   { name: 'Forex Pipeline', url: 'https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline' },
 ]
 function Miniature({ id }: { id: ProjectId }) {
+  if (id === 'thinkerui' || id === 'toolkit') return <div className={styles.gameThumb}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ objectFit: 'contain', padding: 18, filter: 'var(--thinker-logo-filter, none)' }} /></div>
   if (id === 'space') return <div className={styles.gameThumb}><img src="/assets/projects/space-benders-art.jpg" alt="Original Space Benders game artwork" /><img src="/assets/projects/space-benders-logo.png" alt="Space Benders" /></div>
   if (id === 'ayn') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
     <circle cx="80" cy="48" r="32" className={styles.miniOrbit} />
@@ -143,7 +148,7 @@ function Miniature({ id }: { id: ProjectId }) {
 function ExpandedDiagram({ id }: { id: ProjectId }) {
   const [agent, setAgent] = useState(false)
   if (id === 'dataops') return <>
-    <div className={styles.detailTools}><div className={styles.switcher} role="group" aria-label="DataOps diagram view"><button type="button" aria-pressed={!agent} onClick={()=>setAgent(false)}>Data flow</button><button type="button" aria-pressed={agent} onClick={()=>setAgent(true)}>Agent loop</button></div><a href="/demo/dataops">Interactive simulation <ArrowUpRight size={12} /></a></div>
+    <div className={styles.detailTools}><SegmentControl label="DataOps diagram view" options={['Data flow','Agent loop']} value={agent?'Agent loop':'Data flow'} onChange={(v)=>setAgent(v==='Agent loop')} /><a href="/demo/dataops">Interactive simulation <ArrowUpRight size={12} /></a></div>
     <DataFlow agent={agent} /><MobileDataFlow agent={agent} />
   </>
   return <>{id==='ayn'?<AynMap />:id==='fleet'?<FleetFlow />:<EconomicFlow />}</>
@@ -156,14 +161,14 @@ export default function Projects() {
       {selectedProjects.map((p,i)=><article className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
         <div className={styles.projectRow}>
           <div className={styles.thumbnail}><Miniature id={p.id} /></div>
-          <div className={styles.projectCopy}><p className={styles.category}><span>{String(i+1).padStart(2,'0')}</span> / {p.category}</p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
-            {p.id!=='space'&&<button type="button" className={styles.expand} aria-expanded={open===p.id} aria-controls={`${p.id}-diagram`} onClick={()=>setOpen(open===p.id?null:p.id)}>{open===p.id?'Close':p.id==='ayn'?'Product map':'Architecture'}<ChevronDown size={11} className={open===p.id?styles.chevronOpen:''} /></button>}
+          <div className={styles.projectCopy}><p className={styles.category}><AgenticBadge tone={p.id==='thinkerui'||p.id==='toolkit'?'new':'review'} label={p.category} /></p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
+            {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div className={styles.expand}><MaterialButton variant="graphite" onClick={()=>setOpen(open===p.id?null:p.id)}>{open===p.id?'Close':p.id==='ayn'?'Product map':'Architecture'}</MaterialButton></div>}
           </div>
           <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
         </div>
-        {p.id!=='space'&&<div id={`${p.id}-diagram`} hidden={open!==p.id} className={styles.details}>{open===p.id&&<ExpandedDiagram id={p.id} />}</div>}
+        {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div id={`${p.id}-diagram`} hidden={open!==p.id} className={styles.details}>{open===p.id&&<ExpandedDiagram id={p.id} />}</div>}
       </article>)}
     </div>
-    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={11} /></a>)}</div></section>
+    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"><AgenticBadge tone="review" label={p.name} /></a>)}</div></section>
   </section>
 }

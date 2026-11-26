@@ -1,7 +1,8 @@
 import Header from '@/components/Header'
 import Projects from '@/components/Projects'
 import Connect from '@/components/Connect'
-import FloatingDock from '@/components/FloatingDock'
+import ThinkerDock from '@/components/ThinkerDock'
+import ThinkerFooter from '@/components/ThinkerFooter'
 
 export const metadata = {
   title: 'Projects | Anwar Mousa',
@@ -11,7 +12,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <FloatingDock />
+      <ThinkerDock />
       <div className="min-h-screen px-4 sm:px-6 max-w-4xl mx-auto flex flex-col justify-between pb-[calc(7rem+env(safe-area-inset-bottom))]">
         <div>
           <div className="max-w-2xl mx-auto"><Header /></div>
@@ -19,7 +20,7 @@ export default function ProjectsPage() {
             <Projects />
           </main>
         </div>
-        <div className="max-w-2xl mx-auto w-full"><Connect /></div>
+        <div className="max-w-2xl mx-auto w-full"><Connect /><ThinkerFooter /></div>
       </div>
     </>
   )

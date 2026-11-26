@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
+import './thinker-theme.css'
 import 'glisse/styles.css'
 
 
@@ -95,7 +96,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" data-thinker-theme="dark" suppressHydrationWarning>
       <body className={`${GeistSans.variable} ${GeistMono.variable} ${GeistMono.className} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-mono antialiased transition-colors duration-300`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Google Analytics GA4 */}

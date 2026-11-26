@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { SettlingText } from '@/components/thinker-ui/TextMotion'
+import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
 
 export default function Hero() {
   return (
@@ -15,6 +17,11 @@ export default function Hero() {
       <h1 className="sr-only">About Anwar Mousa</h1>
 
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-normal">
+        <div className="flex flex-wrap gap-2 pb-1">
+          <AgenticBadge tone="new" label="Software engineer" />
+          <AgenticBadge tone="review" label="Data systems" />
+          <AgenticBadge tone="active" label="Egypt" />
+        </div>
         <p>
           I&apos;m Anwar, a software engineer and data systems specialist in Egypt. I architect and build
           resilient data platforms, real-time streaming pipelines, and autonomous AI infrastructure. Currently building

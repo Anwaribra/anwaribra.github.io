@@ -1,43 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Check, FileText } from 'lucide-react'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
-import { FaXTwitter } from 'react-icons/fa6'
+import { MaterialButton } from '@/components/thinker-ui/MaterialControls'
+import { CopySnippet } from '@/components/thinker-ui/FeedbackControls'
+
+const open = (href: string) => () => window.open(href, '_blank', 'noopener')
 
 export default function Connect() {
-  const [copied, setCopied] = useState(false)
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText('anwarmousa100@gmail.com')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const socialLinks = [
-    {
-      name: 'X (Twitter)',
-      href: 'https://x.com/_vincenzzo',
-      icon: FaXTwitter,
-    },
-    {
-      name: 'GitHub',
-      href: 'https://github.com/Anwaribra',
-      icon: FaGithub,
-    },
-    {
-      name: 'Resume',
-      href: '/assets/docs/CV.pdf',
-      icon: FileText,
-    },
-    {
-      name: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/anwar-mousa/',
-      icon: FaLinkedin,
-    },
-  ]
-
   return (
     <motion.section
       id="connect"
@@ -48,44 +18,15 @@ export default function Connect() {
       transition={{ duration: 0.4 }}
     >
       <div className="space-y-4">
-        {/* Handwritten Headline in Katana Purple */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#9333EA] dark:text-[#C084FC] leading-tight tracking-wide drop-shadow-[0_0_12px_rgba(168,85,247,0.25)]">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#9333EA] dark:text-[#C084FC] leading-tight tracking-wide">
           Let&apos;s build something that has to stay up.
         </h2>
-
-        {/* Apple-style Tactile Icon Buttons */}
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          {/* Email button with 1-click copy */}
-          <button
-            onClick={copyEmail}
-            type="button"
-            className="apple-icon-btn group relative"
-            title="Click to copy email"
-            aria-label="Copy Email"
-          >
-            {copied ? (
-              <Check className="w-4 h-4 text-[#A855F7] stroke-[2.5]" />
-            ) : (
-              <Mail className="w-4 h-4 text-zinc-700 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />
-            )}
-          </button>
-
-          {socialLinks.map((item) => {
-            const Icon = item.icon
-            return (
-              <a
-                key={item.name}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={item.name}
-                title={item.name}
-                className="apple-icon-btn group relative"
-              >
-                <Icon className="w-4 h-4 text-zinc-700 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors" />
-              </a>
-            )
-          })}
+        <CopySnippet text="anwarmousa100@gmail.com" label="Copy email address" />
+        <div className="flex flex-wrap items-center gap-2.5">
+          <MaterialButton onClick={open('https://github.com/Anwaribra')}>GitHub</MaterialButton>
+          <MaterialButton onClick={open('https://www.linkedin.com/in/anwar-mousa/')}>LinkedIn</MaterialButton>
+          <MaterialButton onClick={open('https://x.com/_vincenzzo')}>X</MaterialButton>
+          <MaterialButton variant="graphite" onClick={open('/assets/docs/CV.pdf')}>Resume</MaterialButton>
         </div>
       </div>
     </motion.section>
