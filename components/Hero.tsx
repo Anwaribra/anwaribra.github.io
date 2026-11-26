@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { SettlingText } from '@/components/thinker-ui/TextMotion'
 import { Mail, FileText } from 'lucide-react'
+import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
 
 export default function Hero() {
   return (
@@ -19,6 +20,12 @@ export default function Hero() {
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-4 font-normal">
         <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs sm:text-[13px] font-medium text-emerald-700 dark:text-emerald-300">
           Open to work · Available now · Remote or on-site
+        </div>
+
+        <div className="flex flex-wrap gap-2 pb-1">
+          <AgenticBadge tone="new" label="Software engineer" />
+          <AgenticBadge tone="new" label="Data systems" />
+          <AgenticBadge tone="new" label="Egypt" />
         </div>
 
         <p>

@@ -26,7 +26,7 @@ export const viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: 'Anwar Mousa | Data & Software Engineer, open to work', template: '%s' },
-  description: 'Data and software engineer in Egypt, open to work. Airflow, Kafka, Spark, Snowflake, dbt, Power BI and AI-backed products. ETL rebuilt 40% faster, Snowflake queries 35% faster.',
+  description: 'Data and software engineer in Egypt, open to work. Airflow, Kafka, Spark, Snowflake, dbt, Power BI and AI-backed products.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
   authors: [{ name: 'Anwar Mousa' }],
   creator: 'Anwar Mousa',

@@ -134,7 +134,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            {['ETL 40% faster', 'Snowflake queries 35% faster', 'DataOps Agent', 'Airflow · Kafka · Spark · dbt'].map(
+            {['Data pipelines', 'BI & analytics', 'AI products', 'Airflow · Kafka · Spark · dbt'].map(
               (tech) => (
                 <div
                   key={tech}
