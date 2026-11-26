@@ -11,16 +11,15 @@ import { revealTheme } from '@/lib/themeReveal'
  * Release past the threshold (or flick) and the theme switches with a circular reveal from the
  * release point; the web springs back. Only a small grab spot takes input, so scrolling is never blocked.
  */
-const RADII = [30, 58, 88, 122, 158, 190]   // ring radii in web units (web is 200 units wide)
-const NR = 8                                  // radial strands, from straight down toward left (stops short of the top edge so nothing hugs or clips at the screen top)
-const GRAB = { ring: 2, radial: 6 }
+const RADII = [16, 30, 46, 64, 84, 106, 130, 156, 184]   // ring radii in web units (web is about 200 units wide)
+const NR = 11                                             // main radial strands, from straight down toward the left; they stop short of the top edge so nothing hugs or clips there
+const ANG_MAX = 84
 const THRESHOLD = 42    // fallback (no View Transitions): finger travel needed to switch
 const COMMIT_R = 90     // drag reveal: release past this reveal radius (px) to commit the switch
 const REVEAL_GAIN = 1.8 // reveal radius grows this much per px the finger moves away from the corner
-const MAX = 190
-const SAG = 0.1
+const SIGMA = 85        // how far (web units) a pull spreads through the web
 
-type Seg = { a: [number, number]; b: [number, number]; kind: 'radial' | 'ring'; w: number }
+type Pt = { x: number; y: number; w: number; r: number }
 
 export default function WebPull() {
   const { resolvedTheme, setTheme } = useTheme()
@@ -35,35 +34,72 @@ export default function WebPull() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const NS = 'http://www.w3.org/2000/svg'
     const W = () => document.documentElement.clientWidth
-    const scale = () => (W() < 600 ? 0.5 : 0.9)
+    // Web size: small and clear of the header buttons on phones, a big corner web on desktop
+    const scale = () => { const w = W(); return w < 600 ? 0.55 : w < 1024 ? 1.0 : 1.8 }
+    const maxPull = () => 190 * Math.max(1, scale() * 0.9)
+    const pullGain = () => 1.3 * Math.max(1, scale() * 0.7)
 
-    // rest-space nodes (web units, origin at the corner anchor, x grows left, y grows down)
-    const node = (k: number, j: number): [number, number] => {
-      const th = (j * 11.25) * Math.PI / 180
-      return [-Math.sin(th) * RADII[k], Math.cos(th) * RADII[k]]
-    }
-    const gp = node(GRAB.ring, GRAB.radial)
-    const SIGMA = 85
-    const weight = (k: number, j: number) => {
-      const [x, y] = node(k, j)
+    // tiny deterministic random so the web has the same slight irregularity every load
+    const rnd = (seed: number) => { let a = seed; return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 } }
+    const R = rnd(11)
+    const gpA = 67 * Math.PI / 180
+    const gp = [-Math.sin(gpA) * 88, Math.cos(gpA) * 88]
+    const mkPt = (deg: number, r: number): Pt => {
+      const th = deg * Math.PI / 180
+      const x = -Math.sin(th) * r, y = Math.cos(th) * r
       const d = Math.hypot(x - gp[0], y - gp[1])
-      return Math.exp(-((d / SIGMA) ** 2)) * Math.min(1, RADII[k] / 110)
+      return { x, y, r, w: Math.exp(-((d / SIGMA) ** 2)) * Math.min(1, r / 110) * Math.min(1, y / 55) }
     }
-    const wgt: number[][] = RADII.map((_, k) => Array.from({ length: NR }, (_, j) => weight(k, j)))
+    const corner: Pt = { x: 0, y: 0, w: 0, r: 0 }
+    const angles = Array.from({ length: NR }, (_, j) => j * (ANG_MAX / (NR - 1)) + (j > 0 && j < NR - 1 ? (R() - 0.5) * 2.6 : 0))
+    const grid: Pt[][] = RADII.map(r => angles.map(a => mkPt(a, r * (1 + (R() - 0.5) * 0.05))))
 
-    // build path elements once
-    const els: { el: SVGPathElement; kind: 'radial' | 'ring'; w: number; a: [number, number, number]; b: [number, number, number] }[] = []
-    const mk = (kind: 'radial' | 'ring', a: [number, number, number], b: [number, number, number], w: number) => {
+    type El = { el: SVGPathElement; a: Pt; b: Pt; ring: boolean; lw: number; mul: number; w: number; fade: number; col: string; op: string }
+    const els: El[] = []
+    const mk = (a: Pt, b: Pt, ring: boolean, lw: number, mul: number) => {
       const el = document.createElementNS(NS, 'path')
       el.setAttribute('fill', 'none'); el.setAttribute('stroke-linecap', 'round')
-      g.appendChild(el); els.push({ el, kind, w, a, b })
+      el.style.strokeWidth = String(lw)
+      g.appendChild(el)
+      els.push({ el, a, b, ring, lw, mul, w: (a.w + b.w) / 2, fade: 1 - 0.55 * Math.min(1, (a.r + b.r) / 2 / 190), col: '', op: '' })
     }
-    // a/b = [k, j, isAnchor] ; k=-1 means the corner anchor
+    // main radials: corner -> every ring
     for (let j = 0; j < NR; j++) {
-      mk('radial', [-1, j, 1], [0, j, 0], wgt[0][j])
-      for (let k = 0; k < RADII.length - 1; k++) mk('radial', [k, j, 0], [k + 1, j, 0], (wgt[k][j] + wgt[k + 1][j]) / 2)
+      mk(corner, grid[0][j], false, 1.15, 1)
+      for (let k = 0; k < RADII.length - 1; k++) mk(grid[k][j], grid[k + 1][j], false, 1.15, 1)
     }
-    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk('ring', [k, j, 0], [k, j + 1, 0], (wgt[k][j] + wgt[k][j + 1]) / 2)
+    // rings, every segment sags like a hanging thread (frame and hub threads a touch heavier)
+    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk(grid[k][j], grid[k][j + 1], true, k === RADII.length - 1 || k === 0 ? 1.0 : 0.8, 1)
+    // anchor threads: the outer frame is tied to the browser ceiling and stays pinned there while the rest stretches
+    for (let j = NR - 4; j < NR; j++) {
+      for (const k of [3, 5, 7, RADII.length - 1]) {
+        const n = grid[k][j]
+        mk(n, { x: n.x - (6 + R() * 16), y: 0, w: 0, r: n.r }, false, 0.7, 0.9)
+      }
+    }
+    // fine secondary threads between the main radials, outer half only
+    for (let j = 0; j < NR - 1; j++) {
+      const a = (angles[j] + angles[j + 1]) / 2 + (R() - 0.5) * 1.5
+      let prev: Pt | null = null
+      for (let k = 3; k < RADII.length; k++) {
+        const pt = mkPt(a, RADII[k] * (1 + (R() - 0.5) * 0.05))
+        if (prev) mk(prev, pt, false, 0.5, 0.65)
+        prev = pt
+      }
+    }
+    // dewdrops on a few nodes
+    type Drop = { c: SVGCircleElement; h: SVGCircleElement; p: Pt; r: number }
+    const drops: Drop[] = []
+    const used = new Set<string>()
+    while (drops.length < 15) {
+      const k = 2 + Math.floor(R() * 6), j = 1 + Math.floor(R() * (NR - 2)), key = k + ':' + j
+      if (used.has(key)) continue
+      used.add(key)
+      const c = document.createElementNS(NS, 'circle'), h = document.createElementNS(NS, 'circle')
+      c.setAttribute('fill', 'none'); h.setAttribute('r', '0.5')
+      g.appendChild(c); g.appendChild(h)
+      drops.push({ c, h, p: grid[k][j], r: 1.1 + R() * 1.1 })
+    }
 
     type VT = { ready: Promise<void>; finished: Promise<void>; skipTransition: () => void }
     type VTDoc = Document & { startViewTransition?: (cb: () => void) => VT }
@@ -87,7 +123,11 @@ export default function WebPull() {
           { duration: 1000, easing: 'linear', fill: 'both', pseudoElement: '::view-transition-new(root)' })
         st.anim.pause(); st.anim.currentTime = st.frac * 1000
       }).catch(() => { if (rev === st) rev = null })
-      vt.finished.finally(() => { if (rev === st) { rev = null; busy = false } })
+      vt.finished.finally(() => {
+        // drop the scrubbed clip animation so it can never leak into a later transition
+        try { st.anim?.cancel() } catch {}
+        if (rev === st) { rev = null; busy = false }
+      })
     }
     const tweenFrac = (st: Reveal, to: number, ms: number, done: () => void) => {
       const from = st.frac, t0 = performance.now()
@@ -118,35 +158,55 @@ export default function WebPull() {
     let sx = 0, sy = 0, pvx = 0, pvy = 0, lpx = 0, lpy = 0, lt = 0
     const isDark = () => document.documentElement.classList.contains('dark')
     const mix = (t: number) => {
-      const base = isDark() ? [235, 235, 240] : [24, 24, 30]
-      const red = [226, 54, 54]
+      const base = isDark() ? [236, 236, 242] : [30, 30, 38]
+      const red = [232, 52, 56]
       return `rgb(${base.map((b, i) => Math.round(b + (red[i] - b) * t))})`
     }
+    let glowKey = -1
 
     const draw = () => {
       const s = scale(), cx = W(), cy = 0
+      const dark = isDark()
+      const size = s < 1 ? 1 : 1.25
       const stretch = Math.hypot(ox, oy)
       const t = Math.min(1, stretch / THRESHOLD)
-      const col = mix(t)
-      const P = (k: number, j: number, anchor: number): [number, number] => {
-        if (anchor) return [cx, cy]
-        const [x, y] = node(k, j)
-        const w = wgt[k][j]
-        return [cx + x * s + ox * w, cy + y * s + oy * w]
-      }
+      const P = (p: Pt): [number, number] => p === corner ? [cx, cy] : [cx + p.x * s + ox * p.w, cy + p.y * s + oy * p.w]
+      const rest = dark ? 0.2 : 0.17
       for (const e of els) {
-        const A = P(e.a[0], e.a[1], e.a[2]), B = P(e.b[0], e.b[1], e.b[2])
+        const A = P(e.a), B = P(e.b)
         let d: string
-        if (e.kind === 'ring') {
+        if (e.ring) {
+          // natural catenary-like sag toward the hub: longer threads hang lower, a taut web hangs less
           const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2
-          // sag toward the corner anchor, a little more when the web is slack
-          d = `M${A[0]} ${A[1]}Q${mx + (cx - mx) * SAG} ${my + (cy - my) * SAG} ${B[0]} ${B[1]}`
-        } else d = `M${A[0]} ${A[1]}L${B[0]} ${B[1]}`
+          const chord = Math.hypot(B[0] - A[0], B[1] - A[1])
+          const dx = cx - mx, dy = cy - my, dl = Math.hypot(dx, dy) || 1
+          const sag = chord * (0.26 - 0.17 * t)
+          d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}Q${(mx + dx / dl * sag).toFixed(1)} ${(my + dy / dl * sag).toFixed(1)} ${B[0].toFixed(1)} ${B[1].toFixed(1)}`
+        } else d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}L${B[0].toFixed(1)} ${B[1].toFixed(1)}`
         e.el.setAttribute('d', d)
-        e.el.style.stroke = col
-        e.el.style.strokeWidth = e.kind === 'radial' ? '1.1' : '1'
-        e.el.style.strokeOpacity = String((isDark() ? 0.10 : 0.09) + t * (0.25 + 0.6 * Math.min(1, e.w * 1.6)))
+        // red climbs from the pulled spot outward: strands near the finger go reddest
+        const tt = t * (0.25 + 0.75 * Math.min(1, e.w * 1.5))
+        const col = mix(tt)
+        const op = String(Math.min(0.95, rest * e.fade * e.mul + t * (0.3 + 0.55 * Math.min(1, e.w * 1.6)) * (0.5 + 0.5 * e.fade)).toFixed(3))
+        if (col !== e.col) { e.el.style.stroke = col; e.col = col }
+        if (op !== e.op) { e.el.style.strokeOpacity = op; e.op = op }
       }
+      // dewdrops
+      for (const dr of drops) {
+        const [x, y] = P(dr.p), r = dr.r * size
+        dr.c.setAttribute('cx', x.toFixed(1)); dr.c.setAttribute('cy', y.toFixed(1)); dr.c.setAttribute('r', r.toFixed(2))
+        dr.h.setAttribute('cx', (x - r * 0.35).toFixed(1)); dr.h.setAttribute('cy', (y - r * 0.35).toFixed(1)); dr.h.setAttribute('r', (r * 0.3).toFixed(2))
+        const f = 1 - 0.5 * Math.min(1, dr.p.r / 190)
+        dr.c.style.stroke = dark ? 'rgb(236,236,242)' : 'rgb(60,60,80)'
+        dr.c.style.strokeWidth = '0.6'
+        dr.c.style.strokeOpacity = String((dark ? 0.42 : 0.34) * f * (1 - t * 0.6))
+        dr.c.style.fill = dark ? 'rgba(255,255,255,0.07)' : 'rgba(80,80,110,0.05)'
+        dr.h.style.fill = '#fff'
+        dr.h.style.fillOpacity = String((dark ? 0.8 : 0.95) * f * (1 - t * 0.6))
+      }
+      // soft red glow while pulled
+      const gk = Math.round(t * 8)
+      if (gk !== glowKey) { glowKey = gk; g.style.filter = gk ? `drop-shadow(0 0 ${(2 + 5 * t).toFixed(1)}px rgba(232,52,56,${(0.5 * t).toFixed(2)}))` : '' }
     }
 
     const step = (now: number) => {
@@ -156,7 +216,7 @@ export default function WebPull() {
         const f = 1 - Math.exp(-dt * 28)
         ox += (tx - ox) * f; oy += (ty - oy) * f
       } else {
-        const k = 190, c = 8.5   // springy: a couple of visible overshoots
+        const k = 150, c = 6.5   // springy: several visible overshoots
         vx += (-ox * k - vx * c) * dt; vy += (-oy * k - vy * c) * dt
         ox += vx * dt; oy += vy * dt
         if (Math.abs(ox) < 0.1 && Math.abs(oy) < 0.1 && Math.hypot(vx, vy) < 2) { ox = oy = vx = vy = 0; draw(); raf = 0; return }
@@ -166,7 +226,7 @@ export default function WebPull() {
     const kick = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(step) } }
     const rubber = (dx: number, dy: number) => {
       const d = Math.hypot(dx, dy); if (d < 0.5) return [0, 0]
-      const m = MAX * Math.tanh(1.3 * d / MAX); return [dx / d * m, dy / d * m]
+      const M = maxPull(), m = M * Math.tanh(pullGain() * d / M); return [dx / d * m, dy / d * m]
     }
 
     const down = (e: PointerEvent) => {
@@ -186,20 +246,20 @@ export default function WebPull() {
       if (vtSupported && !rev && !busy && raw >= 6) beginReveal()
       if (rev) setFrac(pullRadius(e.clientX, e.clientY) / rev.maxR)
       const over = vtSupported ? pullRadius(e.clientX, e.clientY) >= COMMIT_R : raw >= THRESHOLD
-      if (over && !crossed && navigator.vibrate) { try { navigator.vibrate(8) } catch {} }
+      if (over && !crossed && navigator.vibrate && (navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation?.hasBeenActive !== false) { try { navigator.vibrate(8) } catch {} }
       crossed = over
     }
     const up = (e: PointerEvent) => {
       if (!dragging) return
       dragging = false
+      root.classList.remove('web-dragging'); justDragged = performance.now()
       try { btn.releasePointerCapture(e.pointerId) } catch {}
       const stretch = Math.hypot(ox, oy), speed = Math.hypot(pvx, pvy)
       const fling = peak > 12 && speed > 450
       vx = Math.max(-1500, Math.min(1500, pvx * 0.3)); vy = Math.max(-1500, Math.min(1500, pvy * 0.3))
       if (rev) endReveal(pullRadius(e.clientX, e.clientY) >= COMMIT_R || fling && e.type === 'pointerup')
       else if (!vtSupported && (peak >= THRESHOLD || fling)) {
-        const s = scale(); const [gx, gy] = node(GRAB.ring, GRAB.radial)
-        const x = Math.min(Math.max(W() + gx * s + ox, 0), W()), y = Math.max(0, gy * s + oy)
+        const x = Math.min(Math.max(e.clientX, 0), W()), y = Math.max(0, e.clientY)
         const { resolvedTheme: cur, setTheme: set } = themeRef.current
         revealTheme(set, cur === 'light' ? 'dark' : 'light', x, y)
       }
@@ -215,15 +275,58 @@ export default function WebPull() {
     }
     const resize = () => draw()
 
+    // The whole web is the grab area: any point inside the web's quarter-disc that is not an interactive element.
+    const INTERACTIVE = 'a,button,input,textarea,select,summary,label,[role="button"],[role="link"],[contenteditable="true"]'
+    const inWeb = (x: number, y: number) => {
+      if (busy) return false
+      const dx = W() - x
+      return dx >= 0 && y >= 0 && Math.hypot(dx, y) <= 190 * scale() * 1.02
+    }
+    const grabbable = (x: number, y: number) => {
+      if (!inWeb(x, y)) return false
+      const el = document.elementFromPoint(x, y) as HTMLElement | null
+      const hit = el?.closest?.(INTERACTIVE) as HTMLElement | null
+      return !hit || hit.hasAttribute('data-web-grab')
+    }
+    const root = document.documentElement
+    let hoverGrab = false
+    const winDown = (e: PointerEvent) => {
+      if (dragging || e.button !== 0 || !e.isPrimary) return
+      if (!grabbable(e.clientX, e.clientY)) return
+      e.preventDefault()
+      root.classList.add('web-dragging')
+      down(e)
+    }
+    const winTouch = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return
+      const t = e.touches[0]
+      if (grabbable(t.clientX, t.clientY)) e.preventDefault()   // no scroll or tap-through when you grab the web
+    }
+    const winMouse = (e: MouseEvent) => { if (e.button === 0 && !dragging && grabbable(e.clientX, e.clientY)) e.preventDefault() }  // no text selection
+    const winHover = (e: PointerEvent) => {
+      if (dragging || e.pointerType === 'touch') return
+      const on = grabbable(e.clientX, e.clientY)
+      if (on !== hoverGrab) { hoverGrab = on; root.style.cursor = on ? 'grab' : '' }
+    }
+    let justDragged = 0
+    const winClick = (e: MouseEvent) => { if (performance.now() - justDragged < 350) { e.preventDefault(); e.stopPropagation() } }
+    window.addEventListener('pointerdown', winDown, true)
+    window.addEventListener('touchstart', winTouch, { capture: true, passive: false })
+    window.addEventListener('mousedown', winMouse, true)
+    window.addEventListener('pointermove', winHover, true)
+    window.addEventListener('click', winClick, true)
     btn.addEventListener('pointerdown', down); btn.addEventListener('pointermove', move)
     btn.addEventListener('pointerup', up); btn.addEventListener('pointercancel', up); btn.addEventListener('keydown', key)
     window.addEventListener('resize', resize)
     draw()
-    const hint = reduce ? 0 : window.setTimeout(() => { if (!dragging) { vy = 240; vx = -80; kick() } }, 2200)
+    const hint = reduce ? 0 : window.setTimeout(() => { if (!dragging) { vy = 240 * Math.max(1, scale()); vx = -80 * Math.max(1, scale()); kick() } }, 2200)
     return () => {
       btn.removeEventListener('pointerdown', down); btn.removeEventListener('pointermove', move)
       btn.removeEventListener('pointerup', up); btn.removeEventListener('pointercancel', up); btn.removeEventListener('keydown', key)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('pointerdown', winDown, true); window.removeEventListener('touchstart', winTouch, true)
+      window.removeEventListener('mousedown', winMouse, true); window.removeEventListener('pointermove', winHover, true); window.removeEventListener('click', winClick, true)
+      root.style.cursor = ''; root.classList.remove('web-dragging')
       if (raf) cancelAnimationFrame(raf)
       if (hint) clearTimeout(hint)
       while (g.firstChild) g.removeChild(g.firstChild)
