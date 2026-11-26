@@ -47,7 +47,7 @@ export default function Hero() {
             href="mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa"
             className="glass-btn glass-btn-primary"
           >
-            <Mail className="h-4 w-4" aria-hidden="true" />
+            <Mail className="h-3.5 w-3.5" aria-hidden="true" />
             Get in touch
           </a>
           <a
@@ -56,7 +56,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="glass-btn"
           >
-            <FileText className="h-4 w-4" aria-hidden="true" />
+            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
             Resume
           </a>
         </div>
