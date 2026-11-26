@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useTheme } from 'next-themes'
+import { flushSync } from 'react-dom'
 import { revealTheme } from '@/lib/themeReveal'
 
 /**
@@ -13,8 +14,10 @@ import { revealTheme } from '@/lib/themeReveal'
 const RADII = [30, 58, 88, 122, 158, 190]   // ring radii in web units (web is 200 units wide)
 const NR = 8                                  // radial strands, from straight down toward left (stops short of the top edge so nothing hugs or clips at the screen top)
 const GRAB = { ring: 2, radial: 6 }
-const THRESHOLD = 100
-const MAX = 240
+const THRESHOLD = 42    // fallback (no View Transitions): finger travel needed to switch
+const COMMIT_R = 90     // drag reveal: release past this reveal radius (px) to commit the switch
+const REVEAL_GAIN = 1.8 // reveal radius grows this much per px the finger moves away from the corner
+const MAX = 190
 const SAG = 0.1
 
 type Seg = { a: [number, number]; b: [number, number]; kind: 'radial' | 'ring'; w: number }
@@ -62,8 +65,56 @@ export default function WebPull() {
     }
     for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk('ring', [k, j, 0], [k, j + 1, 0], (wgt[k][j] + wgt[k][j + 1]) / 2)
 
+    type VT = { ready: Promise<void>; finished: Promise<void>; skipTransition: () => void }
+    type VTDoc = Document & { startViewTransition?: (cb: () => void) => VT }
+    const vtSupported = !!(document as VTDoc).startViewTransition && !reduce
+    type Reveal = { vt: VT; anim: Animation | null; prev: string; next: string; maxR: number; frac: number }
+    let rev: Reveal | null = null, busy = false, r0 = 0
+    const pullRadius = (px: number, py: number) => Math.max(0, Math.hypot(W() - px, py) - r0) * REVEAL_GAIN
+    const setFrac = (f: number) => { if (!rev) return; rev.frac = Math.min(1, Math.max(0, f)); if (rev.anim) rev.anim.currentTime = rev.frac * 1000 }
+    // Start a paused view transition: the other theme is the "new" layer, clipped to a circle at the corner that we scrub with the finger.
+    const beginReveal = () => {
+      const { resolvedTheme: cur, setTheme: set } = themeRef.current
+      const prev = cur === 'light' ? 'light' : 'dark', next = prev === 'light' ? 'dark' : 'light'
+      const maxR = Math.hypot(W(), window.innerHeight)
+      const vt = (document as VTDoc).startViewTransition!(() => { flushSync(() => set(next)) })
+      const st: Reveal = { vt, anim: null, prev, next, maxR, frac: 0 }
+      rev = st
+      vt.ready.then(() => {
+        if (rev !== st) return
+        st.anim = document.documentElement.animate(
+          { clipPath: [`circle(0px at ${W()}px 0px)`, `circle(${maxR}px at ${W()}px 0px)`] },
+          { duration: 1000, easing: 'linear', fill: 'both', pseudoElement: '::view-transition-new(root)' })
+        st.anim.pause(); st.anim.currentTime = st.frac * 1000
+      }).catch(() => { if (rev === st) rev = null })
+      vt.finished.finally(() => { if (rev === st) { rev = null; busy = false } })
+    }
+    const tweenFrac = (st: Reveal, to: number, ms: number, done: () => void) => {
+      const from = st.frac, t0 = performance.now()
+      const stepT = (now: number) => {
+        const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3)
+        if (rev !== st) return
+        setFrac(from + (to - from) * e)
+        if (k < 1) requestAnimationFrame(stepT); else done()
+      }
+      requestAnimationFrame(stepT)
+    }
+    const endReveal = (commit: boolean) => {
+      const st = rev; if (!st) return
+      busy = true
+      const run = () => {
+        if (commit) tweenFrac(st, 1, 300, () => { try { st.anim?.finish() } catch {} ; try { st.vt.skipTransition() } catch {} })
+        else tweenFrac(st, 0, 260, () => {
+          // back to the starting theme, then drop the transition without a flash
+          flushSync(() => themeRef.current.setTheme(st.prev))
+          try { st.vt.skipTransition() } catch {}
+        })
+      }
+      if (st.anim) run(); else st.vt.ready.then(run).catch(() => { rev = null; busy = false })
+    }
+
     let ox = 0, oy = 0, vx = 0, vy = 0      // grab offset in px (and its spring velocity)
-    let dragging = false, raf = 0, last = 0, crossed = false
+    let dragging = false, raf = 0, last = 0, crossed = false, peak = 0, tx = 0, ty = 0
     let sx = 0, sy = 0, pvx = 0, pvy = 0, lpx = 0, lpy = 0, lt = 0
     const isDark = () => document.documentElement.classList.contains('dark')
     const mix = (t: number) => {
@@ -96,13 +147,15 @@ export default function WebPull() {
         e.el.style.strokeWidth = e.kind === 'radial' ? '1.1' : '1'
         e.el.style.strokeOpacity = String((isDark() ? 0.10 : 0.09) + t * (0.25 + 0.6 * Math.min(1, e.w * 1.6)))
       }
-      const [kx, ky] = P(GRAB.ring, GRAB.radial, 0)
-      btn.style.transform = `translate(${kx - 15}px, ${Math.max(ky, 15) - 15}px)`
     }
 
     const step = (now: number) => {
       const dt = Math.min(0.032, (now - last) / 1000 || 0.016); last = now
-      if (!dragging) {
+      if (dragging) {
+        // the web trails the finger a little: smooth rubber-band follow
+        const f = 1 - Math.exp(-dt * 28)
+        ox += (tx - ox) * f; oy += (ty - oy) * f
+      } else {
         const k = 190, c = 8.5   // springy: a couple of visible overshoots
         vx += (-ox * k - vx * c) * dt; vy += (-oy * k - vy * c) * dt
         ox += vx * dt; oy += vy * dt
@@ -113,21 +166,26 @@ export default function WebPull() {
     const kick = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(step) } }
     const rubber = (dx: number, dy: number) => {
       const d = Math.hypot(dx, dy); if (d < 0.5) return [0, 0]
-      const m = MAX * Math.tanh(d / MAX); return [dx / d * m, dy / d * m]
+      const m = MAX * Math.tanh(1.3 * d / MAX); return [dx / d * m, dy / d * m]
     }
 
     const down = (e: PointerEvent) => {
-      dragging = true; crossed = false; btn.setPointerCapture(e.pointerId)
-      sx = e.clientX - ox; sy = e.clientY - oy
+      dragging = true; crossed = false; peak = 0; btn.setPointerCapture(e.pointerId)
+      if (busy) { dragging = false; return }
+      sx = e.clientX; sy = e.clientY; tx = ox; ty = oy; r0 = Math.hypot(W() - sx, sy)
       lpx = e.clientX; lpy = e.clientY; lt = e.timeStamp; pvx = pvy = 0; vx = vy = 0; kick()
     }
     const move = (e: PointerEvent) => {
       if (!dragging) return
       const dt = (e.timeStamp - lt) / 1000
       if (dt > 0) { pvx = (e.clientX - lpx) / dt; pvy = (e.clientY - lpy) / dt; lpx = e.clientX; lpy = e.clientY; lt = e.timeStamp }
+      const raw = Math.hypot(e.clientX - sx, e.clientY - sy)
+      peak = Math.max(peak, raw)
       const [rx, ry] = rubber(e.clientX - sx, e.clientY - sy)
-      ox = rx; oy = ry
-      const over = Math.hypot(ox, oy) >= THRESHOLD
+      tx = rx; ty = ry
+      if (vtSupported && !rev && !busy && raw >= 6) beginReveal()
+      if (rev) setFrac(pullRadius(e.clientX, e.clientY) / rev.maxR)
+      const over = vtSupported ? pullRadius(e.clientX, e.clientY) >= COMMIT_R : raw >= THRESHOLD
       if (over && !crossed && navigator.vibrate) { try { navigator.vibrate(8) } catch {} }
       crossed = over
     }
@@ -136,9 +194,10 @@ export default function WebPull() {
       dragging = false
       try { btn.releasePointerCapture(e.pointerId) } catch {}
       const stretch = Math.hypot(ox, oy), speed = Math.hypot(pvx, pvy)
-      const fling = stretch > 40 && speed > 900
+      const fling = peak > 12 && speed > 450
       vx = Math.max(-1500, Math.min(1500, pvx * 0.3)); vy = Math.max(-1500, Math.min(1500, pvy * 0.3))
-      if (stretch >= THRESHOLD || fling) {
+      if (rev) endReveal(pullRadius(e.clientX, e.clientY) >= COMMIT_R || fling && e.type === 'pointerup')
+      else if (!vtSupported && (peak >= THRESHOLD || fling)) {
         const s = scale(); const [gx, gy] = node(GRAB.ring, GRAB.radial)
         const x = Math.min(Math.max(W() + gx * s + ox, 0), W()), y = Math.max(0, gy * s + oy)
         const { resolvedTheme: cur, setTheme: set } = themeRef.current
