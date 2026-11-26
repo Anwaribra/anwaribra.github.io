@@ -42,10 +42,10 @@ export default function Hero() {
           into reliable, self-healing data products and intelligent workflows.
         </p>
 
-        <div className="flex flex-wrap items-center gap-2.5 pt-1">
+        <div className="cta-glass-wrap flex flex-wrap items-center gap-2.5 pt-1">
           <a
             href="mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa"
-            className="inline-flex items-center gap-2 rounded-full bg-[#9333EA] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#7e22ce] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9333EA]"
+            className="glass-btn glass-btn-primary"
           >
             <Mail className="h-4 w-4" aria-hidden="true" />
             Get in touch
@@ -54,7 +54,7 @@ export default function Hero() {
             href="/assets/docs/CV.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-zinc-300 dark:border-white/15 px-4 py-2 text-sm font-medium text-zinc-800 dark:text-zinc-200 transition hover:bg-zinc-100 dark:hover:bg-white/5"
+            className="glass-btn"
           >
             <FileText className="h-4 w-4" aria-hidden="true" />
             Resume
