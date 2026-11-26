@@ -33,10 +33,8 @@ export default function ThinkerDock() {
       const btn = (document.activeElement as HTMLElement | null)?.closest?.('button') ||
         document.querySelector('[aria-label="Links and theme"] button[aria-label$=" mode"]')
       const rect = btn?.getBoundingClientRect()
-      const z = Number(getComputedStyle(btn?.parentElement || document.body).zoom) || 1
       const x = rect ? (rect.left + rect.width / 2) : window.innerWidth / 2
       const y = rect ? (rect.top + rect.height / 2) : window.innerHeight
-      void z
       if (!doc.startViewTransition || reduce) { setTheme(next); return }
       const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
       const t = doc.startViewTransition(() => { flushSync(() => setTheme(next)) })
@@ -52,7 +50,7 @@ export default function ThinkerDock() {
 
   return (
     <div className="fixed inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-50 flex justify-center pointer-events-none select-none px-2">
-      <div className="pointer-events-auto [&_[role=group]]:!flex-nowrap [&_[role=group]]:!gap-[6px] [&_[role=group]]:!p-[10px]" style={{ zoom: 0.72 }}>
+      <div className="pointer-events-auto shrink-0 origin-bottom scale-[0.72] [&_[role=group]]:!flex-nowrap [&_[role=group]]:!gap-[6px] [&_[role=group]]:!p-[10px]">
         <MaterialDock items={items} value="" onChange={go} label="Links and theme" showLabel={false} />
       </div>
     </div>
