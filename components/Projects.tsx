@@ -164,7 +164,7 @@ export default function Projects() {
           <div className={styles.projectCopy}><p className={styles.category}>{p.category}</p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
 <p className={styles.stack}>{stacks[p.id]}</p>
           </div>
-          {(p.id==='thinkerui'||p.id==='toolkit'||p.id==='space')?<div className={styles.thumbnail}><Miniature id={p.id} /></div>:<div aria-hidden="true" />}
+          
           <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
         </div>
       </motion.article>)}

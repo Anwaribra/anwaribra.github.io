@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { SegmentControl } from '@/components/thinker-ui/AgenticControls'
+import GooeyNav from '@/components/GooeyNav'
 
 export default function Header() {
   const pathname = usePathname()
@@ -86,11 +86,10 @@ export default function Header() {
           </span>
         </Link>
 
-        <SegmentControl
-          label="Main navigation"
-          options={['About', 'Projects']}
-          value={isProjects ? 'Projects' : 'About'}
-          onChange={(v) => router.push(v === 'About' ? '/' : '/projects')}
+        <GooeyNav
+          items={navItems}
+          active={isProjects ? 1 : 0}
+          onSelect={(i) => router.push(navItems[i].href)}
         />
       </div>
     </header>

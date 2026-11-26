@@ -22,7 +22,7 @@
 .intro h1 span { color: var(--accent); }
 .total { color: var(--muted); font-size: 8px; letter-spacing: .1em; margin-bottom: 3px; }
 .project { border-bottom: 1px solid var(--line); }
-.projectRow { display: grid; grid-template-columns: 1fr 88px 32px; gap: 14px; align-items: center; padding: 16px 0; }
+.projectRow { display: grid; grid-template-columns: 1fr 32px; gap: 14px; align-items: center; padding: 16px 0; }
 .thumbnail { width: 88px; height: 56px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); overflow: hidden; transition: border-color .2s; }
 .project:hover .thumbnail { border-color: color-mix(in srgb,var(--accent) 55%,var(--line)); }
 .projectCopy { min-width: 0; }
@@ -101,7 +101,7 @@
   .intro { padding-bottom: 16px; }
   .intro h1 { font-size: 29px; }
   .total { font-size: 7px; }
-  .projectRow { grid-template-columns: 1fr 64px 28px; gap: 10px; padding: 14px 0; align-items: center; }
+  .projectRow { grid-template-columns: 1fr 28px; gap: 10px; padding: 14px 0; align-items: center; }
   .thumbnail { width: 64px; height: 44px; border-radius: 7px; }
   .projectCopy h2 { font-size: 14px; line-height: 1.35; }
   .projectCopy h2 a { gap: 0; }
@@ -123,7 +123,7 @@
   .moreLinks>a { font-size: 8px; }
 }
 @media(max-width:359px) {
-  .projectRow { grid-template-columns: 66px 1fr 20px; gap: 10px; }
+  .projectRow { grid-template-columns: 1fr 20px; gap: 10px; }
   .thumbnail { height: 65px; }
   .category { font-size: 6px; }
   .projectCopy h2 { font-size: 13px; }

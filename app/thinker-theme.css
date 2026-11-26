@@ -14,3 +14,11 @@ html[data-thinker-theme=light]{--ui-error:#a43f31}
 ::view-transition-new(root){animation:thinker-light-reveal .7s cubic-bezier(.22,.75,.2,1) both;mix-blend-mode:normal;z-index:2}
 @keyframes thinker-light-reveal{from{clip-path:circle(0px at var(--reveal-x,50%) var(--reveal-y,50%))}to{clip-path:circle(var(--reveal-r,150vmax) at var(--reveal-x,50%) var(--reveal-y,50%))}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+
+/* Gooey nav: borderless soft pills + purple blob. Solid fills (the goo filter drops low-alpha pixels). */
+.gooey-shape { background: #efeff4; }
+.gooey-blob { left: 0; background: #e3d3fb; }
+.dark .gooey-shape, [data-thinker-theme="dark"] .gooey-shape { background: #1d1c26; }
+.dark .gooey-blob, [data-thinker-theme="dark"] .gooey-blob { background: #3b2a5e; }
+.gooey-nav { border-radius: 9999px; }
+@media (prefers-reduced-motion: reduce) { .gooey-layer { filter: none !important; } }
