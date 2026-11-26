@@ -193,7 +193,7 @@ export function CopySnippet({
           Copy
         </button>
       </div>
-      <p role="status">{status || "Copy my email"}</p>
+      {status && <p role="status">{status}</p>}
     </div>
   );
 }
