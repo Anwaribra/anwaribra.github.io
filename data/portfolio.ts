@@ -11,6 +11,8 @@ export interface Project {
 export interface SubProject {
   title: string
   url?: string
+  source?: string
+  tag?: string
   description: string
 }
 
@@ -125,6 +127,20 @@ export const experiences: Experience[] = [
         title: "Dots",
         url: "https://dots-execution.vercel.app/",
         description: "AI-powered personal execution planner that turns priorities into realistic weekly plans and adapts dynamically."
+      },
+      {
+        title: "Thinker UI",
+        url: "https://www.thinkerlab.tech/thinker-ui",
+        source: "https://github.com/Thinker-Labs/thinker-ui",
+        description: "Open-source React component library with tactile materials, motion and copyable source. This portfolio is built with it.",
+        tag: "Open source"
+      },
+      {
+        title: "Thinker Toolkit",
+        url: "https://www.thinkerlab.tech/",
+        source: "https://github.com/Thinker-Labs/Thinker-toolkit-",
+        description: "Engineering instructions for AI-assisted development, installed with one command and checked with thinker verify.",
+        tag: "Open source"
       }
     ],
     achievements: [

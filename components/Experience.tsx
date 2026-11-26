@@ -87,34 +87,26 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                 </p>
               )}
 
-              {/* Row 4: Sub-projects (e.g. Dots under Thinker) with subtle connecting border line */}
               {exp.subProjects && exp.subProjects.length > 0 && (
-                <div className="mt-3 ml-2 pl-3.5 border-l border-zinc-300 dark:border-zinc-800 space-y-3">
+                <div className="mt-3 space-y-2">
                   {exp.subProjects.map((sub) => (
-                    <div key={sub.title} className="space-y-1">
-                      <div className="flex items-center gap-1.5">
-                        {sub.url ? (
-                          <a
-                            href={sub.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-zinc-950 hover:text-zinc-950 dark:hover:decoration-[#A855F7] dark:hover:text-[#A855F7] transition-colors"
-                          >
-                            {sub.title}
+                    <div key={sub.title} className="rounded-xl border border-zinc-200 dark:border-zinc-800 px-3.5 py-3 space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <a href={sub.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-zinc-900 dark:text-zinc-100 underline decoration-zinc-400/60 dark:decoration-zinc-600 underline-offset-4 hover:decoration-[#A855F7]">
+                          {sub.title}
+                        </a>
+                        {sub.source && (
+                          <a href={sub.source} target="_blank" rel="noopener noreferrer" aria-label={`${sub.title} on GitHub`}>
+                            <span className="inline-flex items-center rounded-full bg-zinc-200/70 dark:bg-white/10 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition-colors">{sub.tag}</span>
                           </a>
-                        ) : (
-                          <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                            {sub.title}
-                          </span>
                         )}
                       </div>
-                      <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400/90 leading-relaxed font-normal">
-                        {sub.description}
-                      </p>
+                      <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400/90 leading-relaxed font-normal">{sub.description}</p>
                     </div>
                   ))}
                 </div>
               )}
+
             </motion.div>
           )
         })}

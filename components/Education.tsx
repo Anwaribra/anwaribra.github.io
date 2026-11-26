@@ -3,6 +3,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { GraduationCap, Award } from 'lucide-react'
+import { SoftAccordion } from '@/components/thinker-ui/FeedbackControls'
+import { AgenticBadge } from '@/components/thinker-ui/AgenticControls'
 
 interface EducationItem {
   degree: string
@@ -59,47 +61,19 @@ export default function Education() {
         <h2 className="section-heading mb-0">Education</h2>
       </div>
 
-      {/* Ultra Minimalist Horizontal Row View */}
-      <div className="flex flex-col pt-2">
-        {educationData.map((edu, index) => {
-
-
-          const IconComponent = edu.icon
-
-          return (
-            <motion.div
-              key={`${edu.institution}-${index}`}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.25, delay: index * 0.05 }}
-              className="py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 group px-4 -mx-4 transition-all"
-            >
-              {/* Period */}
-              <div className="w-32 sm:w-36 shrink-0 text-[11px] sm:text-xs font-mono text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-400 transition-colors pt-0.5">
-                {edu.period}
-              </div>
-
-              {/* Icon + Institution */}
-              <div className="flex items-center gap-3 sm:w-64 shrink-0">
-                <div className="flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                  <IconComponent className="w-5 h-5 text-zinc-500 dark:text-zinc-500 group-hover:text-black dark:group-hover:text-zinc-300 transition-colors" />
-                </div>
-                <h3 className="text-base font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-black dark:group-hover:text-white transition-colors">
-                  {edu.shortName || edu.institution}
-                </h3>
-              </div>
-
-              {/* Degree - Right Aligned on Desktop */}
-              <div className="flex-1 min-w-0 flex items-center justify-start sm:justify-end gap-2 mt-1 sm:mt-0">
-                <p className="text-sm text-zinc-500 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-300 transition-colors text-left sm:text-right">
-                  {edu.degree}
-                </p>
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
+      <SoftAccordion
+        defaultOpen={false}
+        items={educationData.map((edu) => ({
+          id: edu.shortName || edu.institution,
+          title: (edu.shortName || edu.institution) + ' · ' + edu.period,
+          content: (
+            <div className="space-y-2">
+              <p><AgenticBadge tone="review" label={edu.degree} /></p>
+              <ul className="list-disc pl-4 space-y-1">{(edu.highlights || []).map((h) => <li key={h}>{h}</li>)}</ul>
+            </div>
+          ),
+        }))}
+      />
     </motion.section>
   )
 }

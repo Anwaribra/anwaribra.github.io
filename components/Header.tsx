@@ -4,12 +4,13 @@ import React from 'react'
 import VisitorCounter from '@/components/VisitorCounter'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Glass } from 'glisse'
+import GooeyNav from '@/components/GooeyNav'
 
 export default function Header() {
   const pathname = usePathname()
+  const router = useRouter()
   const isAbout = pathname === '/'
   const isProjects = pathname === '/projects'
 
@@ -77,37 +78,19 @@ export default function Header() {
               unoptimized
             />
           </div>
-          <span className="text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-black dark:group-hover:text-white transition-colors">
-            Anwar Mousa
+          <span className="brand-name text-sm sm:text-base font-medium tracking-tight text-zinc-900 dark:text-zinc-100 flex items-baseline">
+            {'anwarmousa'.split('').map((ch, i) => (
+              <motion.span key={i} initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 0.5 + i * 0.04 }}>{ch}</motion.span>
+            ))}
+            <motion.span className="text-[#9333EA] dark:text-[#C084FC]" initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 1 }}>.me</motion.span>
           </span>
         </Link>
 
-        {/* Right: Clean Animated Navigation Tabs with Glisse Liquid Glass */}
-        <Glass
-          className="dock-liquid-glass flex items-center gap-1 p-1 rounded-full shadow-lg border border-black/10 dark:border-white/10"
-          aria-label="Main Navigation"
-        >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`relative px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 select-none ${
-                item.active
-                  ? 'text-zinc-950 dark:text-white'
-                  : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
-              }`}
-            >
-              {item.active && (
-                <motion.span
-                  layoutId="activeNavTab"
-                  className="absolute inset-0 rounded-full bg-white/80 dark:bg-white/[0.16] shadow-[0_2px_8px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.25)] border border-white/20 dark:border-white/15"
-                  transition={{ type: 'spring', stiffness: 420, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{item.name}</span>
-            </Link>
-          ))}
-        </Glass>
+        <GooeyNav
+          items={navItems}
+          active={isProjects ? 1 : 0}
+          onSelect={(i) => router.push(navItems[i].href)}
+        />
       </div>
     </header>
   )

@@ -1,0 +1,27 @@
+html[data-thinker-theme=dark]{--ui-bg:#191919;--ui-text:#f4f1e9;--ui-muted:#aaa49a;--ui-control:#30302e;--ui-well:#222221}
+html[data-thinker-theme=light]{--ui-bg:#eeeae2;--ui-text:#292820;--ui-muted:#59554b;--ui-control:#d9d4c9;--ui-well:#e1dcd0}
+[data-thinker-theme=light] .thinker-ui-surface{background:var(--ui-bg);color:var(--ui-text);color-scheme:light}
+[data-thinker-theme=dark] .thinker-ui-surface{color-scheme:dark}
+main.thinker-ui-surface{background-color:var(--ui-bg)!important;color:var(--ui-text);--color-text:var(--ui-text)}
+.thinker-ui-surface h1,.thinker-ui-surface h2,.thinker-ui-surface h3{color:inherit}
+[data-thinker-theme=light] .thinker-ui-surface{--color-text:#292820}
+html[data-thinker-theme=dark]{--ui-material-top:#646462;--ui-material-bottom:#242423;--ui-material-ink:#eee8dc;--ui-material-muted:#b5b0a4;--ui-material-active:#9b998f88;--ui-focus:#e8d9b5}
+html[data-thinker-theme=light]{--ui-material-top:#e2ddd0;--ui-material-bottom:#b4ad9d;--ui-material-ink:#333127;--ui-material-muted:#625b4d;--ui-material-active:#fff9eb99;--ui-focus:#675b42}
+html:has(main.thinker-ui-surface),body:has(main.thinker-ui-surface){background-color:var(--ui-bg,#191919)!important}
+html[data-thinker-theme=light]{--ui-error:#a43f31}
+/* View-transition reveal is the switch feedback, never a blocking loader. */
+::view-transition-old(root){animation:none;z-index:1}
+::view-transition-new(root){animation:thinker-light-reveal .7s cubic-bezier(.22,.75,.2,1) both;mix-blend-mode:normal;z-index:2}
+@keyframes thinker-light-reveal{from{clip-path:circle(0px at var(--reveal-x,50%) var(--reveal-y,50%))}to{clip-path:circle(var(--reveal-r,150vmax) at var(--reveal-x,50%) var(--reveal-y,50%))}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+
+/* Gooey nav: borderless soft pills + purple blob. Solid fills (the goo filter drops low-alpha pixels). */
+.gooey-shape { background: #efeff4; }
+.gooey-blob { left: 0; background: #e3d3fb; }
+.dark .gooey-shape, [data-thinker-theme="dark"] .gooey-shape { background: #1d1c26; }
+.dark .gooey-blob, [data-thinker-theme="dark"] .gooey-blob { background: #3b2a5e; }
+.gooey-nav { border-radius: 9999px; }
+@media (prefers-reduced-motion: reduce) { .gooey-layer { filter: none !important; } }
+
+/* Thinker brand type: Space Grotesk headlines, Inter text, mono kept for small labels */
+h1, h2, h3, .gooey-tab, .brand-name { font-family: var(--font-thinker-headline), var(--font-inter), ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }

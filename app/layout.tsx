@@ -3,7 +3,13 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { Inter, Space_Grotesk } from 'next/font/google'
+
+// Thinker UI brand fonts: Inter for text, Space Grotesk for headlines.
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const headline = Space_Grotesk({ subsets: ['latin'], variable: '--font-thinker-headline', display: 'swap' })
 import './globals.css'
+import './thinker-theme.css'
 import 'glisse/styles.css'
 
 
@@ -95,8 +101,8 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} ${GeistMono.className} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-mono antialiased transition-colors duration-300`}>
+    <html lang="en" className="scroll-smooth" data-thinker-theme="dark" suppressHydrationWarning>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} ${inter.variable} ${headline.variable} bg-light-bg text-light-primary dark:bg-[#0d0d0f] dark:text-white font-sans antialiased transition-colors duration-300`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Google Analytics GA4 */}
           <Script

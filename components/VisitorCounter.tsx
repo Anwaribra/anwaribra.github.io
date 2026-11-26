@@ -24,12 +24,18 @@ export default function VisitorCounter() {
   useEffect(() => {
     if (!base || !ready) return
     const goatcounter = (window as Window & { goatcounter?: GoatCounter }).goatcounter
-    if (goatcounter && lastPath.current !== pathname) {
-      // Omit query strings/referrers and leave session deduplication enabled.
-      if (!goatcounter.filter()) {
-        goatcounter.count({ path: pathname, title: document.title, referrer: '' })
+    // If an ad/tracker blocker stops count.js, window.goatcounter can exist as a plain
+    // settings object without filter/count. Calling them used to crash the page.
+    if (goatcounter && typeof goatcounter.filter === 'function' && typeof goatcounter.count === 'function' && lastPath.current !== pathname) {
+      try {
+        // Omit query strings/referrers and leave session deduplication enabled.
+        if (!goatcounter.filter()) {
+          goatcounter.count({ path: pathname, title: document.title, referrer: '' })
+        }
+        lastPath.current = pathname
+      } catch {
+        /* analytics must never break the page */
       }
-      lastPath.current = pathname
     }
 
     const controller = new AbortController()

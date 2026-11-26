@@ -1,0 +1,104 @@
+.control {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.switch {
+  position: relative;
+  width: 164px;
+  height: 92px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  flex: none;
+  border: 0;
+  border-radius: 60px;
+  cursor: pointer;
+  touch-action: manipulation;
+  background:
+    radial-gradient(ellipse at 30% 0, #e1ddd064, transparent 60%),
+    linear-gradient(145deg, #8d8b82, #383937 25%, #1b1c1a 65%, #65645d);
+  box-shadow:
+    inset 2px 3px 2px #f1edda99,
+    inset -2px -2px 3px #fff9,
+    0 5px 0 #343530,
+    0 9px 0 #11120f,
+    0 23px 17px -8px #000b;
+  transition:
+    box-shadow 0.3s,
+    background 0.4s;
+}
+.thumb {
+  position: relative;
+  display: block;
+  width: 73px;
+  height: 73px;
+  flex: none;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 30% 16%,
+    #fffef7,
+    #e8e1d0 48%,
+    #b9af98 94%
+  );
+  box-shadow:
+    inset 1px 2px 2px #fff,
+    inset -2px -3px 5px #8d856faa,
+    4px 8px 8px #000a,
+    10px 5px 18px #0005;
+  transition:
+    transform 0.6s cubic-bezier(0.18, 1.3, 0.3, 1),
+    box-shadow 0.4s,
+    scale 0.15s;
+}
+.thumb:after {
+  content: "";
+  position: absolute;
+  inset: 7% 12% 50%;
+  border-radius: 50%;
+  background: linear-gradient(#fff9, #fff0);
+  filter: blur(2px);
+}
+.switch[aria-checked="true"] .thumb {
+  transform: translateX(73px);
+}
+.switch:hover {
+  box-shadow:
+    inset 2px 3px 3px #f1eddaad,
+    inset -2px -2px 3px #fff9,
+    0 5px 0 #343530,
+    0 9px 0 #11120f,
+    0 24px 19px -8px #000c;
+}
+.switch:active .thumb {
+  scale: 1.035 0.96;
+}
+.switch:focus-visible {
+  outline: 2px solid #e8d9b5;
+  outline-offset: 8px;
+}
+.description {
+  font:
+    13px/1.5 system-ui,
+    sans-serif;
+  color: #aaa69e;
+  max-width: 280px;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .switch,
+  .thumb {
+    transition: none;
+  }
+  .switch:active .thumb {
+    scale: 1;
+  }
+}
+.description {
+  color: var(--ui-muted, #aaa69e);
+}
+.switch:focus-visible {
+  outline-color: var(--ui-focus, #e8d9b5);
+}
