@@ -218,7 +218,7 @@ function ContributionGraph({ username }: { username: string }) {
             </span>
           </p>
         ) : (
-          <p>{`Total ${totalContributions.toLocaleString()} contributions in lifetime`}</p>
+          <p aria-hidden="true">&nbsp;</p>
         )}
       </div>
     </div>

@@ -129,7 +129,7 @@ function ExpandedDiagram({ id }: { id: ProjectId }) {
 export default function Projects() {
   const [open, setOpen] = useState<ProjectId | null>(null)
   return <section id="projects" className={styles.showcase}>
-    <header className={styles.intro}><div><p className={styles.eyebrow}>SELECTED WORK</p><h1>Projects<span>.</span></h1></div><span className={styles.total}>{String(selectedProjects.length).padStart(2,'0')} / SELECTED</span></header>
+    <header className={styles.intro}><div><p className={styles.eyebrow}>SELECTED WORK</p><h1>Projects<span>.</span></h1></div></header>
     <div className={styles.projectList}>
       {selectedProjects.map((p,i)=><motion.article initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.4, delay: i * 0.04 }} className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
         <div className={styles.projectRow}>
