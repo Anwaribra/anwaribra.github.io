@@ -950,3 +950,8 @@ a, button {
 /* Hide scrollbars on horizontal scrollers (the class was used but never defined: it showed a black track) */
 .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Hero fade-in in CSS so the text paints before JS hydrates (better LCP) */
+@keyframes hero-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.hero-enter { animation: hero-enter .4s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .hero-enter { animation: none; } }
