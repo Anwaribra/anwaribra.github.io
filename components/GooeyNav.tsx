@@ -1,18 +1,28 @@
 'use client'
 
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { animate, motion, useMotionValue } from 'framer-motion'
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion'
 
 type Item = { name: string; href: string }
 
+// Header remounts on every route change, so remember where the blob was last.
+let last: { l: number; r: number; i: number } | null = null
+
+const LEAD = { type: 'spring', stiffness: 520, damping: 30, mass: 0.7 } as const
+const LAG = { type: 'spring', stiffness: 85, damping: 13, mass: 0.9 } as const
+
 /**
- * Two separate glass pills. The active highlight is a blob that stretches across the gap
- * (SVG goo filter merges it with the pill shapes), then settles on the new tab.
+ * Two separate soft pills. The active highlight is a blob whose two edges are independent springs:
+ * the leading edge snaps across the gap, the trailing edge lags and stretches, the blob thins in the
+ * middle like a pulled strand, then snaps onto the new tab. An SVG goo filter merges it with the pills.
  */
 export default function GooeyNav({ items, active, onSelect }: { items: Item[]; active: number; onSelect: (i: number) => void }) {
   const refs = useRef<(HTMLButtonElement | null)[]>([])
-  const x = useMotionValue(0)
-  const w = useMotionValue(0)
+  const left = useMotionValue(0)
+  const right = useMotionValue(0)
+  const targetW = useRef(1)
+  const width = useTransform([left, right], ([l, r]: number[]) => Math.max(0, r - l))
+  const thin = useTransform([left, right], ([l, r]: number[]) => Math.max(0.45, 1 - Math.max(0, r - l - targetW.current) / (targetW.current * 3.2)))
   const first = useRef(true)
   const prev = useRef(active)
   const [ready, setReady] = useState(false)
@@ -22,38 +32,44 @@ export default function GooeyNav({ items, active, onSelect }: { items: Item[]; a
     const el = refs.current[active]
     if (!el) return
     setPos(refs.current.map((r) => ({ l: r?.offsetLeft ?? 0, w: r?.offsetWidth ?? 0 })))
-    const nx = el.offsetLeft, nw = el.offsetWidth
+    const nl = el.offsetLeft, nr = nl + el.offsetWidth
+    targetW.current = el.offsetWidth
+    const start = last
+    last = { l: nl, r: nr, i: active }
     if (first.current) {
-      x.set(nx); w.set(nw); first.current = false; setReady(true); return
+      first.current = false
+      if (start && start.i !== active) {
+        left.jump(start.l); right.jump(start.r); setReady(true)
+        const goingRight = active > start.i
+        const a = animate(left, nl, goingRight ? LAG : LEAD)
+        const b = animate(right, nr, goingRight ? LEAD : LAG)
+        return () => { a.stop(); b.stop() }
+      }
+      left.jump(nl); right.jump(nr); setReady(true); return
     }
-    const from = refs.current[prev.current]
+    const goingRight = active > prev.current
     prev.current = active
-    if (!from) { x.set(nx); w.set(nw); return }
-    const ox = x.get(), ow = w.get()
-    const left = Math.min(ox, nx), right = Math.max(ox + ow, nx + nw)
-    // Stretch to cover both pills, then contract onto the target.
-    const a = animate(w, [ow, right - left, nw], { duration: 0.55, times: [0, 0.45, 1], ease: 'easeInOut' })
-    const b = animate(x, [ox, left, nx], { duration: 0.55, times: [0, 0.45, 1], ease: 'easeInOut' })
+    const a = animate(left, nl, goingRight ? LAG : LEAD)
+    const b = animate(right, nr, goingRight ? LEAD : LAG)
     return () => { a.stop(); b.stop() }
-  }, [active, x, w])
+  }, [active, left, right])
 
   return (
     <nav aria-label="Main navigation" className="gooey-nav relative flex items-center gap-3">
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <defs>
           <filter id="gooey-nav-filter">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b" />
-            <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="g" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b" />
+            <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="g" />
             <feComposite in="SourceGraphic" in2="g" operator="atop" />
           </filter>
         </defs>
       </svg>
-      {/* goo layer: pill shapes + moving blob */}
       <div className="gooey-layer absolute inset-0 pointer-events-none" style={{ filter: 'url(#gooey-nav-filter)' }} aria-hidden="true">
         {items.map((_, i) => (
           <span key={i} className="gooey-shape absolute top-0 bottom-0 rounded-full" style={{ left: pos[i]?.l ?? 0, width: pos[i]?.w ?? 0 }} />
         ))}
-        {ready && <motion.span className="gooey-blob absolute top-0 bottom-0 rounded-full" style={{ x, width: w }} />}
+        {ready && <motion.span className="gooey-blob absolute top-0 bottom-0 rounded-full" style={{ x: left, width, scaleY: thin }} />}
       </div>
       {items.map((it, i) => (
         <button
