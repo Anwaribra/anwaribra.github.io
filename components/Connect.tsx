@@ -23,7 +23,7 @@ export default function Connect() {
       transition={{ duration: 0.4 }}
     >
       <div className="space-y-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#9333EA] dark:text-[#C084FC] leading-tight tracking-wide">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-handwritten text-[#7d6b99] dark:text-[#b3a2cc] leading-tight tracking-wide">
           Let&apos;s build something that has to stay up.
         </h2>
         <div className="flex flex-wrap items-center gap-3">

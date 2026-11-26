@@ -17,9 +17,9 @@ html[data-thinker-theme=light]{--ui-error:#a43f31}
 
 /* Gooey nav: borderless soft pills + purple blob. Solid fills (the goo filter drops low-alpha pixels). */
 .gooey-shape { background: #efeff4; }
-.gooey-blob { left: 0; background: #e3d3fb; }
+.gooey-blob { left: 0; background: #e7e1ee; }
 .dark .gooey-shape, [data-thinker-theme="dark"] .gooey-shape { background: #1d1c26; }
-.dark .gooey-blob, [data-thinker-theme="dark"] .gooey-blob { background: #3b2a5e; }
+.dark .gooey-blob, [data-thinker-theme="dark"] .gooey-blob { background: #302b3c; }
 .gooey-nav { border-radius: 9999px; }
 @media (prefers-reduced-motion: reduce) { .gooey-layer { filter: none !important; } }
 

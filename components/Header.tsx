@@ -82,7 +82,7 @@ export default function Header() {
             {'anwarmousa'.split('').map((ch, i) => (
               <motion.span key={i} initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 0.5 + i * 0.04 }}>{ch}</motion.span>
             ))}
-            <motion.span className="text-[#9333EA] dark:text-[#C084FC]" initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 1 }}>.me</motion.span>
+            <motion.span className="text-[#7d6b99] dark:text-[#b3a2cc]" initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 1 }}>.me</motion.span>
           </span>
         </Link>
 
