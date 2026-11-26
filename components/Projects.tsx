@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import { FaGithub } from 'react-icons/fa'
 import styles from './Projects.module.css'
-import { AgenticBadge, SegmentControl } from '@/components/thinker-ui/AgenticControls'
-import { MaterialButton } from '@/components/thinker-ui/MaterialControls'
+import { SegmentControl } from '@/components/thinker-ui/AgenticControls'
 
 type NodeProps = { x: number; y: number; title: string; detail?: string; accent?: boolean; width?: number }
 function Node({ x, y, title, detail, accent = false, width = 136 }: NodeProps) {
@@ -112,13 +112,14 @@ const selectedProjects: { id: ProjectId; name: string; line: string; source: str
   { id: 'eis', name: 'Egypt Economic Indicators', line: 'A daily view of rates, markets, and metals.', category: 'Analytics', source: 'https://github.com/Anwaribra/Real-Time-EIS-Pipeline' },
   { id: 'space', name: 'Space Benders', line: 'A crew. A spacecraft. A shared mission.', category: 'Multiplayer game', source: 'https://github.com/Eyad-Dawood/Nasa-hackathon-project' },
 ]
+const stacks: Record<string,string> = {"thinkerui": "React \u00b7 TypeScript \u00b7 CSS", "toolkit": "Node \u00b7 TypeScript \u00b7 CLI", "dataops": "dlt \u00b7 dbt \u00b7 Dagster \u00b7 FastMCP", "ayn": "Next.js \u00b7 FastAPI \u00b7 PostgreSQL", "fleet": "MQTT \u00b7 Kafka \u00b7 Spark \u00b7 Cassandra", "eis": "Airflow \u00b7 Kafka \u00b7 PostgreSQL \u00b7 dbt", "space": "Phaser \u00b7 Colyseus \u00b7 Node.js"}
 const furtherWork = [
   { name: 'Lakehouse Analytics', url: 'https://github.com/Anwaribra/Lakehouse-Analytics-Platform' },
   { name: 'Platform Observability', url: 'https://github.com/Anwaribra/Data-Platform-Observability' },
   { name: 'Forex Pipeline', url: 'https://github.com/Anwaribra/Real-time-Forex-Data-Pipeline' },
 ]
 function Miniature({ id }: { id: ProjectId }) {
-  if (id === 'thinkerui' || id === 'toolkit') return <div style={{ width: '100%', height: '100%', background: '#08080c', display: 'grid', placeItems: 'center' }}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ width: '52%', height: 'auto' }} /></div>
+  if (id === 'thinkerui' || id === 'toolkit') return <div style={{ width: '100%', height: '100%', background: '#08080c', display: 'grid', placeItems: 'center' }}><img src="/assets/logos/thinker-tk.png" alt="Thinker" style={{ width: '46%', height: 'auto' }} /></div>
   if (id === 'space') return <div className={styles.gameThumb}><img src="/assets/projects/space-benders-art.jpg" alt="Original Space Benders game artwork" /><img src="/assets/projects/space-benders-logo.png" alt="Space Benders" /></div>
   if (id === 'ayn') return <svg viewBox="0 0 160 96" aria-hidden="true" className={styles.miniMap}>
     <circle cx="80" cy="48" r="32" className={styles.miniOrbit} />
@@ -158,17 +159,16 @@ export default function Projects() {
   return <section id="projects" className={styles.showcase}>
     <header className={styles.intro}><div><p className={styles.eyebrow}>SELECTED WORK</p><h1>Projects<span>.</span></h1></div><span className={styles.total}>{String(selectedProjects.length).padStart(2,'0')} / SELECTED</span></header>
     <div className={styles.projectList}>
-      {selectedProjects.map((p,i)=><article className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
+      {selectedProjects.map((p,i)=><motion.article initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.4, delay: i * 0.04 }} className={styles.project} key={p.id} aria-labelledby={`${p.id}-title`}>
         <div className={styles.projectRow}>
-          <div className={styles.thumbnail}><Miniature id={p.id} /></div>
-          <div className={styles.projectCopy}><p className={styles.category}><AgenticBadge tone="new" label={p.category} /></p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
-            {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div className={styles.expand}><MaterialButton variant="graphite" onClick={()=>setOpen(open===p.id?null:p.id)}>{open===p.id?'Close':p.id==='ayn'?'Product map':'Architecture'}</MaterialButton></div>}
+          <div className={styles.projectCopy}><p className={styles.category}>{p.category}</p><h2 id={`${p.id}-title`}><a href={p.website||p.source} target="_blank" rel="noopener noreferrer">{p.name}<ArrowUpRight size={12} /></a></h2><p className={styles.oneLine}>{p.line}</p>
+<p className={styles.stack}>{stacks[p.id]}</p>
           </div>
+          {(p.id==='thinkerui'||p.id==='toolkit'||p.id==='space')?<div className={styles.thumbnail}><Miniature id={p.id} /></div>:<div aria-hidden="true" />}
           <a className={styles.repoIcon} href={p.source} target="_blank" rel="noopener noreferrer" aria-label={`Source for ${p.name}`}><FaGithub size={16} /></a>
         </div>
-        {(p.id==='dataops'||p.id==='ayn'||p.id==='fleet'||p.id==='eis')&&<div id={`${p.id}-diagram`} hidden={open!==p.id} className={styles.details}>{open===p.id&&<ExpandedDiagram id={p.id} />}</div>}
-      </article>)}
+      </motion.article>)}
     </div>
-    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer"><AgenticBadge tone="new" label={p.name} /></a>)}</div></section>
+    <section className={styles.more} aria-labelledby="more-title"><div className={styles.moreHeading}><h2 id="more-title">More experiments</h2><a href="https://github.com/Anwaribra" target="_blank" rel="noopener noreferrer">All repositories <ArrowUpRight size={12} /></a></div><div className={styles.moreLinks}>{furtherWork.map(p=><a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a>)}</div></section>
   </section>
 }

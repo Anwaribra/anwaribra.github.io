@@ -78,8 +78,11 @@ export default function Header() {
               unoptimized
             />
           </div>
-          <span className="text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-black dark:group-hover:text-white transition-colors">
-            Anwar Mousa
+          <span className="text-sm sm:text-base font-medium tracking-tight text-zinc-900 dark:text-zinc-100 flex items-baseline">
+            {'anwarmousa'.split('').map((ch, i) => (
+              <motion.span key={i} initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 0.5 + i * 0.04 }}>{ch}</motion.span>
+            ))}
+            <motion.span className="text-[#9333EA] dark:text-[#C084FC]" initial={{ opacity: 0, y: 4, filter: 'blur(3px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} transition={{ duration: 0.35, delay: 1 }}>.me</motion.span>
           </span>
         </Link>
 
