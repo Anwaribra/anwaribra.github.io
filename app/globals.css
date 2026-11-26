@@ -967,3 +967,13 @@ html.web-dragging, html.web-dragging * { cursor: grabbing !important; user-selec
 .web-pull { view-transition-name: spider-web; }
 ::view-transition-group(spider-web), ::view-transition-new(spider-web) { animation: none; }
 ::view-transition-old(spider-web) { display: none; }
+
+/* Light mode: muted gray text meets 4.5:1 contrast */
+html:not(.dark) .text-zinc-500 { color: #5c5c66; }
+html:not(.dark) .text-zinc-400 { color: #62626c; }
+
+/* Bigger invisible tap areas for small inline links and icon buttons */
+main a:not(.glow-card):not(.project-card):not(.experience-card):not([class*="absolute"]):not([class*="fixed"]),
+main button:not([class*="absolute"]):not([class*="fixed"]) { position: relative; }
+main a:not(.glow-card):not(.project-card):not(.experience-card)::after,
+main button::after { content: ''; position: absolute; inset: -12px -6px; }

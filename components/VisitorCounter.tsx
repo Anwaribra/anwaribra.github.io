@@ -79,7 +79,7 @@ export default function VisitorCounter() {
         onReady={() => setReady(true)}
         onError={() => { setReady(false); setCount(null) }}
       />
-      {count !== null && (
+      {false && count !== null && (
         <span
           className="absolute right-0 -top-1 sm:-top-1.5 text-[9px] sm:text-[10px] font-mono text-zinc-500/70 dark:text-zinc-400/60 select-none tracking-widest pointer-events-none"
           aria-label={`${count} visits`}
