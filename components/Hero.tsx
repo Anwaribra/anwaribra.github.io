@@ -17,7 +17,7 @@ export default function Hero() {
       <h1 className="sr-only">About Anwar Mousa</h1>
 
       <div className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-4 font-normal">
-        <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs sm:text-[13px] font-medium text-emerald-700 dark:text-emerald-300">
+        <div className="inline-flex items-center rounded-full border border-zinc-300 dark:border-white/15 px-3.5 py-0.5 font-handwritten text-lg sm:text-xl leading-tight text-zinc-600 dark:text-zinc-400">
           Open to work · Available now · Remote or on-site
         </div>
 
