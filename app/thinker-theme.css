@@ -22,3 +22,6 @@ html[data-thinker-theme=light]{--ui-error:#a43f31}
 .dark .gooey-blob, [data-thinker-theme="dark"] .gooey-blob { background: #3b2a5e; }
 .gooey-nav { border-radius: 9999px; }
 @media (prefers-reduced-motion: reduce) { .gooey-layer { filter: none !important; } }
+
+/* Thinker brand type: Space Grotesk headlines, Inter text, mono kept for small labels */
+h1, h2, h3, .gooey-tab, .brand-name { font-family: var(--font-thinker-headline), var(--font-inter), ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }
