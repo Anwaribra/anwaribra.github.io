@@ -4,7 +4,7 @@ import Connect from '@/components/Connect'
 import ThinkerDock from '@/components/ThinkerDock'
 
 export const metadata = {
-  title: 'Projects | Anwar Mousa',
+  title: 'Projects | Anwar Mousa, Data & Software Engineer',
   description: 'Data platforms, streaming ETL architectures, and autonomous AI systems built by Anwar Mousa.',
 }
 

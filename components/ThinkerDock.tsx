@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
-import { FileText, Mail, Check, Sun, Moon } from 'lucide-react'
+import { FileText, Mail, Sun, Moon } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import { MaterialDock } from '@/components/thinker-ui/MaterialDock'
 
 export default function ThinkerDock() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [copied, setCopied] = useState(false)
   useEffect(() => setMounted(true), [])
   const isDark = mounted ? resolvedTheme !== 'light' : true
 
@@ -17,7 +16,7 @@ export default function ThinkerDock() {
     { id: 'github', label: 'GitHub', icon: <FaGithub size={20} /> },
     { id: 'linkedin', label: 'LinkedIn', icon: <FaLinkedin size={20} /> },
     { id: 'resume', label: 'Resume', icon: <FileText size={20} /> },
-    { id: 'email', label: copied ? 'Copied' : 'Email', icon: copied ? <Check size={20} /> : <Mail size={20} /> },
+    { id: 'email', label: 'Email me', icon: <Mail size={20} /> },
     { id: 'theme', label: isDark ? 'Light mode' : 'Dark mode', icon: isDark ? <Sun size={20} /> : <Moon size={20} /> },
   ]
 
@@ -26,15 +25,7 @@ export default function ThinkerDock() {
     if (id === 'linkedin') window.open('https://www.linkedin.com/in/anwar-mousa/', '_blank', 'noopener')
     if (id === 'resume') window.open('/assets/docs/CV.pdf', '_blank', 'noopener')
     if (id === 'theme') setTheme(isDark ? 'light' : 'dark')
-    if (id === 'email') {
-      try {
-        await navigator.clipboard.writeText('anwarmousa100@gmail.com')
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      } catch {
-        window.location.href = 'mailto:anwarmousa100@gmail.com'
-      }
-    }
+    if (id === 'email') window.location.href = 'mailto:anwarmousa100@gmail.com?subject=Opportunity%20for%20Anwar%20Mousa'
   }
 
   return (

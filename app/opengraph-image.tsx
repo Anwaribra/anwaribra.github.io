@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Anwar Mousa - Data & AI Engineer'
+export const alt = 'Anwar Mousa, data and software engineer, open to work'
 export const size = {
   width: 1200,
   height: 630,
@@ -58,7 +58,7 @@ export default async function Image() {
                 boxShadow: '0 0 10px #A855F7',
               }}
             />
-            PORTFOLIO & ENGINEERING SHOWCASE
+            OPEN TO WORK · AVAILABLE NOW
           </div>
         </div>
 
@@ -119,7 +119,7 @@ export default async function Image() {
                 letterSpacing: '-0.01em',
               }}
             >
-              Data Engineer
+              Data & Software Engineer
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            {['DataOps Agent', 'ResolveAI (RAG)', 'dbt & Airflow', 'pgvector & FastMCP', 'PostgreSQL'].map(
+            {['ETL 40% faster', 'Snowflake queries 35% faster', 'DataOps Agent', 'Airflow · Kafka · Spark · dbt'].map(
               (tech) => (
                 <div
                   key={tech}
@@ -173,7 +173,7 @@ export default async function Image() {
               fontWeight: 500,
             }}
           >
-            Building software powered by data.
+            Remote or on-site in Egypt · anwarmousa.me
           </div>
 
           <div

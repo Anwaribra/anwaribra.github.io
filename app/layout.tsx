@@ -25,8 +25,8 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Anwar Mousa | Data & AI Engineer',
-  description: 'Data Engineer passionate about building scalable data pipelines and delivering actionable insights. Specialized in ETL processes, data modeling, and cloud technologies.',
+  title: { default: 'Anwar Mousa | Data & Software Engineer, open to work', template: '%s' },
+  description: 'Data and software engineer in Egypt, open to work. Airflow, Kafka, Spark, Snowflake, dbt, Power BI and AI-backed products. ETL rebuilt 40% faster, Snowflake queries 35% faster.',
   keywords: ['Data Engineer', 'ETL', 'Apache Airflow', 'Data Pipeline', 'Big Data', 'Data Analytics', 'Python', 'Apache Spark', 'Snowflake', 'Apache Kafka', 'Real-time Analytics', 'Stream Processing', 'DBT', 'Grafana', 'InfluxDB'],
   authors: [{ name: 'Anwar Mousa' }],
   creator: 'Anwar Mousa',
@@ -34,22 +34,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Anwar Mousa | Data & AI Engineer',
-    description: 'Data Engineer specialized in automated data pipelines, dbt, Apache Airflow, pgvector RAG agents, and FastMCP platforms.',
+    title: 'Anwar Mousa | Data & Software Engineer, open to work',
+    description: 'Data pipelines, BI models and AI-backed products. Available immediately, remote or on-site in Egypt.',
     siteName: 'Anwar Mousa Portfolio',
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: 'Anwar Mousa - Data Engineer Showcase',
+        alt: 'Anwar Mousa, data and software engineer, open to work',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anwar Mousa | Data & AI Engineer',
-    description: 'Data Engineer specialized in automated data pipelines, dbt, Apache Airflow, pgvector RAG agents, and FastMCP platforms.',
+    title: 'Anwar Mousa | Data & Software Engineer, open to work',
+    description: 'Data pipelines, BI models and AI-backed products. Available immediately, remote or on-site in Egypt.',
     creator: '@_vincenzzo',
     images: [`${siteUrl}/opengraph-image`],
   },
@@ -78,7 +78,7 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Anwar Mousa',
-    jobTitle: 'Data Engineer',
+    jobTitle: 'Data and Software Engineer',
     url: siteUrl,
     sameAs: [
       'https://github.com/Anwaribra',
