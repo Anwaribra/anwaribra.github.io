@@ -211,6 +211,7 @@ export default function WebPull() {
       if (st.anim) run(); else st.vt.ready.then(run).catch(() => { rev = null; busy = false })
     }
 
+    let calm = false   // wind sway settles more calmly than a released pull
     let ox = 0, oy = 0, vx = 0, vy = 0      // grab offset in px (and its spring velocity)
     let dragging = false, raf = 0, last = 0, crossed = false, peak = 0, tx = 0, ty = 0
     let sx = 0, sy = 0, pvx = 0, pvy = 0, lpx = 0, lpy = 0, lt = 0
@@ -281,7 +282,7 @@ export default function WebPull() {
         const f = 1 - Math.exp(-dt * 28)
         ox += (tx - ox) * f; oy += (ty - oy) * f
       } else {
-        const k = 150, c = 6.5   // springy: several visible overshoots
+        const k = 150, c = calm ? 10 : 6.5   // springy: several visible overshoots
         vx += (-ox * k - vx * c) * dt; vy += (-oy * k - vy * c) * dt
         ox += vx * dt; oy += vy * dt
         if (Math.abs(ox) < 0.1 && Math.abs(oy) < 0.1 && Math.hypot(vx, vy) < 2) { ox = oy = vx = vy = 0; draw(); raf = 0; return }
@@ -295,7 +296,7 @@ export default function WebPull() {
     }
 
     const down = (e: PointerEvent) => {
-      dragging = true; crossed = false; peak = 0; btn.setPointerCapture(e.pointerId)
+      dragging = true; calm = false; crossed = false; peak = 0; btn.setPointerCapture(e.pointerId)
       if (busy) { dragging = false; return }
       sx = e.clientX; sy = e.clientY; tx = ox; ty = oy; r0 = Math.hypot(W() - sx, sy)
       lpx = e.clientX; lpy = e.clientY; lt = e.timeStamp; pvx = pvy = 0; vx = vy = 0; kick()
@@ -387,14 +388,14 @@ export default function WebPull() {
     let lastY = window.scrollY, lastHover = 0
     const nudge = (ix: number, iy: number) => {
       if (dragging || busy || rev || reduce) return
-      vx = Math.max(-80, Math.min(80, vx + ix)); vy = Math.max(-80, Math.min(80, vy + iy)); kick()
+      calm = true; vx = Math.max(-650, Math.min(650, vx + ix)); vy = Math.max(-650, Math.min(650, vy + iy)); kick()
     }
-    const onScroll = () => { const y = window.scrollY, d = y - lastY; lastY = y; if (Math.abs(d) > 2) nudge(-d * 0.06, -Math.abs(d) * 0.05) }
+    const onScroll = () => { const y = window.scrollY, d = y - lastY; lastY = y; if (Math.abs(d) > 2) nudge(-d * 0.8, -Math.abs(d) * 0.6) }
     const onHover = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse' || e.timeStamp - lastHover < 120) return
       const dx = W() - e.clientX, dy = e.clientY
       if (dx < 0 || dx > 340 * scale() || dy > 340 * scale()) return
-      lastHover = e.timeStamp; const near = 1 - Math.hypot(dx, dy) / (370 * scale()); nudge(-(8 + 16 * Math.max(0, near)), 6 + 12 * Math.max(0, near))
+      lastHover = e.timeStamp; const near = 1 - Math.hypot(dx, dy) / (370 * scale()); nudge(-(110 + 240 * Math.max(0, near)), 80 + 170 * Math.max(0, near))
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('pointermove', onHover, { passive: true })
