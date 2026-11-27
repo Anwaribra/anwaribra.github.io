@@ -65,16 +65,16 @@ export default function WebPull() {
     }
     // main radials: corner -> every ring
     for (let j = 0; j < NR; j++) {
-      mk(corner, grid[0][j], false, 1.15, 1)
-      for (let k = 0; k < RADII.length - 1; k++) mk(grid[k][j], grid[k + 1][j], false, 1.15, 1)
+      mk(corner, grid[0][j], false, 0.85, 1)
+      for (let k = 0; k < RADII.length - 1; k++) mk(grid[k][j], grid[k + 1][j], false, 0.85 - k * 0.025, 1)
     }
     // rings, every segment sags like a hanging thread (frame and hub threads a touch heavier)
-    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk(grid[k][j], grid[k][j + 1], true, k === RADII.length - 1 || k === 0 ? 1.0 : 0.8, 1)
+    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk(grid[k][j], grid[k][j + 1], true, k === RADII.length - 1 || k === 0 ? 0.8 : 0.55, 1)
     // anchor threads: the outer frame is tied to the browser ceiling and stays pinned there while the rest stretches
     for (let j = NR - 4; j < NR; j++) {
       for (const k of [3, 5, 7, RADII.length - 1]) {
         const n = grid[k][j]
-        mk(n, { x: n.x - (6 + R() * 16), y: 0, w: 0, r: n.r }, false, 0.7, 0.9)
+        mk(n, { x: n.x - (6 + R() * 16), y: 0, w: 0, r: n.r }, false, 0.5, 0.9)
       }
     }
     // fine secondary threads between the main radials, outer half only
@@ -83,7 +83,7 @@ export default function WebPull() {
       let prev: Pt | null = null
       for (let k = 3; k < RADII.length; k++) {
         const pt = mkPt(a, RADII[k] * (1 + (R() - 0.5) * 0.05))
-        if (prev) mk(prev, pt, false, 0.5, 0.65)
+        if (prev) mk(prev, pt, false, 0.32, 0.6)
         prev = pt
       }
     }
@@ -91,7 +91,7 @@ export default function WebPull() {
     type Drop = { c: SVGCircleElement; h: SVGCircleElement; p: Pt; r: number }
     const drops: Drop[] = []
     const used = new Set<string>()
-    while (drops.length < 15) {
+    while (drops.length < 8) {
       const k = 2 + Math.floor(R() * 6), j = 1 + Math.floor(R() * (NR - 2)), key = k + ':' + j
       if (used.has(key)) continue
       used.add(key)
@@ -99,6 +99,12 @@ export default function WebPull() {
       c.setAttribute('fill', 'none'); h.setAttribute('r', '0.5')
       g.appendChild(c); g.appendChild(h)
       drops.push({ c, h, p: grid[k][j], r: 1.1 + R() * 1.1 })
+    }
+
+    // tiny silk beads where the rings cross the strands: a quiet sparkle of depth
+    const beads: { c: SVGCircleElement; p: Pt }[] = []
+    for (let k = 1; k < RADII.length; k++) for (let j = 1; j < NR - 1; j += (k % 2 ? 1 : 2)) {
+      const c = document.createElementNS(NS, 'circle'); g.appendChild(c); beads.push({ c, p: grid[k][j] })
     }
 
     type VT = { ready: Promise<void>; finished: Promise<void>; skipTransition: () => void }
@@ -159,7 +165,7 @@ export default function WebPull() {
     const isDark = () => document.documentElement.classList.contains('dark')
     const mix = (t: number) => {
       const base = isDark() ? [236, 236, 242] : [30, 30, 38]
-      const red = [232, 52, 56]
+      const red = [208, 72, 84]
       return `rgb(${base.map((b, i) => Math.round(b + (red[i] - b) * t))})`
     }
     let glowKey = -1
@@ -171,7 +177,7 @@ export default function WebPull() {
       const stretch = Math.hypot(ox, oy)
       const t = Math.min(1, stretch / THRESHOLD)
       const P = (p: Pt): [number, number] => p === corner ? [cx, cy] : [cx + p.x * s + ox * p.w, cy + p.y * s + oy * p.w]
-      const rest = dark ? 0.2 : 0.17
+      const rest = dark ? 0.24 : 0.2
       for (const e of els) {
         const A = P(e.a), B = P(e.b)
         let d: string
@@ -180,7 +186,7 @@ export default function WebPull() {
           const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2
           const chord = Math.hypot(B[0] - A[0], B[1] - A[1])
           const dx = cx - mx, dy = cy - my, dl = Math.hypot(dx, dy) || 1
-          const sag = chord * (0.26 - 0.17 * t)
+          const sag = chord * ((0.2 + 0.1 * Math.min(1, e.fade < 0.5 ? 0.5 : 1 - e.fade)) - 0.15 * t)
           d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}Q${(mx + dx / dl * sag).toFixed(1)} ${(my + dy / dl * sag).toFixed(1)} ${B[0].toFixed(1)} ${B[1].toFixed(1)}`
         } else d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}L${B[0].toFixed(1)} ${B[1].toFixed(1)}`
         e.el.setAttribute('d', d)
@@ -204,9 +210,15 @@ export default function WebPull() {
         dr.h.style.fill = '#fff'
         dr.h.style.fillOpacity = String((dark ? 0.8 : 0.95) * f * (1 - t * 0.6))
       }
+      for (const b of beads) {
+        const [x, y] = P(b.p)
+        b.c.setAttribute('cx', x.toFixed(1)); b.c.setAttribute('cy', y.toFixed(1)); b.c.setAttribute('r', (0.75 * size).toFixed(2))
+        b.c.style.fill = dark ? 'rgb(236,236,242)' : 'rgb(60,60,80)'
+        b.c.style.fillOpacity = String(((dark ? 0.34 : 0.26) * (1 - 0.55 * Math.min(1, b.p.r / 190)) + t * 0.35).toFixed(3))
+      }
       // soft red glow while pulled
       const gk = Math.round(t * 8)
-      if (gk !== glowKey) { glowKey = gk; g.style.filter = gk ? `drop-shadow(0 0 ${(2 + 5 * t).toFixed(1)}px rgba(232,52,56,${(0.5 * t).toFixed(2)}))` : '' }
+      if (gk !== glowKey) { glowKey = gk; g.style.filter = gk ? `drop-shadow(0 0 ${(2 + 5 * t).toFixed(1)}px rgba(208,72,84,${(0.38 * t).toFixed(2)}))` : '' }
     }
 
     const step = (now: number) => {
