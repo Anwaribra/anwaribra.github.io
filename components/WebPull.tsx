@@ -65,25 +65,25 @@ export default function WebPull() {
     }
     // main radials: corner -> every ring
     for (let j = 0; j < NR; j++) {
-      mk(corner, grid[0][j], false, 1.15, 1)
-      for (let k = 0; k < RADII.length - 1; k++) mk(grid[k][j], grid[k + 1][j], false, 1.15, 1)
+      mk(corner, grid[0][j], false, 0.85, 1)
+      for (let k = 0; k < RADII.length - 1; k++) mk(grid[k][j], grid[k + 1][j], false, 0.85 - k * 0.025, 1)
     }
     // rings, every segment sags like a hanging thread (frame and hub threads a touch heavier)
-    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk(grid[k][j], grid[k][j + 1], true, k === RADII.length - 1 || k === 0 ? 1.0 : 0.8, 1)
+    for (let k = 0; k < RADII.length; k++) for (let j = 0; j < NR - 1; j++) mk(grid[k][j], grid[k][j + 1], true, k === RADII.length - 1 || k === 0 ? 0.8 : 0.55, 1)
     // anchor threads: the outer frame is tied to the browser ceiling and stays pinned there while the rest stretches
     for (let j = NR - 4; j < NR; j++) {
       for (const k of [3, 5, 7, RADII.length - 1]) {
         const n = grid[k][j]
-        mk(n, { x: n.x - (6 + R() * 16), y: 0, w: 0, r: n.r }, false, 0.7, 0.9)
+        mk(n, { x: n.x - (6 + R() * 16), y: 0, w: 0, r: n.r }, false, 0.5, 0.9)
       }
     }
     // fine secondary threads between the main radials, outer half only
     for (let j = 0; j < NR - 1; j++) {
       const a = (angles[j] + angles[j + 1]) / 2 + (R() - 0.5) * 1.5
       let prev: Pt | null = null
-      for (let k = 3; k < RADII.length; k++) {
+      for (let k = 3; k < RADII.length - 1; k++) {
         const pt = mkPt(a, RADII[k] * (1 + (R() - 0.5) * 0.05))
-        if (prev) mk(prev, pt, false, 0.5, 0.65)
+        if (prev) mk(prev, pt, false, 0.32, 0.6)
         prev = pt
       }
     }
@@ -91,7 +91,7 @@ export default function WebPull() {
     type Drop = { c: SVGCircleElement; h: SVGCircleElement; p: Pt; r: number }
     const drops: Drop[] = []
     const used = new Set<string>()
-    while (drops.length < 15) {
+    while (drops.length < 8) {
       const k = 2 + Math.floor(R() * 6), j = 1 + Math.floor(R() * (NR - 2)), key = k + ':' + j
       if (used.has(key)) continue
       used.add(key)
@@ -101,40 +101,94 @@ export default function WebPull() {
       drops.push({ c, h, p: grid[k][j], r: 1.1 + R() * 1.1 })
     }
 
+    // tiny silk beads where the rings cross the strands: a quiet sparkle of depth
+    const beads: { c: SVGCircleElement; p: Pt }[] = []
+    for (let k = 1; k < RADII.length; k++) for (let j = 1; j < NR - 1; j += (k % 2 ? 1 : 2)) {
+      const c = document.createElementNS(NS, 'circle'); g.appendChild(c); beads.push({ c, p: grid[k][j] })
+    }
+
     type VT = { ready: Promise<void>; finished: Promise<void>; skipTransition: () => void }
     type VTDoc = Document & { startViewTransition?: (cb: () => void) => VT }
     const vtSupported = !!(document as VTDoc).startViewTransition && !reduce
-    type Reveal = { vt: VT; anim: Animation | null; prev: string; next: string; maxR: number; frac: number }
+    type Reveal = { vt: VT; anim: Animation | null; prev: string; next: string; maxR: number; frac: number; grow: number; hide: number }
     let rev: Reveal | null = null, busy = false, r0 = 0
     const pullRadius = (px: number, py: number) => Math.max(0, Math.hypot(W() - px, py) - r0) * REVEAL_GAIN
-    const setFrac = (f: number) => { if (!rev) return; rev.frac = Math.min(1, Math.max(0, f)); if (rev.anim) rev.anim.currentTime = rev.frac * 1000 }
+    // The reveal edge is the web itself: the outer ring of the web, scaled up as you pull and displaced by the pull,
+    // with every ring segment sagging inward, so the other theme shows through a jagged, web-shaped boundary.
+    let edgeStyle: HTMLStyleElement | null = null
+    const edgePolygon = () => {
+      const st = rev!
+      const s = scale(), cx = W(), K = RADII.length - 1
+      const G = (st.maxR / (RADII[K] * s)) * 1.25
+      const sr = 1 + st.grow * (G - 1)
+      const stretch = Math.hypot(ox, oy), t = Math.min(1, stretch / THRESHOLD)
+      // the edge opens from the corner with the pull, then locks onto the drawn outer ring (same nodes, same sag)
+      const open = st.grow > 0 ? 1 : Math.min(1, Math.pow(stretch / (0.1 * maxPull()), 0.85))
+      const k = Math.max(0.05, open) * (1 - 0.96 * st.hide)
+      const pt = (p: Pt): [number, number] => [cx + (p.x * s * sr + ox * p.w) * k, (p.y * s * sr + oy * p.w) * k]
+      // per strand, the outermost drawn node (when the web is pulled, inner rings can swing past the outer ring)
+      const nodes = angles.map((_, j) => {
+        let best = pt(grid[K][j]), bd = Math.hypot(best[0] - cx, best[1])
+        for (let k = 0; k < K; k++) { const c = pt(grid[k][j]), d = Math.hypot(c[0] - cx, c[1]); if (d > bd) { bd = d; best = c } }
+        return best
+      })
+      const pts: [number, number][] = [[nodes[NR - 1][0], -12]]
+      for (let j = NR - 1; j >= 0; j--) {
+        if (j < NR - 1) {
+          // same quadratic as the drawn ring segment (A=node j, B=node j+1 in the drawing; sampled from j+1 down to j)
+          const A = nodes[j], B = nodes[j + 1]
+          const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2
+          const dx = cx - mx, dy = -my, dl = Math.hypot(dx, dy) || 1
+          const rr = (grid[K][j].r + grid[K][j + 1].r) / 2
+          const fade = 1 - 0.55 * Math.min(1, rr / 190)
+          const sag = Math.hypot(B[0] - A[0], B[1] - A[1]) * ((0.2 + 0.1 * Math.min(1, fade < 0.5 ? 0.5 : 1 - fade)) - 0.15 * t)
+          const cxp = mx + dx / dl * sag, cyp = my + dy / dl * sag
+          for (let i = 1; i < 6; i++) {
+            const u = i / 6   // from B toward A
+            pts.push([(1 - u) * (1 - u) * B[0] + 2 * (1 - u) * u * cxp + u * u * A[0], (1 - u) * (1 - u) * B[1] + 2 * (1 - u) * u * cyp + u * u * A[1]])
+          }
+        }
+        pts.push(nodes[j])
+      }
+      pts.push([cx + 12, nodes[0][1]], [cx + 12, -12])
+      return `polygon(${pts.map(v => `${v[0].toFixed(1)}px ${v[1].toFixed(1)}px`).join(',')})`
+    }
+    const updateEdge = () => {
+      if (!rev || !edgeStyle) return
+      edgeStyle.textContent = `::view-transition-new(root){clip-path:${edgePolygon()} !important;animation:none !important}::view-transition-old(root){animation:none !important}`
+    }
+    const setFrac = (f: number) => { if (!rev) return; rev.frac = Math.min(1, Math.max(0, f)); updateEdge() }
     // Start a paused view transition: the other theme is the "new" layer, clipped to a circle at the corner that we scrub with the finger.
     const beginReveal = () => {
       const { resolvedTheme: cur, setTheme: set } = themeRef.current
       const prev = cur === 'light' ? 'light' : 'dark', next = prev === 'light' ? 'dark' : 'light'
       const maxR = Math.hypot(W(), window.innerHeight)
+      const st0 = { frac: 0, grow: 0, hide: 0, maxR } as Reveal
+      rev = st0
+      edgeStyle = document.createElement('style'); document.head.appendChild(edgeStyle); updateEdge()
       const vt = (document as VTDoc).startViewTransition!(() => { flushSync(() => set(next)) })
-      const st: Reveal = { vt, anim: null, prev, next, maxR, frac: 0 }
-      rev = st
+      const st: Reveal = { vt, anim: null, prev, next, maxR, frac: 0, grow: 0, hide: 0 }
+      rev = st; updateEdge()
       vt.ready.then(() => {
         if (rev !== st) return
-        st.anim = document.documentElement.animate(
-          { clipPath: [`circle(0px at ${W()}px 0px)`, `circle(${maxR}px at ${W()}px 0px)`] },
-          { duration: 1000, easing: 'linear', fill: 'both', pseudoElement: '::view-transition-new(root)' })
-        st.anim.pause(); st.anim.currentTime = st.frac * 1000
+        // a paused animation keeps the transition alive until we finish or skip it; the clip itself is the web-shaped polygon
+        st.anim = document.documentElement.animate({ opacity: [1, 1] }, { duration: 1000, fill: 'both', pseudoElement: '::view-transition-new(root)' })
+        st.anim.pause()
+        updateEdge()
       }).catch(() => { if (rev === st) rev = null })
       vt.finished.finally(() => {
         // drop the scrubbed clip animation so it can never leak into a later transition
         try { st.anim?.cancel() } catch {}
+        if (edgeStyle) { edgeStyle.remove(); edgeStyle = null }
         if (rev === st) { rev = null; busy = false }
       })
     }
-    const tweenFrac = (st: Reveal, to: number, ms: number, done: () => void) => {
-      const from = st.frac, t0 = performance.now()
+    const tweenProp = (st: Reveal, prop: 'grow' | 'hide', to: number, ms: number, done: () => void) => {
+      const from = st[prop], t0 = performance.now()
       const stepT = (now: number) => {
         const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3)
         if (rev !== st) return
-        setFrac(from + (to - from) * e)
+        st[prop] = from + (to - from) * e; updateEdge()
         if (k < 1) requestAnimationFrame(stepT); else done()
       }
       requestAnimationFrame(stepT)
@@ -143,8 +197,8 @@ export default function WebPull() {
       const st = rev; if (!st) return
       busy = true
       const run = () => {
-        if (commit) tweenFrac(st, 1, 300, () => { try { st.anim?.finish() } catch {} ; try { st.vt.skipTransition() } catch {} })
-        else tweenFrac(st, 0, 260, () => {
+        if (commit) tweenProp(st, 'grow', 1, 340, () => { try { st.anim?.finish() } catch {} ; try { st.vt.skipTransition() } catch {} })
+        else tweenProp(st, 'hide', 1, 240, () => {
           // back to the starting theme, then drop the transition without a flash
           flushSync(() => themeRef.current.setTheme(st.prev))
           try { st.vt.skipTransition() } catch {}
@@ -159,19 +213,20 @@ export default function WebPull() {
     const isDark = () => document.documentElement.classList.contains('dark')
     const mix = (t: number) => {
       const base = isDark() ? [236, 236, 242] : [30, 30, 38]
-      const red = [232, 52, 56]
+      const red = [208, 72, 84]
       return `rgb(${base.map((b, i) => Math.round(b + (red[i] - b) * t))})`
     }
     let glowKey = -1
 
     const draw = () => {
+      if (rev) updateEdge()
       const s = scale(), cx = W(), cy = 0
       const dark = isDark()
       const size = s < 1 ? 1 : 1.25
       const stretch = Math.hypot(ox, oy)
       const t = Math.min(1, stretch / THRESHOLD)
       const P = (p: Pt): [number, number] => p === corner ? [cx, cy] : [cx + p.x * s + ox * p.w, cy + p.y * s + oy * p.w]
-      const rest = dark ? 0.2 : 0.17
+      const rest = dark ? 0.24 : 0.2
       for (const e of els) {
         const A = P(e.a), B = P(e.b)
         let d: string
@@ -180,7 +235,7 @@ export default function WebPull() {
           const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2
           const chord = Math.hypot(B[0] - A[0], B[1] - A[1])
           const dx = cx - mx, dy = cy - my, dl = Math.hypot(dx, dy) || 1
-          const sag = chord * (0.26 - 0.17 * t)
+          const sag = chord * ((0.2 + 0.1 * Math.min(1, e.fade < 0.5 ? 0.5 : 1 - e.fade)) - 0.15 * t)
           d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}Q${(mx + dx / dl * sag).toFixed(1)} ${(my + dy / dl * sag).toFixed(1)} ${B[0].toFixed(1)} ${B[1].toFixed(1)}`
         } else d = `M${A[0].toFixed(1)} ${A[1].toFixed(1)}L${B[0].toFixed(1)} ${B[1].toFixed(1)}`
         e.el.setAttribute('d', d)
@@ -204,9 +259,15 @@ export default function WebPull() {
         dr.h.style.fill = '#fff'
         dr.h.style.fillOpacity = String((dark ? 0.8 : 0.95) * f * (1 - t * 0.6))
       }
+      for (const b of beads) {
+        const [x, y] = P(b.p)
+        b.c.setAttribute('cx', x.toFixed(1)); b.c.setAttribute('cy', y.toFixed(1)); b.c.setAttribute('r', (0.75 * size).toFixed(2))
+        b.c.style.fill = dark ? 'rgb(236,236,242)' : 'rgb(60,60,80)'
+        b.c.style.fillOpacity = String(((dark ? 0.34 : 0.26) * (1 - 0.55 * Math.min(1, b.p.r / 190)) + t * 0.35).toFixed(3))
+      }
       // soft red glow while pulled
       const gk = Math.round(t * 8)
-      if (gk !== glowKey) { glowKey = gk; g.style.filter = gk ? `drop-shadow(0 0 ${(2 + 5 * t).toFixed(1)}px rgba(232,52,56,${(0.5 * t).toFixed(2)}))` : '' }
+      if (gk !== glowKey) { glowKey = gk; g.style.filter = gk ? `drop-shadow(0 0 ${(2 + 5 * t).toFixed(1)}px rgba(208,72,84,${(0.38 * t).toFixed(2)}))` : '' }
     }
 
     const step = (now: number) => {
