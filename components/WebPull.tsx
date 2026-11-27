@@ -105,6 +105,15 @@ export default function WebPull() {
       drops.push({ c, h, p: grid[k][j], r: 1.1 + R() * 1.1 })
     }
 
+    // a tiny spider resting on a node: it follows the web and scurries (legs and heading) while the web is pulled
+    const spG = document.createElementNS(NS, 'g')
+    const spNode = grid[4][3]
+    const spLegs: SVGPathElement[] = []
+    for (let i = 0; i < 8; i++) { const l = document.createElementNS(NS, 'path'); l.setAttribute('fill', 'none'); l.setAttribute('stroke-linecap', 'round'); l.setAttribute('stroke-linejoin', 'round'); spG.appendChild(l); spLegs.push(l) }
+    const spBody = document.createElementNS(NS, 'ellipse'); spBody.setAttribute('rx', '2.5'); spBody.setAttribute('ry', '3.3'); spBody.setAttribute('cy', '2.2')
+    const spHead = document.createElementNS(NS, 'circle'); spHead.setAttribute('r', '1.5'); spHead.setAttribute('cy', '-1')
+    spG.appendChild(spBody); spG.appendChild(spHead); g.appendChild(spG)
+
     // tiny silk beads where the rings cross the strands: a quiet sparkle of depth
     const beads: { c: SVGCircleElement; p: Pt }[] = []
     for (let k = 1; k < RADII.length; k++) for (let j = 1; j < NR - 1; j += (k % 2 ? 1 : 2)) {
@@ -269,6 +278,26 @@ export default function WebPull() {
         b.c.setAttribute('cx', x.toFixed(1)); b.c.setAttribute('cy', y.toFixed(1)); b.c.setAttribute('r', (0.75 * size).toFixed(2))
         b.c.style.fill = dark ? 'rgb(236,236,242)' : 'rgb(60,60,80)'
         b.c.style.fillOpacity = String(((dark ? 0.34 : 0.26) * (1 - 0.55 * Math.min(1, b.p.r / 190)) + t * 0.35).toFixed(3))
+      }
+      // spider
+      {
+        const [x, y] = P(spNode), ss = Math.max(0.9, s * 0.9)
+        const head = stretch > 3 ? Math.atan2(oy, ox) - Math.PI / 2 + Math.PI : 0.45
+        const ph = performance.now() / 1000
+        const col = dark ? 'rgb(214,214,224)' : 'rgb(70,70,90)'
+        spG.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(head * 180 / Math.PI).toFixed(0)}) scale(${ss.toFixed(2)})`)
+        spG.style.opacity = String((dark ? 0.8 : 0.7) * (1 - 0.4 * t))
+        spBody.style.fill = col; spHead.style.fill = col
+        const sw = Math.min(1, stretch / 40)
+        spLegs.forEach((l, i) => {
+          const side = i < 4 ? -1 : 1, k = i % 4
+          const base = (-0.9 + k * 0.62) + 0.0, wig = Math.sin(ph * 22 + i * 1.7) * 0.35 * sw
+          const a1 = base + wig
+          const kx = side * (4 + 1.2 * Math.cos(a1)), ky = -1.5 + k * 1.9 + 2.2 * Math.sin(a1) - 1.2
+          const ex = side * (7.5 + 0.6 * k), ey = ky + 3.2 + wig * 3
+          l.setAttribute('d', `M0 ${(1 + k * 0.6).toFixed(2)}L${kx.toFixed(2)} ${ky.toFixed(2)}L${ex.toFixed(2)} ${ey.toFixed(2)}`)
+          l.style.stroke = col; l.style.strokeWidth = '0.7'
+        })
       }
       // soft red glow while pulled
       const gk = Math.round(t * 8)
