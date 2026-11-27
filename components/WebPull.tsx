@@ -35,7 +35,7 @@ export default function WebPull() {
     const NS = 'http://www.w3.org/2000/svg'
     const W = () => document.documentElement.clientWidth
     // Web size: small and clear of the header buttons on phones, a big corner web on desktop
-    const scale = () => { const w = W(); return w < 600 ? 0.55 : w < 1024 ? 1.0 : 1.8 }
+    const scale = () => { const w = W(); return w < 600 ? 0.55 : w < 1024 ? 1.0 : 1.25 }
     const maxPull = () => 190 * Math.max(1, scale() * 0.9)
     const pullGain = () => 1.3 * Math.max(1, scale() * 0.7)
 
