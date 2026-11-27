@@ -977,3 +977,24 @@ main a:not(.glow-card):not(.project-card):not(.experience-card):not([class*="abs
 main button:not([class*="absolute"]):not([class*="fixed"]) { position: relative; }
 main a:not(.glow-card):not(.project-card):not(.experience-card)::after,
 main button::after { content: ''; position: absolute; inset: -12px -6px; }
+
+/* blade shimmer: the sword image drawn again, brightened, and revealed only through a thin moving band */
+.blade-shimmer {
+  filter: brightness(3) saturate(0.4);
+  mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(105deg, transparent 38%, #000 50%, transparent 62%);
+  mask-image: linear-gradient(105deg, transparent 38%, #000 50%, transparent 62%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 130% 0;
+  mask-position: 130% 0;
+  opacity: 0.85;
+  animation: blade-shimmer 9s ease-in-out 2.5s infinite;
+}
+@keyframes blade-shimmer {
+  0% { -webkit-mask-position: 130% 0; mask-position: 130% 0; }
+  22% { -webkit-mask-position: -30% 0; mask-position: -30% 0; }
+  100% { -webkit-mask-position: -30% 0; mask-position: -30% 0; }
+}
