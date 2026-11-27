@@ -42,6 +42,7 @@ export default function WebPull() {
     // tiny deterministic random so the web has the same slight irregularity every load
     const rnd = (seed: number) => { let a = seed; return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 } }
     const R = rnd(11)
+    const RW = rnd(97)
     const gpA = 67 * Math.PI / 180
     const gp = [-Math.sin(gpA) * 88, Math.cos(gpA) * 88]
     const mkPt = (deg: number, r: number): Pt => {
@@ -59,9 +60,10 @@ export default function WebPull() {
     const mk = (a: Pt, b: Pt, ring: boolean, lw: number, mul: number) => {
       const el = document.createElementNS(NS, 'path')
       el.setAttribute('fill', 'none'); el.setAttribute('stroke-linecap', 'round')
-      el.style.strokeWidth = String(lw)
+      lw = lw * (0.8 + 0.45 * RW())
+      el.style.strokeWidth = String(lw.toFixed(2))
       g.appendChild(el)
-      els.push({ el, a, b, ring, lw, mul, w: (a.w + b.w) / 2, fade: 1 - 0.55 * Math.min(1, (a.r + b.r) / 2 / 190), col: '', op: '' })
+      els.push({ el, a, b, ring, lw, mul, w: (a.w + b.w) / 2, fade: 1 - 0.68 * Math.min(1, Math.pow((a.r + b.r) / 2 / 190, 1.3)), col: '', op: '' })
     }
     // main radials: corner -> every ring
     for (let j = 0; j < NR; j++) {
@@ -226,7 +228,7 @@ export default function WebPull() {
       const stretch = Math.hypot(ox, oy)
       const t = Math.min(1, stretch / THRESHOLD)
       const P = (p: Pt): [number, number] => p === corner ? [cx, cy] : [cx + p.x * s + ox * p.w, cy + p.y * s + oy * p.w]
-      const rest = dark ? 0.24 : 0.2
+      const rest = dark ? 0.17 : 0.2
       for (const e of els) {
         const A = P(e.a), B = P(e.b)
         let d: string
@@ -379,12 +381,27 @@ export default function WebPull() {
     btn.addEventListener('pointerdown', down); btn.addEventListener('pointermove', move)
     btn.addEventListener('pointerup', up); btn.addEventListener('pointercancel', up); btn.addEventListener('keydown', key)
     window.addEventListener('resize', resize)
+    // subtle sway: scrolling or the pointer passing near the corner nudges the web, and the spring settles it
+    let lastY = window.scrollY, lastHover = 0
+    const nudge = (ix: number, iy: number) => {
+      if (dragging || busy || rev || reduce) return
+      vx = Math.max(-45, Math.min(45, vx + ix)); vy = Math.max(-45, Math.min(45, vy + iy)); kick()
+    }
+    const onScroll = () => { const y = window.scrollY, d = y - lastY; lastY = y; if (Math.abs(d) > 2) nudge(-d * 0.06, -Math.abs(d) * 0.05) }
+    const onHover = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || e.timeStamp - lastHover < 120) return
+      const dx = W() - e.clientX, dy = e.clientY
+      if (dx < 0 || dx > 260 * scale() || dy > 260 * scale()) return
+      lastHover = e.timeStamp; nudge(-6, 5)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('pointermove', onHover, { passive: true })
     draw()
     const hint = reduce ? 0 : window.setTimeout(() => { if (!dragging) { vy = 240 * Math.max(1, scale()); vx = -80 * Math.max(1, scale()); kick() } }, 2200)
     return () => {
       btn.removeEventListener('pointerdown', down); btn.removeEventListener('pointermove', move)
       btn.removeEventListener('pointerup', up); btn.removeEventListener('pointercancel', up); btn.removeEventListener('keydown', key)
-      window.removeEventListener('resize', resize)
+      window.removeEventListener('resize', resize); window.removeEventListener('scroll', onScroll); window.removeEventListener('pointermove', onHover)
       window.removeEventListener('pointerdown', winDown, true); window.removeEventListener('touchstart', winTouch, true)
       window.removeEventListener('mousedown', winMouse, true); window.removeEventListener('pointermove', winHover, true); window.removeEventListener('click', winClick, true)
       root.style.cursor = ''; root.classList.remove('web-dragging')
