@@ -20,9 +20,9 @@ export default function Header() {
   ]
 
   return (
-    <header className="w-full pt-4 sm:pt-6 pb-5 flex flex-col gap-2">
+    <header className="w-full pt-4 sm:pt-6 pb-5 flex flex-col gap-2 sm:gap-0">
       {/* Horizontal Katana Slash - ONLY the sword glides in visibly from the LEFT */}
-      <div className="w-full relative flex items-center justify-center overflow-visible py-1 select-none">
+      <div className="w-full relative flex items-center justify-center overflow-visible py-1 sm:pt-1 sm:pb-0 select-none">
         {/* Animated Sword: visible while moving, sweeps from left off-screen into place */}
         <motion.div
           initial={{ x: '-100vw', opacity: 0.95 }}
@@ -40,7 +40,7 @@ export default function Header() {
             draggable={false}
             onDragStart={(e) => e.preventDefault()}
             onContextMenu={(e) => e.preventDefault()}
-            className="block w-full cursor-pointer pointer-events-auto"
+            className="relative block w-full cursor-pointer pointer-events-auto"
             title="Snow Flower (설화) · Inspired by Legend of the Northern Blade"
           >
             <Image
@@ -54,6 +54,16 @@ export default function Header() {
               onContextMenu={(e) => e.preventDefault()}
               style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
               className="w-full h-auto object-contain max-h-[44px] sm:max-h-[54px] drop-shadow-[0_0_6px_rgba(168,85,247,0.15)] dark:drop-shadow-[0_0_8px_rgba(168,85,247,0.22)] select-none pointer-events-none"
+            />
+            {/* slow blade shimmer: a soft highlight passes across the blade every few seconds */}
+            <Image
+              src="/assets/images/sword-horizontal.webp"
+              alt=""
+              aria-hidden="true"
+              width={2590}
+              height={253}
+              draggable={false}
+              className="blade-shimmer absolute inset-0 w-full h-full object-contain pointer-events-none select-none motion-reduce:hidden"
             />
           </Link>
         </motion.div>
