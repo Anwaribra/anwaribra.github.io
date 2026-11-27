@@ -33,6 +33,7 @@ export default function WebPull() {
     if (!g || !btn) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const NS = 'http://www.w3.org/2000/svg'
+    const dewCss = document.createElement('style'); dewCss.textContent = '@keyframes webdew{0%,100%{opacity:1}50%{opacity:.35}}'; document.head.appendChild(dewCss)
     const W = () => document.documentElement.clientWidth
     // Web size: small and clear of the header buttons on phones, a big corner web on desktop
     const scale = () => { const w = W(); return w < 600 ? 0.55 : w < 1024 ? 1.0 : 1.25 }
@@ -99,6 +100,7 @@ export default function WebPull() {
       used.add(key)
       const c = document.createElementNS(NS, 'circle'), h = document.createElementNS(NS, 'circle')
       c.setAttribute('fill', 'none'); h.setAttribute('r', '0.5')
+      if (!reduce) h.style.animation = `webdew ${3.6 + RW() * 2.4}s ease-in-out ${(RW() * 4).toFixed(1)}s infinite`
       g.appendChild(c); g.appendChild(h)
       drops.push({ c, h, p: grid[k][j], r: 1.1 + R() * 1.1 })
     }
@@ -256,10 +258,10 @@ export default function WebPull() {
         const f = 1 - 0.5 * Math.min(1, dr.p.r / 190)
         dr.c.style.stroke = dark ? 'rgb(236,236,242)' : 'rgb(60,60,80)'
         dr.c.style.strokeWidth = '0.6'
-        dr.c.style.strokeOpacity = String((dark ? 0.42 : 0.34) * f * (1 - t * 0.6))
-        dr.c.style.fill = dark ? 'rgba(255,255,255,0.07)' : 'rgba(80,80,110,0.05)'
+        dr.c.style.strokeOpacity = String((dark ? 0.7 : 0.34) * f * (1 - t * 0.6))
+        dr.c.style.fill = dark ? 'rgba(255,255,255,0.14)' : 'rgba(80,80,110,0.05)'
         dr.h.style.fill = '#fff'
-        dr.h.style.fillOpacity = String((dark ? 0.8 : 0.95) * f * (1 - t * 0.6))
+        dr.h.style.fillOpacity = String((dark ? 1 : 0.95) * f * (1 - t * 0.6))
       }
       for (const b of beads) {
         const [x, y] = P(b.p)
@@ -385,14 +387,14 @@ export default function WebPull() {
     let lastY = window.scrollY, lastHover = 0
     const nudge = (ix: number, iy: number) => {
       if (dragging || busy || rev || reduce) return
-      vx = Math.max(-45, Math.min(45, vx + ix)); vy = Math.max(-45, Math.min(45, vy + iy)); kick()
+      vx = Math.max(-80, Math.min(80, vx + ix)); vy = Math.max(-80, Math.min(80, vy + iy)); kick()
     }
     const onScroll = () => { const y = window.scrollY, d = y - lastY; lastY = y; if (Math.abs(d) > 2) nudge(-d * 0.06, -Math.abs(d) * 0.05) }
     const onHover = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse' || e.timeStamp - lastHover < 120) return
       const dx = W() - e.clientX, dy = e.clientY
-      if (dx < 0 || dx > 260 * scale() || dy > 260 * scale()) return
-      lastHover = e.timeStamp; nudge(-6, 5)
+      if (dx < 0 || dx > 340 * scale() || dy > 340 * scale()) return
+      lastHover = e.timeStamp; const near = 1 - Math.hypot(dx, dy) / (370 * scale()); nudge(-(8 + 16 * Math.max(0, near)), 6 + 12 * Math.max(0, near))
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('pointermove', onHover, { passive: true })
@@ -401,7 +403,7 @@ export default function WebPull() {
     return () => {
       btn.removeEventListener('pointerdown', down); btn.removeEventListener('pointermove', move)
       btn.removeEventListener('pointerup', up); btn.removeEventListener('pointercancel', up); btn.removeEventListener('keydown', key)
-      window.removeEventListener('resize', resize); window.removeEventListener('scroll', onScroll); window.removeEventListener('pointermove', onHover)
+      dewCss.remove(); window.removeEventListener('resize', resize); window.removeEventListener('scroll', onScroll); window.removeEventListener('pointermove', onHover)
       window.removeEventListener('pointerdown', winDown, true); window.removeEventListener('touchstart', winTouch, true)
       window.removeEventListener('mousedown', winMouse, true); window.removeEventListener('pointermove', winHover, true); window.removeEventListener('click', winClick, true)
       root.style.cursor = ''; root.classList.remove('web-dragging')
